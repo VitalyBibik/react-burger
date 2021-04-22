@@ -2143,6 +2143,13 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@ya.praktikum/react-developer-burger-ui-components@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@ya.praktikum/react-developer-burger-ui-components/-/react-developer-burger-ui-components-1.4.2.tgz#9e122560a1a0794263c23b65373b04f4ef64d774"
+  integrity sha512-knVChMq+BLXumizq8f8QnaXa7P+TzYxBXzLYAClYxUNtFxUux8pIF9//EEXyPzUiwcbio9q5QCU0EE4/GI1Ppg==
+  dependencies:
+    clsx "^1.1.1"
+
 abab@^2.0.3:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
@@ -3274,6 +3281,11 @@ cliui@^6.0.0:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
     wrap-ansi "^6.2.0"
+
+clsx@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
 
 co@^4.6.0:
   version "4.6.0"
