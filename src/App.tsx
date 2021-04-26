@@ -1,14 +1,11 @@
 import React from 'react';
-import './App.css';
-import { BurgerIngredients } from "./components/BurgerIngredients";
-import { ShowLibrary } from "./components/ShowLibrary";
-
-
+import './App.scss';
+import { AppHeader } from "./components/AppHeader";
 
 export function App() {
   return (
     <div className="App">
-        <BurgerIngredients />
+        <AppHeader />
 
     </div>
   );

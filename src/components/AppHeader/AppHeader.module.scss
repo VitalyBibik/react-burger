@@ -1,0 +1,23 @@
+@import "../../constants/variables";
+
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  &__position {
+    margin-top: $HeaderMaxMarginTop;
+  }
+  &__text-position {
+    margin-left: 9px !important;
+  }
+}
+
+.icon {
+color:red;
+}
+.container {
+  display: flex;
+}
