@@ -20,6 +20,5 @@ export const BurgerIngredients = memo(() => {
           </Tab>
         </div>
       </div>
-
     )
 })
