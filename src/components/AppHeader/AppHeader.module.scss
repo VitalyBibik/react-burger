@@ -3,7 +3,7 @@
 
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;;
   align-content: center;
   align-items: center;
 
@@ -13,11 +13,17 @@
   &__text-position {
     margin-left: 9px !important;
   }
+
 }
+
 
 .icon {
 color:red;
 }
 .container {
   display: flex;
+  &__position {
+    display: flex;
+    margin-right: 50px;
+  }
 }

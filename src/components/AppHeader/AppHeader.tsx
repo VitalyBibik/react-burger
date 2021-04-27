@@ -4,10 +4,13 @@ import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-dev
 import cn from 'classnames'
 
 export const AppHeader = () => {
+  // Сделать наведения цветом, поменять праймари на другой
    return (
      <header className={cn(styles.header, styles['header__position'])}>
        <div className={styles.container}>
-         <BurgerIcon type="primary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Конструктор</span>
+         <div className={styles['container__position']}>
+           <BurgerIcon type="primary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Конструктор</span>
+         </div>
          <ListIcon type="primary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Лента Заказов</span>
        </div>
         <Logo />
