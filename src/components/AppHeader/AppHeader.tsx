@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styles from './AppHeader.module.scss'
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from 'classnames'
 
-export const AppHeader = () => {
+export const AppHeader = memo(() => {
   // Сделать наведения цветом, поменять праймари на другой
    return (
      <header className={cn(styles.header, styles['header__position'])}>
@@ -20,4 +20,4 @@ export const AppHeader = () => {
     </header>
    )
 
-}
+})

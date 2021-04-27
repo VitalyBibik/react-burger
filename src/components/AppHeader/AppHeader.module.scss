@@ -9,6 +9,7 @@
 
   &__position {
     margin-top: $HeaderMaxMarginTop;
+    margin-bottom: $HeaderMaxMarginBottom;
   }
   &__text-position {
     margin-left: 9px !important;
@@ -16,10 +17,6 @@
 
 }
 
-
-.icon {
-color:red;
-}
 .container {
   display: flex;
   &__position {

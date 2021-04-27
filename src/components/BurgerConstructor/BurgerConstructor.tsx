@@ -1,7 +1,10 @@
-import React from 'react'
-import test from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { memo } from 'react'
+import {  } from "@ya.praktikum/react-developer-burger-ui-components";
+import style from './BurgerConstructor.module.scss'
 
-export const BurgerConstructor = () => {
-    console.log(test)
-    return <h1> www</h1>
-}
+export const BurgerConstructor = memo(() => {
+    return (
+      <div className={style.container}>
+        <h1>Соберите Бургер</h1>
+    </div>)
+})
