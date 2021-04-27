@@ -2,4 +2,6 @@
 
 .container {
   display: grid;
+  grid-template-columns: 1.33fr 1fr;
+  grid-gap: 61.5px;
 }
