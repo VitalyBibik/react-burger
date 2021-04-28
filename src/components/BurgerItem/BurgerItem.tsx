@@ -19,8 +19,6 @@ interface BurgerItem {
 }
 
 export const BurgerItem = (props:BurgerItem) => {
-  console.log(props.calories)
-
   return (
     <div className={style.container}>
       <div className={style['container__image']}>
