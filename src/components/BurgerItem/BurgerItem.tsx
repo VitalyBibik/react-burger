@@ -28,7 +28,6 @@ export const BurgerItem = (props:BurgerItem) => {
       </div>
       <div className={style['container__price']}>
         <PriceItem price={props.price} />
-        <CurrencyIcon type="primary" />
       </div>
       <p className={cn('text text_type_main-default', style['container__description'])}>{props.name}</p>
     </div>)
