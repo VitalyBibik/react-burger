@@ -1,0 +1,26 @@
+@import "../../constants/variables";
+
+.container {
+  max-width: 272px;
+
+  &__image {
+    position: relative;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  &__text,  &__description {
+    margin-top: 8px;
+  }
+  &__position {
+    margin-right: 9px;
+  }
+  &__price {
+    display: flex;
+    justify-content: center;
+  }
+
+}
+.image {
+  width: 100%;
+}
