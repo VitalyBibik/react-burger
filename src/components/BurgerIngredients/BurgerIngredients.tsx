@@ -28,9 +28,9 @@ export const BurgerIngredients = memo(() => {
   //   }
   // }
 
-  const sauceArray = data.filter((el) => el.type == 'sauce')
-  const fillingArray = data.filter((el) => el.type == 'main')
-  const breadArray = data.filter((el) => el.type == 'bun')
+  const sauceArray = data.filter((el) => el.type === 'sauce')
+  const fillingArray = data.filter((el) => el.type === 'main')
+  const breadArray = data.filter((el) => el.type === 'bun')
 
     return (
       <div className={style.container}>
