@@ -35,7 +35,7 @@ export const BurgerIngredients = memo(() => {
     return (
       <div className={style.container}>
           <h1 className={cn("text text_type_main-large", style['container__title'])}>Соберите Бургер</h1>
-        <div style={{ display: 'flex' }}>
+        <div className={style.tab}>
           <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
             Булки
           </Tab>

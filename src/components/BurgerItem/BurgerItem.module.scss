@@ -9,8 +9,11 @@
     margin: 0 auto;
   }
 
-  &__text,  &__description {
-    margin-top: 8px;
+  &__description {
+    margin-top: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   &__position {
     margin-right: 9px;
