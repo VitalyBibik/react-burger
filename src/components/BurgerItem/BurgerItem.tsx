@@ -2,8 +2,9 @@ import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerItem.module.scss'
 import cn from 'classnames'
+import { PriceItem } from '../PriceItem'
 
-interface BurgerItem {
+type BurgerItem = {
   "_id": string,
   "name":string,
   "type":string,
@@ -26,7 +27,7 @@ export const BurgerItem = (props:BurgerItem) => {
         <Counter count={1} size='small' />
       </div>
       <div className={style['container__price']}>
-        <span className={cn("text text_type_digits-default", style['container__position'])}>{props.price}</span>
+        <PriceItem price={props.price} />
         <CurrencyIcon type="primary" />
       </div>
       <p className={cn('text text_type_main-default', style['container__description'])}>{props.name}</p>
