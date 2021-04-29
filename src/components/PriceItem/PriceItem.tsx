@@ -5,14 +5,16 @@ import React from 'react'
 
 
 type PriceItem =  {
-  price:number
+  price:number,
+  size?:string
 }
+// Ждать обнову с средним размера кнопки
 
-export const PriceItem = ({ price }: PriceItem) => {
+export const PriceItem = ({ price, size = 'default' }: PriceItem) => {
   return (
     <>
-    <span className={cn("text text_type_digits-default", style.position)}>{price}</span>
-      <span className={style.test}><CurrencyIcon type="primary" /></span>
+    <span className={cn(`text text_type_digits-${size}`, style.position)}>{price}</span>
+      <span className={style['position-icon']}><CurrencyIcon type="primary" /></span>
     </>
   )
 }

@@ -1,5 +1,3 @@
-@import "../../constants/variables";
-
 
 .header {
   display: flex;
@@ -8,8 +6,8 @@
 
 
   &__position {
-    margin-top: $HeaderMaxMarginTop;
-    margin-bottom: $HeaderMaxMarginBottom;
+    margin-top: 64px;
+    margin-bottom: 24px;
   }
   &__text-position {
     margin-left: 9px !important;
