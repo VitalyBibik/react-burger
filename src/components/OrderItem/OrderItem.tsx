@@ -29,7 +29,7 @@ export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
         <div className={cn(style.box, style['box_special'])}>
           <img src={breadArray[0].image_mobile} alt='White bread' className='box__image' />
           <p className={cn(style['box__description'], 'text text_type_main-default')}>{breadArray[0].name + ' (верх)'}</p>
-          <PriceItem price={20}/>
+          <PriceItem price={20} margin={true}/>
           <span className={style['box__lock']}><LockIcon type='secondary' /></span>
         </div>
       </div>
@@ -41,7 +41,7 @@ export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
            <div className={style.box}>
             <img src={el.image_mobile} alt='White bread' className='box__image' />
             <p className={cn(style['box__description'], 'text text_type_main-default')}>{el.name}</p>
-            <PriceItem price={el.price}/>
+            <PriceItem price={el.price} margin={true} />
             <span className={style['box__lock']}><LockIcon type='primary' /></span>
           </div>
          </div>
@@ -55,7 +55,7 @@ export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
             <div className={style.box}>
               <img src={el.image_mobile} alt='White bread' className='box__image' />
               <p className={cn(style['box__description'], 'text text_type_main-default')}>{el.name}</p>
-              <PriceItem price={el.price}/>
+              <PriceItem price={el.price} margin={true} />
               <span className={style['box__lock']}><LockIcon type='primary' /></span>
             </div>
         </div>
@@ -66,7 +66,7 @@ export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
         <div className={cn(style.box, style['box_special'])}>
           <img src={breadArray[0].image_mobile} alt='White bread' className='box__image' />
           <p className={cn(style['box__description'], 'text text_type_main-default')}>{breadArray[0].name + ' (низ)'}</p>
-          <PriceItem price={20}/>
+          <PriceItem price={20} margin={true} />
           <span className={style['box__lock']}><LockIcon type='secondary' /></span>
         </div>
       </div>
