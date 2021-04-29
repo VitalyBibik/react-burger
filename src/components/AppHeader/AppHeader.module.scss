@@ -3,11 +3,12 @@
   display: flex;
   align-content: center;
   align-items: center;
+  background-color: #1C1C21;
 
 
   &__position {
-    margin-top: 64px;
-    margin-bottom: 24px;
+    padding-top: 32px;
+    padding-bottom: 32px;
   }
   &__text-position {
     margin-left: 9px !important;
