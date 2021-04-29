@@ -8,6 +8,7 @@ export const AppHeader = memo(() => {
 
    return (
      <header className={cn(styles.header, styles['header__position'])}>
+       <div className={styles['header__container']}>
        <div className={styles.container}>
          <div className={styles['container__position']}>
            <BurgerIcon type="primary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Конструктор</span>
@@ -17,6 +18,7 @@ export const AppHeader = memo(() => {
        <div className={styles['container__logo']}><Logo /></div>
        <div className={styles.container}>
          <ProfileIcon type="secondary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Личный Кабинет</span>
+       </div>
        </div>
     </header>
    )
