@@ -12,7 +12,7 @@ export const PriceItem = ({ price }: PriceItem) => {
   return (
     <>
     <span className={cn("text text_type_digits-default", style.position)}>{price}</span>
-    <CurrencyIcon type="primary" />
+      <span className={style.test}><CurrencyIcon type="primary" /></span>
     </>
   )
 }

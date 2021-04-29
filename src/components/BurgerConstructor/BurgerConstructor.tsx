@@ -1,8 +1,7 @@
 import React from 'react'
-import { LockIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerConstructor.module.scss'
-import { PriceItem } from '../PriceItem'
 import { data } from '../../fixtures'
+import { OrderItem } from '../OrderItem'
 
 export const BurgerConstructor = () => {
   const sauceArray = data.filter((el) => el.type === 'sauce')
@@ -10,13 +9,7 @@ export const BurgerConstructor = () => {
   const breadArray = data.filter((el) => el.type === 'bun')
   return (
     <div className={style.container}>
-      <div className='box'>
-        <img src='' alt='' className='box__image' />
-        <p className='box__description'>qweqweqwdasd</p>
-        <PriceItem price={20}/>
-        <LockIcon type='primary' />
-
-      </div>
+      <OrderItem sauceArray = {sauceArray} breadArray = {breadArray} fillingArray = {fillingArray} />
     </div>
   )
 }

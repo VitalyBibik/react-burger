@@ -1,7 +1,8 @@
 @import "../../constants/variables";
 
 .container {
-  max-width: $maxWidthContainerBurger;
+  max-width: 600px;
+  margin-right: 40px;
 
   &__title {
     margin-top: 40px;
@@ -19,15 +20,17 @@
 .scroll {
   height: 686px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    border: 3px solid #2F2F37;
+    border-radius: 6px;
+  }
 }
-.scroll::-webkit-scrollbar {
-  width: 12px;
-}
-.scroll::-webkit-scrollbar-track {
-  background: #2F2F37;
-}
-.scroll::-webkit-scrollbar-thumb {
-  background: #8585AD;
-  border: 3px solid #2F2F37;
-  border-radius: 6px;
-}
+

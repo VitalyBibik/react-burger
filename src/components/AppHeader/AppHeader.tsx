@@ -13,7 +13,7 @@ export const AppHeader = memo(() => {
          </div>
          <ListIcon type="primary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Лента Заказов</span>
        </div>
-        <Logo />
+       <div className={styles['container__logo']}><Logo /></div>
        <div className={styles.container}>
          <ProfileIcon type="primary" /><span className={cn('text text_type_main-default', styles['header__text-position'])}>Личный Кабинет</span>
        </div>

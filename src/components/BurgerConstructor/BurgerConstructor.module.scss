@@ -1,7 +1,21 @@
 @import "../../constants/variables";
 
 .container {
-  max-width: $maxWidthContainerBurger;
   margin-top: 100px;
-}
+  max-width: 560px;
+  height:560px + 96px;
+  overflow-y: auto;
 
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    border: 3px solid #2F2F37;
+    border-radius: 6px;
+  }
+
+}

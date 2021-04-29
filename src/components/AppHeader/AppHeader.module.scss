@@ -3,9 +3,9 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-content: center;
   align-items: center;
+
 
   &__position {
     margin-top: $HeaderMaxMarginTop;
@@ -22,5 +22,9 @@
   &__position {
     display: flex;
     margin-right: 50px;
+  }
+  &__logo {
+    margin-left: 132px;
+    margin-right: 311px;
   }
 }
