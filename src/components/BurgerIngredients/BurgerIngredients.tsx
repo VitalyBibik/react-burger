@@ -1,11 +1,17 @@
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerIngredients.module.scss'
 import cn from 'classnames'
-import { data } from '../../fixtures'
 import { BurgerItem } from '../BurgerItem'
 
-export const BurgerIngredients = memo(() => {
+type mapId = {
+  _id:string,
+  image_large:string,
+  name:string,
+  price:number
+}
+
+export const BurgerIngredients = (({ breadArray, fillingArray, sauceArray }: any) => {
   const [current, setCurrent] = useState('Булки')
   const [state, setState] = useState({
     isLoading: false,
@@ -28,9 +34,7 @@ export const BurgerIngredients = memo(() => {
   //   }
   // }
 
-  const sauceArray = data.filter((el) => el.type === 'sauce')
-  const fillingArray = data.filter((el) => el.type === 'main')
-  const breadArray = data.filter((el) => el.type === 'bun')
+
 
     return (
       <div className={style.container}>
@@ -49,15 +53,15 @@ export const BurgerIngredients = memo(() => {
        <div className={style.scroll}>
           <h2 className={cn("text text_type_main-large", style['container__title'])}>Булки</h2>
             <div className={style.grid}>
-              {breadArray.map((el) => <BurgerItem key={el._id} {...el} /> )}
+              {breadArray.map((el: mapId) => <BurgerItem key={el._id} {...el} /> )}
             </div>
           <h2 className={cn("text text_type_main-large", style['container__title'])}>Соусы</h2>
             <div className={style.grid}>
-              {sauceArray.map((el) => <BurgerItem key={el._id} {...el} /> )}
+              {sauceArray.map((el: mapId) => <BurgerItem key={el._id} {...el} /> )}
             </div>
           <h2 className={cn("text text_type_main-large", style['container__title'])}>Начинки</h2>
             <div className={style.grid}>
-              {fillingArray.map((el) => <BurgerItem key={el._id} {...el} /> )}
+              {fillingArray.map((el: mapId) => <BurgerItem key={el._id} {...el} /> )}
             </div>
        </div>
       </div>
