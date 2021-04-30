@@ -22,10 +22,18 @@ export const BurgerUnion = memo(() => {
       data.filter((el) => el.type === 'sauce'),
     [data]
   );
+  const productArray = useMemo(
+    () =>
+      sauceArray.concat(fillingArray),
+    [sauceArray, fillingArray]
+  )
+
+
+
     return (
       <div className={style.container}>
           <BurgerIngredients sauceArray = {sauceArray} breadArray = {breadArray} fillingArray = {fillingArray}/>
-          <BurgerConstructor sauceArray = {sauceArray} breadArray = {breadArray} fillingArray = {fillingArray} />
+          <BurgerConstructor productArray = {productArray} breadArray = {breadArray} />
       </div>
     )
 })

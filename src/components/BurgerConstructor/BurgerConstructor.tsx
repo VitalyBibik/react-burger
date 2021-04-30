@@ -4,12 +4,14 @@ import { OrderItem } from '../OrderItem'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { PriceItem } from '../PriceItem'
 
-export const BurgerConstructor = ({sauceArray, fillingArray, breadArray }: any) => {
-
+export const BurgerConstructor = ({breadArray, productArray }: any) => {
+//  <OrderItem breadArray = {breadArray} />
+  console.log(productArray)
   return (
     <div className={style.container}>
+
       <div className={style['container__item']}>
-        <OrderItem sauceArray = {sauceArray} breadArray = {breadArray} fillingArray = {fillingArray} />
+        <OrderItem productArray={productArray} breadArray = {breadArray} />
       </div>
       <div className={style['container__button']}>
         <PriceItem price={610} size={'large'}/>

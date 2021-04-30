@@ -21,7 +21,7 @@ type OrderItem = {
 
 
 
-export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
+export const OrderItem = ({ breadArray, productArray }: any) => {
 
   return (
     <>
@@ -34,21 +34,7 @@ export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
         </div>
       </div>
 
-      { sauceArray.map((el:OrderItem) => {
-       return (
-         <div className={style.container}>
-           <DragIcon type="primary" />
-           <div className={style.box}>
-            <img src={el.image_mobile} alt='White bread' className='box__image' />
-            <p className={cn(style['box__description'], 'text text_type_main-default')}>{el.name}</p>
-            <PriceItem price={el.price} margin={true} />
-            <span className={style['box__lock']}><LockIcon type='primary' /></span>
-          </div>
-         </div>
-       )
-      })
-      }
-      { fillingArray.map((el:OrderItem) => {
+      { productArray.map((el:OrderItem) => {
         return (
           <div className={style.container}>
             <DragIcon type="primary" />
@@ -58,7 +44,7 @@ export const OrderItem = ({ breadArray, fillingArray, sauceArray }: any) => {
               <PriceItem price={el.price} margin={true} />
               <span className={style['box__lock']}><LockIcon type='primary' /></span>
             </div>
-        </div>
+          </div>
         )
       })
       }
