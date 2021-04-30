@@ -25,7 +25,8 @@ export const OrderItem = ({ breadArray, productArray }: any) => {
 
   return (
     <>
-      <div className={style.container}>
+      { breadArray &&
+        <div className={style.container}>
         <div className={cn(style.box, style['box_special'])}>
           <img src={breadArray[0].image_mobile} alt='White bread' className='box__image' />
           <p className={cn(style['box__description'], 'text text_type_main-default')}>{breadArray[0].name + ' (верх)'}</p>
@@ -33,8 +34,9 @@ export const OrderItem = ({ breadArray, productArray }: any) => {
           <span className={style['box__lock']}><LockIcon type='secondary' /></span>
         </div>
       </div>
+      }
 
-      { productArray.map((el:OrderItem) => {
+      { productArray &&  productArray.map((el:OrderItem) => {
         return (
           <div className={style.container}>
             <DragIcon type="primary" />
@@ -48,7 +50,8 @@ export const OrderItem = ({ breadArray, productArray }: any) => {
         )
       })
       }
-      <div className={style.container}>
+      { breadArray &&
+        <div className={style.container}>
         <div className={cn(style.box, style['box_special'])}>
           <img src={breadArray[0].image_mobile} alt='White bread' className='box__image' />
           <p className={cn(style['box__description'], 'text text_type_main-default')}>{breadArray[0].name + ' (низ)'}</p>
@@ -56,6 +59,7 @@ export const OrderItem = ({ breadArray, productArray }: any) => {
           <span className={style['box__lock']}><LockIcon type='secondary' /></span>
         </div>
       </div>
+      }
     </>
 
   )
