@@ -27,13 +27,12 @@ export const BurgerUnion = memo(() => {
       sauceArray.concat(fillingArray),
     [sauceArray, fillingArray]
   )
-
-
+  const bread = breadArray[0]
 
     return (
       <div className={style.container}>
           <BurgerIngredients sauceArray = {sauceArray} breadArray = {breadArray} fillingArray = {fillingArray}/>
-          <BurgerConstructor productArray = {productArray} breadArray = {breadArray} />
+          <BurgerConstructor productArray = {productArray} bread = {bread} />
       </div>
     )
 })

@@ -20,25 +20,24 @@ type OrderItem = {
 }
 
 
-
-export const OrderItem = ({ breadArray, productArray }: any) => {
-
+export const OrderItem = ({ bread, productArray, top }: any) => {
   return (
     <>
-      { breadArray &&
+      { bread && top === true &&
         <div className={style.container}>
         <div className={cn(style.box, style['box_special'])}>
-          <img src={breadArray[0].image_mobile} alt='White bread' className='box__image' />
-          <p className={cn(style['box__description'], 'text text_type_main-default')}>{breadArray[0].name + ' (верх)'}</p>
+          <img src={bread.image_mobile} alt='White bread' className='box__image' />
+          <p className={cn(style['box__description'], 'text text_type_main-default')}>{bread.name + ' (верх)'}</p>
           <PriceItem price={20} margin={true}/>
           <span className={style['box__lock']}><LockIcon type='secondary' /></span>
         </div>
       </div>
+
       }
 
       { productArray &&  productArray.map((el:OrderItem) => {
         return (
-          <div className={style.container}>
+          <div className={style.container} key={el._id}>
             <DragIcon type="primary" />
             <div className={style.box}>
               <img src={el.image_mobile} alt='White bread' className='box__image' />
@@ -50,11 +49,11 @@ export const OrderItem = ({ breadArray, productArray }: any) => {
         )
       })
       }
-      { breadArray &&
+      { bread && top === false &&
         <div className={style.container}>
         <div className={cn(style.box, style['box_special'])}>
-          <img src={breadArray[0].image_mobile} alt='White bread' className='box__image' />
-          <p className={cn(style['box__description'], 'text text_type_main-default')}>{breadArray[0].name + ' (низ)'}</p>
+          <img src={bread.image_mobile} alt='White bread' className='box__image' />
+          <p className={cn(style['box__description'], 'text text_type_main-default')}>{bread.name + ' (низ)'}</p>
           <PriceItem price={20} margin={true} />
           <span className={style['box__lock']}><LockIcon type='secondary' /></span>
         </div>
