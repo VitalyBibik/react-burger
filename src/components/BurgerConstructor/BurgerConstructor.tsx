@@ -14,7 +14,7 @@ export const BurgerConstructor = ({ bread, productArray }: any) => {
       </div>
       <OrderItem bread = {bread} top={false} />
       <div className={style['container__button']}>
-        <PriceItem price={610} size={'large'}/>
+        <PriceItem price={610} size={'medium'}/>
         <Button type="primary" size="medium">
           Оформить заказ
         </Button>
