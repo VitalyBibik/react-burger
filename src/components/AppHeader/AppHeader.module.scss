@@ -1,6 +1,7 @@
 
 .header {
   background-color: #1C1C21;
+  padding-top: 40px;
 
   &__container {
     display: flex;
@@ -11,8 +12,8 @@
   }
 
   &__position {
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 24px;
+    padding-bottom: 24px;
 
   }
   &__text-position {
