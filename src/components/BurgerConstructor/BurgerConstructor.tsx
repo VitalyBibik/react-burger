@@ -8,9 +8,9 @@ export const BurgerConstructor = ({ bread, productArray }: any) => {
   return (
     <div className={style.container}>
       <OrderItem bread={bread} top />
-      <div className={style.container__item}>
+      <ul className={style.container__item}>
         <OrderItem productArray={productArray} />
-      </div>
+      </ul>
       <OrderItem bread={bread} top={false} />
       <div className={style.container__button}>
         <PriceItem price={610} size="medium" />

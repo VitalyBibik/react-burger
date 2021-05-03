@@ -62,27 +62,27 @@ export const BurgerIngredients = ({
         <h2 className={cn('text text_type_main-large', style.container__title)}>
           Булки
         </h2>
-        <div className={style.grid}>
+        <ul className={style.grid}>
           {breadArray.map((el: mapId) => (
             <BurgerItem key={el._id} {...el} />
           ))}
-        </div>
+        </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)}>
           Соусы
         </h2>
-        <div className={style.grid}>
+        <ul className={style.grid}>
           {sauceArray.map((el: mapId) => (
             <BurgerItem key={el._id} {...el} />
           ))}
-        </div>
+        </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)}>
           Начинки
         </h2>
-        <div className={style.grid}>
+        <ul className={style.grid}>
           {fillingArray.map((el: mapId) => (
             <BurgerItem key={el._id} {...el} />
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );

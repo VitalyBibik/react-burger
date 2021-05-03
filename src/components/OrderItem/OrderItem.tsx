@@ -41,14 +41,14 @@ export const OrderItem = ({ bread, productArray, top }: any) => {
       {productArray &&
       productArray.map((el: OrderItem) => {
         return (
-          <div className={style.container} key={el._id}>
+          <li className={style.container} key={el._id}>
             <div className={style['container__icon']}><DragIcon type="primary" /></div>
             <ConstructorElement
               text={el.name}
               price={el.price}
               thumbnail={el['image_mobile']}
             />
-          </div>
+          </li>
         );
       })}
 

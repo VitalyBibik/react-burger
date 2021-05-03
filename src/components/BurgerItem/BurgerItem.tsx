@@ -6,7 +6,7 @@ import { PriceItem } from '../PriceItem';
 
 export const BurgerItem = ({ image_large, name, price }: any) => {
   return (
-    <div className={style.container}>
+    <li className={style.container}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
         <Counter count={1} size="small" />
@@ -22,6 +22,6 @@ export const BurgerItem = ({ image_large, name, price }: any) => {
       >
         {name}
       </p>
-    </div>
+    </li>
   );
 };
