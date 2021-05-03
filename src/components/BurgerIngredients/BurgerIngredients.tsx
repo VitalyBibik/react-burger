@@ -6,7 +6,6 @@ import { BurgerItem } from '../BurgerItem';
 
 type mapId = {
   _id: string;
-  // eslint-disable-next-line camelcase
   image_large: string;
   name: string;
   price: number;

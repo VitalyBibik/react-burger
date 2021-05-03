@@ -1,7 +1,8 @@
 import React from 'react';
 import {
+  ConstructorElement,
   DragIcon,
-  LockIcon,
+  LockIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
@@ -26,75 +27,45 @@ export const OrderItem = ({ bread, productArray, top }: any) => {
   return (
     <>
       {bread && top === true && (
-        <div className={style.container}>
-          <div className={cn(style.box, style.box_special)}>
-            <img
-              src={bread.image_mobile}
-              alt="White bread"
-              className="box__image"
-            />
-            <p
-              className={cn(
-                style.box__description,
-                'text text_type_main-default'
-              )}
-            >{`${bread.name} (верх)`}</p>
-            <PriceItem price={20} margin />
-            <span className={style.box__lock}>
-              <LockIcon type="secondary" />
-            </span>
-          </div>
+        <div className={cn(style.container, style['container_special'])}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={bread.name + ' (верх)'}
+            price={bread.price}
+            thumbnail={bread['image_mobile']}
+          />
         </div>
       )}
 
       {productArray &&
-        productArray.map((el: OrderItem) => {
-          return (
-            <div className={style.container} key={el._id}>
-              <DragIcon type="primary" />
-              <div className={style.box}>
-                <img
-                  src={el.image_mobile}
-                  alt="White bread"
-                  className="box__image"
-                />
-                <p
-                  className={cn(
-                    style.box__description,
-                    'text text_type_main-default'
-                  )}
-                >
-                  {el.name}
-                </p>
-                <PriceItem price={el.price} margin />
-                <span className={style.box__lock}>
-                  <LockIcon type="primary" />
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      {bread && top === false && (
-        <div className={style.container}>
-          <div className={cn(style.box, style.box_special)}>
-            <img
-              src={bread.image_mobile}
-              alt="White bread"
-              className="box__image"
+      productArray.map((el: OrderItem) => {
+        return (
+          <div className={style.container} key={el._id}>
+            <div className={style['container__icon']}><DragIcon type="primary" /></div>
+            <ConstructorElement
+              text={el.name}
+              price={el.price}
+              thumbnail={el['image_mobile']}
             />
-            <p
-              className={cn(
-                style.box__description,
-                'text text_type_main-default'
-              )}
-            >{`${bread.name} (низ)`}</p>
-            <PriceItem price={20} margin />
-            <span className={style.box__lock}>
-              <LockIcon type="secondary" />
-            </span>
           </div>
+        );
+      })}
+
+      {bread && top === false && (
+        <div className={cn(style.container, style['container_special'])}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={bread.name + ' (низ)'}
+            price={bread.price}
+            thumbnail={bread['image_mobile']}
+          />
+
         </div>
       )}
     </>
   );
 };
+
+

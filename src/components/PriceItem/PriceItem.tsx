@@ -8,7 +8,6 @@ type PriceItem = {
   size?: string;
   margin?: boolean;
 };
-// Ждать обнову с средним размера кнопки
 
 export const PriceItem = ({
   price,
