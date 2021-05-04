@@ -3,8 +3,9 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
-import { Popup } from '../Popup';
+
 import { useDisclosure } from '../../hooks';
+import { Popup } from '../Popup';
 
 export const BurgerConstructor = ({ bread, productArray }: any) => {
 

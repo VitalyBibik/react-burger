@@ -7,7 +7,7 @@ export const useDisclosure = (initialState = false, { onOpen, onClose }:any) => 
     if (isOpen !== initialState) {
       setIsOpen(initialState);
     }
-  }, [initialState]);
+  }, [initialState, isOpen]);
 
   const open = () => {
     setIsOpen(true);
