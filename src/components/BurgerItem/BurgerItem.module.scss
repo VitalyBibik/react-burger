@@ -1,0 +1,26 @@
+.container {
+  max-width: 272px;
+  padding: 0;
+
+  &__image {
+    position: relative;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  &__description {
+    margin-top: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__price {
+    display: flex;
+    justify-content: center;
+  }
+
+}
+.image {
+  width: 100%;
+}

@@ -1,0 +1,37 @@
+
+.header {
+  background-color: #1C1C21;
+  padding-top: 40px;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  &__position {
+    padding-top: 24px;
+    padding-bottom: 24px;
+
+  }
+  &__text-position {
+    margin-left: 9px !important;
+  }
+   // color: #8585AD !important;
+
+
+}
+
+.container {
+  display: flex;
+  &__position {
+    display: flex;
+    margin-right: 50px;
+  }
+  &__logo {
+    margin-left: 132px;
+    margin-right: 311px;
+  }
+}
