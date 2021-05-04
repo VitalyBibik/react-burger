@@ -7,7 +7,27 @@ import { PriceItem } from '../PriceItem';
 import { useDisclosure } from '../../hooks';
 import { Popup } from '../Popup';
 
-export const BurgerConstructor = ({ bread, productArray }: any) => {
+type Ingredient = {
+  _id: string,
+  name: string,
+  type: string,
+  proteins: number,
+  fat: number,
+  carbohydrates: number,
+  calories: number,
+  price: number,
+  image: string,
+  image_mobile: string,
+  image_large: string,
+  __v?: number,
+}
+type BurgerConstructorProps = {
+  bread: Ingredient;
+  productArray: Array<Ingredient>;
+};
+
+
+export const BurgerConstructor = ({ bread, productArray }: BurgerConstructorProps) => {
 
   const { isOpen, toggle } = useDisclosure(false, {
     onOpen: () => console.log("я открылся")

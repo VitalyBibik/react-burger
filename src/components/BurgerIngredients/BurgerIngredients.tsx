@@ -4,18 +4,32 @@ import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
 
-type mapId = {
-  _id: string;
-  image_large: string;
-  name: string;
-  price: number;
+
+type Ingredient = {
+  _id: string,
+  name: string,
+  type: string,
+  proteins: number,
+  fat: number,
+  carbohydrates: number,
+  calories: number,
+  price: number,
+  image: string,
+  image_mobile: string,
+  image_large: string,
+  __v?: number,
+}
+type BurgerConstructorProps = {
+  breadArray: Array<Ingredient>;
+  fillingArray: Array<Ingredient>;
+  sauceArray: Array<Ingredient>;
 };
 
 export const BurgerIngredients = ({
   breadArray,
   fillingArray,
   sauceArray,
-}: any) => {
+}: BurgerConstructorProps) => {
   const [current, setCurrent] = useState('Булки');
   const [state, setState] = useState({
     isLoading: false,
@@ -63,7 +77,7 @@ export const BurgerIngredients = ({
           Булки
         </h2>
         <ul className={style.grid}>
-          {breadArray.map((el: mapId) => (
+          {breadArray.map((el) => (
             <BurgerItem key={el._id} {...el} />
           ))}
         </ul>
@@ -71,7 +85,7 @@ export const BurgerIngredients = ({
           Соусы
         </h2>
         <ul className={style.grid}>
-          {sauceArray.map((el: mapId) => (
+          {sauceArray.map((el) => (
             <BurgerItem key={el._id} {...el} />
           ))}
         </ul>
@@ -79,7 +93,7 @@ export const BurgerIngredients = ({
           Начинки
         </h2>
         <ul className={style.grid}>
-          {fillingArray.map((el: mapId) => (
+          {fillingArray.map((el) => (
             <BurgerItem key={el._id} {...el} />
           ))}
         </ul>
