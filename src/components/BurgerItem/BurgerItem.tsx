@@ -4,7 +4,14 @@ import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
 
-export const BurgerItem = ({ image_large, name, price }: any) => {
+type Ingredient = {
+  name: string,
+  price: number,
+  image_large: string,
+}
+
+
+export const BurgerItem = ({ image_large, name, price }: Ingredient) => {
   return (
     <li className={style.container}>
       <div className={style.container__image}>

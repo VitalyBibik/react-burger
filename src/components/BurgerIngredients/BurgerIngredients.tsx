@@ -19,7 +19,7 @@ type Ingredient = {
   image_large: string,
   __v?: number,
 }
-type BurgerConstructorProps = {
+type BurgerIngredientsProps = {
   breadArray: Array<Ingredient>;
   fillingArray: Array<Ingredient>;
   sauceArray: Array<Ingredient>;
@@ -29,7 +29,7 @@ export const BurgerIngredients = ({
   breadArray,
   fillingArray,
   sauceArray,
-}: BurgerConstructorProps) => {
+}: BurgerIngredientsProps) => {
   const [current, setCurrent] = useState('Булки');
 
   return (

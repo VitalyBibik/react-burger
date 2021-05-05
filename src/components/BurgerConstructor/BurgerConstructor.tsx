@@ -36,7 +36,7 @@ export const BurgerConstructor = ({ bread, productArray }: BurgerConstructorProp
   return (
     <>
     <div className={style.container}>
-      <OrderItem bread={bread} top />
+      <OrderItem bread={bread} top={true} />
       <ul className={style.container__item}>
         <OrderItem productArray={productArray} />
       </ul>

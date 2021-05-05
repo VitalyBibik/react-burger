@@ -3,6 +3,21 @@ import { BurgerIngredients } from '../BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
 
+type Ingredient = {
+  _id: string,
+  name: string,
+  type: string,
+  proteins: number,
+  fat: number,
+  carbohydrates: number,
+  calories: number,
+  price: number,
+  image: string,
+  image_mobile: string,
+  image_large: string,
+  __v?: number,
+}
+
 export const BurgerUnion = memo(() => {
   const [state, setState] = useState({
     isLoading: false,
@@ -25,13 +40,13 @@ export const BurgerUnion = memo(() => {
     getProducts()
   }, [])
 
-  const fillingArray = useMemo(() => state.data.filter((el:any) => el.type === 'main'), [
+  const fillingArray = useMemo(() => state.data.filter((el:Ingredient) => el.type === 'main'), [
     state.data
   ]);
-  const breadArray = useMemo(() => state.data.filter((el:any) => el.type === 'bun'), [
+  const breadArray = useMemo(() => state.data.filter((el:Ingredient) => el.type === 'bun'), [
     state.data
   ]);
-  const sauceArray = useMemo(() => state.data.filter((el:any) => el.type === 'sauce'), [
+  const sauceArray = useMemo(() => state.data.filter((el:Ingredient) => el.type === 'sauce'), [
     state.data
   ]);
   const productArray = useMemo(() => sauceArray.concat(fillingArray), [

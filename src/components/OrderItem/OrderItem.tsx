@@ -20,10 +20,15 @@ type OrderItem = {
   image: string;
   image_mobile: string;
   image_large: string;
-  __v: number;
+  __v?: number;
 };
+type OrderItemProps = {
+  bread?: OrderItem,
+  productArray?: Array<OrderItem>,
+  top?:boolean
+}
 
-export const OrderItem = ({ bread, productArray, top }: any) => {
+export const OrderItem = ({ bread, productArray, top }: OrderItemProps) => {
   return (
     <>
       {bread && top === true && (
