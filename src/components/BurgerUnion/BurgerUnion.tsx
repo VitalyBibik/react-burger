@@ -2,7 +2,6 @@ import { memo, useMemo, useState, useEffect } from 'react';
 import { BurgerIngredients } from '../BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
-import { data } from '../../fixtures';
 
 export const BurgerUnion = memo(() => {
   const [state, setState] = useState({
@@ -15,9 +14,7 @@ export const BurgerUnion = memo(() => {
     try {
       const res = await fetch('https://norma.nomoreparties.space/api/ingredients')
       const data = await res.json()
-      console.log('data', data)
       setState({ ...state, data:data.data, isLoading: false })
-
     }
     catch {
       setState({ ...state, hasError: true, isLoading: false });
