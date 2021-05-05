@@ -31,26 +31,6 @@ export const BurgerIngredients = ({
   sauceArray,
 }: BurgerConstructorProps) => {
   const [current, setCurrent] = useState('Булки');
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
-  // React.useEffect(() => {
-  //   getProducts();
-  // }, [])
-  //
-  // const getProducts = async () => {
-  //   setState({ ...state, hasError: false, isLoading: true });
-  //   try {
-  //     const res = await fetch('https://api.nomoreparties.co/')
-  //     const data = await res.json()
-  //     setState({ ...state, data, isLoading: false })
-  //   }
-  //   catch {
-  //     setState({ ...state, hasError: true, isLoading: false });
-  //   }
-  // }
 
   return (
     <div className={style.container}>
