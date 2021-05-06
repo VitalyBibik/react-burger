@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
@@ -26,7 +26,7 @@ type BurgerConstructorProps = {
 };
 
 
-export const BurgerConstructor = ({ bread, productArray, setModal }: BurgerConstructorProps) => {
+export const BurgerConstructor = memo(({ bread, productArray, setModal }: BurgerConstructorProps) => {
 
   const finalOrder = () => {
     setModal({
@@ -53,4 +53,4 @@ export const BurgerConstructor = ({ bread, productArray, setModal }: BurgerConst
 
     </>
   );
-};
+});

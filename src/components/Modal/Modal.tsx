@@ -1,12 +1,9 @@
 import ReactDOM from 'react-dom';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import style from './Modal.module.scss'
 import { ModalOverlay } from '../ModalOverlay'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
-
-
-const modalRoot = document.getElementById('modal') as HTMLElement;
 
 type ModalProps = {
   setModal: any,
@@ -16,8 +13,9 @@ type ModalProps = {
 
 }
 
+const modalRoot = document.getElementById('modal') as HTMLElement;
 
-export const Modal = ({ title, buttonClose, children, setModal }: ModalProps) => {
+export const Modal = memo(({ title, buttonClose, children, setModal }: ModalProps) => {
 
   const clear = (e:any) => {
       if (e.keyCode === 27)
@@ -53,5 +51,5 @@ export const Modal = ({ title, buttonClose, children, setModal }: ModalProps) =>
     ),
     modalRoot
   )
-}
+})
 

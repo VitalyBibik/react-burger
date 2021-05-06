@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { memo } from 'react';
 import style from './PriceItem.module.scss';
 
 type PriceItem = {
@@ -9,7 +9,7 @@ type PriceItem = {
   margin?: boolean;
 };
 
-export const PriceItem = ({
+export const PriceItem = memo(({
   price,
   size = 'default',
   margin = false,
@@ -28,4 +28,4 @@ export const PriceItem = ({
       </span>
     </>
   );
-};
+});

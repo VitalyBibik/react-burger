@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
   ConstructorElement,
   DragIcon
@@ -27,7 +27,7 @@ type OrderItemProps = {
   top?:boolean
 }
 
-export const OrderItem = ({ bread, productArray, top }: OrderItemProps) => {
+export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
   return (
     <>
       {bread && top === true && (
@@ -70,6 +70,6 @@ export const OrderItem = ({ bread, productArray, top }: OrderItemProps) => {
       )}
     </>
   );
-};
+});
 
 

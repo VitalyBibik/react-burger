@@ -1,5 +1,6 @@
 import style from './IngredientsDetails.module.scss'
 import cn from 'classnames';
+import { memo } from 'react';
 
 type IngredientDetailsProps = {
   image: string,
@@ -12,7 +13,7 @@ type IngredientDetailsProps = {
 }
 
 
-export const IngredientDetails = ({ image, desc, calories, proteins, fats, carbohydrates, name }: IngredientDetailsProps) => {
+export const IngredientDetails = memo(({ image, desc, calories, proteins, fats, carbohydrates, name }: IngredientDetailsProps) => {
   return (
     <div className={style.order}>
       <img src={image} alt={desc}/>
@@ -54,4 +55,4 @@ export const IngredientDetails = ({ image, desc, calories, proteins, fats, carbo
       </div>
     </div>
   )
-}
+})

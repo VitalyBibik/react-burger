@@ -1,10 +1,8 @@
-import { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
-import { IngredientDetails } from '../IngredientsDetails';
-
 
 type Ingredient = {
   _id: string,
@@ -24,40 +22,29 @@ type BurgerIngredientsProps = {
   breadArray: Array<Ingredient>;
   fillingArray: Array<Ingredient>;
   sauceArray: Array<Ingredient>;
-  setModal: any;
-
+  renderModal:(card: CardProps) => void;
 };
 
-export const BurgerIngredients = ({
+type CardProps = {
+  image:string,
+  name:string,
+  price:number,
+  _id:string,
+}
+
+export const BurgerIngredients = memo(({
   breadArray,
   fillingArray,
   sauceArray,
-  setModal
+  renderModal
 }: BurgerIngredientsProps) => {
   const [current, setCurrent] = useState('Булки');
 
-  const items = breadArray.concat(fillingArray, sauceArray)
+  const findClosureCard = useCallback(
+    (card:CardProps) => {
+    renderModal(card)
+  }, [renderModal])
 
-  const showCard= useCallback((e) => {
-    const target = e.target.closest('[data-id]');
-    if (!target) return;
-    const id = target.dataset.id
-    if (!items) return;
-    const item = items.find(e => e._id === id);
-    setModal({
-      isShow: true,
-      title: 'Детали ингредиента',
-      content: <IngredientDetails
-        image={item!.image}
-        name={item!.name}
-        desc={'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'}
-        calories={987}
-        proteins={654}
-        fats={321}
-        carbohydrates={999}
-      />
-    })
-  },[])
   return (
     <div className={style.container}>
       <h1 className={cn('text text_type_main-large', style.container__title)}>
@@ -82,28 +69,28 @@ export const BurgerIngredients = ({
         <h2 className={cn('text text_type_main-large', style.container__title)}>
           Булки
         </h2>
-        <ul className={style.grid} onClick={showCard}>
+        <ul className={style.grid}>
           {breadArray.map((el) => (
-            <BurgerItem key={el._id} {...el} />
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard}/>
           ))}
         </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)}>
           Соусы
         </h2>
-        <ul className={style.grid} onClick={showCard}>
+        <ul className={style.grid}>
           {sauceArray.map((el) => (
-            <BurgerItem key={el._id} {...el} />
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)}>
           Начинки
         </h2>
-        <ul className={style.grid} onClick={showCard}>
+        <ul className={style.grid}>
           {fillingArray.map((el) => (
-            <BurgerItem key={el._id} {...el} />
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>
       </div>
     </div>
   );
-};
+});

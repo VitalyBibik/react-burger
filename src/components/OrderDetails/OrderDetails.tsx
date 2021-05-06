@@ -1,7 +1,8 @@
 import isDone from '../../images/access.png'
 import style from './OrderDetails.module.scss';
+import { memo } from 'react';
 
-export const OrderDetails = () => {
+export const OrderDetails = memo(() => {
   return (
     <div className={style.order}>
       <p className="text text_type_digits-medium mb-4">034536</p>
@@ -17,5 +18,5 @@ export const OrderDetails = () => {
       </p>
     </div>
   )
-}
+})
 

@@ -4,6 +4,7 @@ import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
 import { Modal } from '../Modal';
 import { apiUrl, BUN, MAIN, SAUCE } from '../../utils/constants';
+import { IngredientDetails } from '../IngredientsDetails';
 
 
 type Ingredient = {
@@ -20,17 +21,12 @@ type Ingredient = {
   image_large: string,
   __v?: number,
 }
-//
-// type ModalProps = {
-//   isShow: boolean,
-//   title: string | null,
-//   content: React.ReactNode
-// }
-// type ApiProps = {
-//   isLoading: boolean,
-//   hasError: boolean,
-//   data: Array<object>,
-// }
+type CardProps = {
+  image:string,
+  name:string,
+  price:number,
+  _id:string,
+}
 
 
 export const BurgerUnion = memo(() => {
@@ -41,15 +37,15 @@ export const BurgerUnion = memo(() => {
   });
   const [modalData, setModalData] = useState({
     isShow: false,
-    title: null,
-    content: null
+    title: 'Заголовок',
+    content: Element
   });
 
   const buttonClose = useCallback(() => {
     setModalData({
       isShow: false,
-      title: null,
-      content: null,
+      title: 'Заголовок',
+      content: Element
     })
   },[])
 
@@ -83,7 +79,27 @@ export const BurgerUnion = memo(() => {
     sauceArray,
     fillingArray,
   ]);
-  const bread = breadArray[0];
+  const bread = useMemo(() => breadArray[0], [
+    breadArray
+  ]);
+
+  const renderModal = useCallback(
+    (card:CardProps) => {
+    setModalData({
+      isShow: true,
+      title: 'Детали ингредиента',
+      // @ts-ignore
+      content: <IngredientDetails
+        image={card!.image}
+        name={card!.name}
+        desc={'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'}
+        calories={987}
+        proteins={654}
+        fats={321}
+        carbohydrates={999}
+      />
+    })
+  },[])
 
   return (
     <>
@@ -97,7 +113,7 @@ export const BurgerUnion = memo(() => {
          sauceArray={sauceArray}
          breadArray={breadArray}
          fillingArray={fillingArray}
-         setModal={setModalData}
+         renderModal = {renderModal}
        />
          <BurgerConstructor
          productArray={productArray}
