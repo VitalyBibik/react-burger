@@ -4,16 +4,18 @@ import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
 
-type Ingredient = {
+type IngredientProps = {
   name: string,
   price: number,
   image_large: string,
+  _id: string,
 }
 
 
-export const BurgerItem = ({ image_large, name, price }: Ingredient) => {
+export const BurgerItem = ({ image_large, name, price, _id }: IngredientProps) => {
+
   return (
-    <li className={style.container}>
+    <li className={style.container} data-id={_id}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
         <Counter count={1} size="small" />

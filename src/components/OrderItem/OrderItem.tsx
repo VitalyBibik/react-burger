@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   ConstructorElement,
-  DragIcon,
-  LockIcon
+  DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
-import { PriceItem } from '../PriceItem';
+
 
 type OrderItem = {
   _id: string;

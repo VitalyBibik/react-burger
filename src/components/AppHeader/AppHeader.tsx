@@ -9,8 +9,6 @@ import cn from 'classnames';
 import style from './AppHeader.module.scss';
 
 export const AppHeader = memo(() => (
-  // Сделать наведения цветом, поменять праймари на другой
-
   <header className={cn(style.header, style.header__position)}>
     <div className={style.header__container}>
       <div className={style.container}>

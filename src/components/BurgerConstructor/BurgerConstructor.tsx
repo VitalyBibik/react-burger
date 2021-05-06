@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
-
-import { useDisclosure } from '../../hooks';
-import { Popup } from '../Popup';
+import { OrderDetails } from '../OrderDetails';
 
 type Ingredient = {
   _id: string,
@@ -24,14 +22,18 @@ type Ingredient = {
 type BurgerConstructorProps = {
   bread: Ingredient;
   productArray: Array<Ingredient>;
+  setModal: any
 };
 
 
-export const BurgerConstructor = ({ bread, productArray }: BurgerConstructorProps) => {
+export const BurgerConstructor = ({ bread, productArray, setModal }: BurgerConstructorProps) => {
 
-  const { isOpen, toggle } = useDisclosure(false, {
-    onOpen: () => console.log("я открылся")
-  });
+  const finalOrder = () => {
+    setModal({
+      isShow: true,
+      content: <OrderDetails />
+    })
+  }
 
   return (
     <>
@@ -43,11 +45,10 @@ export const BurgerConstructor = ({ bread, productArray }: BurgerConstructorProp
       <OrderItem bread={bread} top={false} />
       <div className={style.container__button}>
         <PriceItem price={610} size="medium" />
-        <Button type="primary" size="medium" onClick={toggle}>
+        <Button type="primary" size="medium" onClick={finalOrder}>
           Оформить заказ
         </Button>
       </div>
-      {isOpen && <Popup open={isOpen} />}
     </div>
 
     </>
