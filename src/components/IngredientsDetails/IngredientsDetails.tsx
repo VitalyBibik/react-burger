@@ -3,20 +3,22 @@ import cn from 'classnames';
 import { memo } from 'react';
 
 type IngredientDetailsProps = {
-  image: string,
-  desc: string,
+  name: string,
+  price?: number,
+  image_large: string,
+  _id?: string,
   calories: number,
-  proteins: number
-  fats: number,
+  proteins: number,
+  fat: number,
   carbohydrates: number,
-  name: string
+  desc:string
 }
 
 
-export const IngredientDetails = memo(({ image, desc, calories, proteins, fats, carbohydrates, name }: IngredientDetailsProps) => {
+export const IngredientDetails = memo(({ image_large, desc, calories, proteins, fat, carbohydrates, name}: IngredientDetailsProps) => {
   return (
     <div className={style.order}>
-      <img src={image} alt={desc}/>
+      <img src={image_large} alt={desc}/>
       <h3 className={style.title}>{name}</h3>
       <p className={cn(style.desc, 'text text_type_main-default')}>{desc}</p>
       <div className={style.info}>
@@ -41,7 +43,7 @@ export const IngredientDetails = memo(({ image, desc, calories, proteins, fats, 
                         Жиры, г
                     </span>
           <span className="text text_type_digits-default text_color_inactive">
-                        {fats}
+                        {fat}
                     </span>
         </div>
         <div className={style.infoItem}>

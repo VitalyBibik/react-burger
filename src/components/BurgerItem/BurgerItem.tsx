@@ -9,17 +9,34 @@ type IngredientProps = {
   price: number,
   image_large: string,
   _id: string,
-  findClosureCard:(card: { image: string; price: number; name: string; _id: string }) => void
+  calories: number,
+  proteins: number,
+  fat: number,
+  carbohydrates: number,
+  findClosureCard:any
 }
 
 
-export const BurgerItem = memo(({ image_large, name, price, _id, findClosureCard }: IngredientProps) => {
+export const BurgerItem = memo(({ image_large,
+  name,
+  price,
+  _id,
+  findClosureCard,
+  calories,
+  proteins,
+  fat,
+  carbohydrates
+}: IngredientProps) => {
 
   const card = {
-    image:image_large,
-    name:name,
-    price:price,
-    _id:_id,
+    image_large,
+    name,
+    price,
+    _id,
+    calories,
+    proteins,
+    fat,
+    carbohydrates
   }
   const findCard = () => {
     findClosureCard(card)

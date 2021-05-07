@@ -21,11 +21,17 @@ type Ingredient = {
   image_large: string,
   __v?: number,
 }
+
 type CardProps = {
-  image:string,
+  image_large:string,
   name:string,
-  price:number,
-  _id:string,
+  desc?:string,
+  calories:number,
+  proteins:number,
+  fat:number,
+  carbohydrates:number,
+  price?:number,
+  id?:number
 }
 
 type TModalData = {
@@ -94,13 +100,13 @@ export const BurgerUnion = memo(() => {
       isShow: true,
       title: 'Детали ингредиента',
       content: <IngredientDetails
-        image={card!.image}
+        image_large={card!.image_large}
         name={card!.name}
         desc={'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'}
-        calories={987}
-        proteins={654}
-        fats={321}
-        carbohydrates={999}
+        calories={card.calories}
+        proteins={card.proteins}
+        fat={card.fat}
+        carbohydrates={card.carbohydrates}
       />
     })
   },[])

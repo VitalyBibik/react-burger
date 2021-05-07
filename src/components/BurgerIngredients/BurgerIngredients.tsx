@@ -26,10 +26,16 @@ type BurgerIngredientsProps = {
 };
 
 type CardProps = {
-  image:string,
+  findClosureCard:() => void,
+  image_large:string,
   name:string,
-  price:number,
-  _id:string,
+  desc?:string,
+  calories:number,
+  proteins:number,
+  fat:number,
+  carbohydrates:number,
+  price?:number,
+  id?:number
 }
 
 export const BurgerIngredients = memo(({
