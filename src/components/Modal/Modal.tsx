@@ -17,7 +17,7 @@ const modalRoot = document.getElementById('modal') as HTMLElement;
 
 export const Modal = memo(({ title, buttonClose, children, setModal }: ModalProps) => {
 
-  const clear = (e:any) => {
+  const clear = (e:KeyboardEvent) => {
       if (e.keyCode === 27)
         setModal({
           isShow: false,
