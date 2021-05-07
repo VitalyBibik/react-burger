@@ -66,7 +66,7 @@ export const BurgerUnion = memo(() => {
     try {
       const res = await fetch(apiUrl)
       if (!res.ok) {
-        throw new Error()
+        throw new Error('error')
       }
       const data = await res.json()
       setState({ ...state, data:data.data, isLoading: false })
