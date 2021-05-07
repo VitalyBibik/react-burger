@@ -38,7 +38,7 @@ export const BurgerIngredients = memo(({
   sauceArray,
   renderModal
 }: BurgerIngredientsProps) => {
-  const [current, setCurrent] = useState('Булки');
+  const [current, setCurrent] = useState<string>('Булки');
 
   const findClosureCard = useCallback(
     (card:CardProps) => {
