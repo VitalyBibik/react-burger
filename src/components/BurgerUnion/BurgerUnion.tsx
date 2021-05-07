@@ -100,8 +100,8 @@ export const BurgerUnion = memo(() => {
       isShow: true,
       title: 'Детали ингредиента',
       content: <IngredientDetails
-        image_large={card!.image_large}
-        name={card!.name}
+        image_large={card.image_large}
+        name={card.name}
         desc={'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'}
         calories={card.calories}
         proteins={card.proteins}
