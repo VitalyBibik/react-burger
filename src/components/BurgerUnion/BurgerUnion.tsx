@@ -28,6 +28,11 @@ type CardProps = {
   _id:string,
 }
 
+type TModalData = {
+  isShow: boolean;
+  title: string;
+  content: React.ReactNode | null;
+};
 
 export const BurgerUnion = memo(() => {
   const [state, setState] = useState({
@@ -35,17 +40,17 @@ export const BurgerUnion = memo(() => {
     hasError: false,
     data: [],
   });
-  const [modalData, setModalData] = useState({
+  const [modalData, setModalData] = useState<TModalData>({
     isShow: false,
     title: 'Заголовок',
-    content: Element
+    content: null
   });
 
   const buttonClose = useCallback(() => {
     setModalData({
       isShow: false,
       title: 'Заголовок',
-      content: Element
+      content: null
     })
   },[])
 
@@ -88,7 +93,6 @@ export const BurgerUnion = memo(() => {
     setModalData({
       isShow: true,
       title: 'Детали ингредиента',
-      // @ts-ignore
       content: <IngredientDetails
         image={card!.image}
         name={card!.name}
