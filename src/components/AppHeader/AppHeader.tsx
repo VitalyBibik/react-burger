@@ -6,20 +6,18 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
-import styles from './AppHeader.module.scss';
+import style from './AppHeader.module.scss';
 
 export const AppHeader = memo(() => (
-  // Сделать наведения цветом, поменять праймари на другой
-
-  <header className={cn(styles.header, styles.header__position)}>
-    <div className={styles.header__container}>
-      <div className={styles.container}>
-        <div className={styles.container__position}>
+  <header className={cn(style.header, style.header__position)}>
+    <div className={style.header__container}>
+      <div className={style.container}>
+        <div className={style.container__position}>
           <BurgerIcon type="primary" />
           <span
             className={cn(
               'text text_type_main-default',
-              styles['header__text-position']
+              style['header__text-position']
             )}
           >
             Конструктор
@@ -29,21 +27,21 @@ export const AppHeader = memo(() => (
         <span
           className={cn(
             'text text_type_main-default',
-            styles['header__text-position']
+            style['header__text-position']
           )}
         >
           Лента Заказов
         </span>
       </div>
-      <div className={styles.container__logo}>
+      <div className={style.container__logo}>
         <Logo />
       </div>
-      <div className={styles.container}>
+      <div className={style.container}>
         <ProfileIcon type="secondary" />
         <span
           className={cn(
             'text text_type_main-default',
-            styles['header__text-position']
+            style['header__text-position']
           )}
         >
           Личный Кабинет

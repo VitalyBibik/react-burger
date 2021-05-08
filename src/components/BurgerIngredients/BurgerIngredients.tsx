@@ -1,42 +1,62 @@
-import { useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
 
-type mapId = {
-  _id: string;
-  image_large: string;
-  name: string;
-  price: number;
+type Ingredient = {
+  _id: string,
+  name: string,
+  type: string,
+  proteins: number,
+  fat: number,
+  carbohydrates: number,
+  calories: number,
+  price: number,
+  image: string,
+  image_mobile: string,
+  image_large: string,
+  __v?: number,
+}
+type BurgerIngredientsProps = {
+  breadArray: Array<Ingredient>;
+  fillingArray: Array<Ingredient>;
+  sauceArray: Array<Ingredient>;
+  renderModal:(card: CardProps) => void;
 };
 
-export const BurgerIngredients = ({
+type CardProps = {
+  findClosureCard:() => void,
+  image_large:string,
+  name:string,
+  desc?:string,
+  calories:number,
+  proteins:number,
+  fat:number,
+  carbohydrates:number,
+  price?:number,
+  id?:number
+}
+
+export const BurgerIngredients = memo(({
   breadArray,
   fillingArray,
   sauceArray,
-}: any) => {
-  const [current, setCurrent] = useState('Булки');
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
-  // React.useEffect(() => {
-  //   getProducts();
-  // }, [])
-  //
-  // const getProducts = async () => {
-  //   setState({ ...state, hasError: false, isLoading: true });
-  //   try {
-  //     const res = await fetch('https://api.nomoreparties.co/')
-  //     const data = await res.json()
-  //     setState({ ...state, data, isLoading: false })
-  //   }
-  //   catch {
-  //     setState({ ...state, hasError: true, isLoading: false });
-  //   }
-  // }
+  renderModal
+}: BurgerIngredientsProps) => {
+  const [current, setCurrent] = useState<string>('bun');
+
+  const findClosureCard = useCallback(
+    (card:CardProps) => {
+    renderModal(card)
+  }, [renderModal])
+
+  useEffect(() => {
+    // @ts-ignore
+    document.querySelector(`#${current}`).scrollIntoView();
+  }, [current]);
+
+
 
   return (
     <div className={style.container}>
@@ -44,46 +64,43 @@ export const BurgerIngredients = ({
         Соберите Бургер
       </h1>
       <div className={style.tab}>
-        <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
+        <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
           Булки
         </Tab>
-        <Tab value="Соусы" active={current === 'Соусы'} onClick={setCurrent}>
+        <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
           Соусы
         </Tab>
         <Tab
-          value="Начинки"
-          active={current === 'Начинки'}
-          onClick={setCurrent}
-        >
+          value="main" active={current === 'main'} onClick={setCurrent}>
           Начинки
         </Tab>
       </div>
       <div className={style.scroll}>
-        <h2 className={cn('text text_type_main-large', style.container__title)}>
+        <h2 className={cn('text text_type_main-large', style.container__title)} id='bun'>
           Булки
         </h2>
         <ul className={style.grid}>
-          {breadArray.map((el: mapId) => (
-            <BurgerItem key={el._id} {...el} />
+          {breadArray.map((el) => (
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard}/>
           ))}
         </ul>
-        <h2 className={cn('text text_type_main-large', style.container__title)}>
+        <h2 className={cn('text text_type_main-large', style.container__title)} id='sauce'>
           Соусы
         </h2>
         <ul className={style.grid}>
-          {sauceArray.map((el: mapId) => (
-            <BurgerItem key={el._id} {...el} />
+          {sauceArray.map((el) => (
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>
-        <h2 className={cn('text text_type_main-large', style.container__title)}>
+        <h2 className={cn('text text_type_main-large', style.container__title)} id='main'>
           Начинки
         </h2>
         <ul className={style.grid}>
-          {fillingArray.map((el: mapId) => (
-            <BurgerItem key={el._id} {...el} />
+          {fillingArray.map((el) => (
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>
       </div>
     </div>
   );
-};
+});

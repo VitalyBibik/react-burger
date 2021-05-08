@@ -1,2 +1,10 @@
 @import-normalize; /* bring in normalize.css styles */
 
+
+/* Костыль до апдейта TODO */
+.constructor-element {
+    width: 100% !important;
+}
+.constructor-element__price {
+    margin-left: auto !important;
+}
