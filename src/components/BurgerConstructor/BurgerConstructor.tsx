@@ -1,9 +1,13 @@
-import React, { memo } from 'react';
+import React, { memo, useContext, useEffect, useMemo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
+import { ConstructorContext } from '../../context/constructorContext';
+import { apiPost, apiUrl, BUN } from '../../utils/constants';
+import { v4 as uuid } from 'uuid';
+import { data } from '../../fixtures';
 
 type Ingredient = {
   _id: string,
@@ -19,20 +23,55 @@ type Ingredient = {
   image_large: string,
   __v?: number,
 }
+
 type BurgerConstructorProps = {
-  bread: Ingredient;
-  productArray: Array<Ingredient>;
   setModal: any
 };
 
 
-export const BurgerConstructor = memo(({ bread, productArray, setModal }: BurgerConstructorProps) => {
+export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
+  // @ts-ignore
+  const { state } = useContext(ConstructorContext)
+  const orderData = state.constructor
+  // const apiData = state.data
 
-  const finalOrder = () => {
-    setModal({
-      isShow: true,
-      content: <OrderDetails />
-    })
+  const breadArray = useMemo(() => orderData.filter((el:Ingredient) => el.type === BUN), [orderData])
+  const bread = breadArray[0]
+  const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
+
+  let price = 0
+  for (let item of orderData) {
+    if (item.type === BUN) {
+      price += item.price * 2
+    } else {
+    price += item.price
+    }
+  }
+
+  const finalOrder = async () => {
+    try {
+      const res = await fetch(apiPost, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ingredients: orderData,
+        }),
+      })
+      if (!res.ok) {
+        throw new Error('error')
+      }
+      const data = await res.json()
+      setModal({
+        isShow: true,
+        content: <OrderDetails order = {data.order.number} />,
+      })
+    }
+    catch {
+
+    }
+
   }
 
   return (
@@ -40,11 +79,11 @@ export const BurgerConstructor = memo(({ bread, productArray, setModal }: Burger
     <div className={style.container}>
       <OrderItem bread={bread} top={true} />
       <ul className={style.container__item}>
-        <OrderItem productArray={productArray} />
+        <OrderItem productArray={productArray || null} />
       </ul>
       <OrderItem bread={bread} top={false} />
       <div className={style.container__button}>
-        <PriceItem price={610} size="medium" />
+        <PriceItem size="medium" price={price} />
         <Button type="primary" size="medium" onClick={finalOrder}>
           Оформить заказ
         </Button>

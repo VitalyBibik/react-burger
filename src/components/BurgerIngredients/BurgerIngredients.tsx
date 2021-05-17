@@ -1,8 +1,11 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
+import { IngredientContext  } from '../../context/ingredientContext';
+import { BUN, MAIN, SAUCE } from '../../utils/constants';
+import { ConstructorContext } from '../../context/constructorContext';
 
 type Ingredient = {
   _id: string,
@@ -19,9 +22,6 @@ type Ingredient = {
   __v?: number,
 }
 type BurgerIngredientsProps = {
-  breadArray: Array<Ingredient>;
-  fillingArray: Array<Ingredient>;
-  sauceArray: Array<Ingredient>;
   renderModal:(card: CardProps) => void;
 };
 
@@ -39,9 +39,6 @@ type CardProps = {
 }
 
 export const BurgerIngredients = memo(({
-  breadArray,
-  fillingArray,
-  sauceArray,
   renderModal
 }: BurgerIngredientsProps) => {
   const [current, setCurrent] = useState<string>('bun');
@@ -56,7 +53,12 @@ export const BurgerIngredients = memo(({
     document.querySelector(`#${current}`).scrollIntoView();
   }, [current]);
 
-
+  // @ts-ignore
+  const { state } = useContext(IngredientContext)
+  const dataArray = state.data
+  const breadArray = useMemo(() => dataArray.filter((el:Ingredient) => el.type === BUN), [dataArray])
+  const fillingArray = useMemo(() => dataArray.filter((el:Ingredient) => el.type === MAIN), [dataArray])
+  const sauceArray = useMemo(() => dataArray.filter((el:Ingredient) => el.type === SAUCE), [dataArray])
 
   return (
     <div className={style.container}>
@@ -80,7 +82,7 @@ export const BurgerIngredients = memo(({
           Булки
         </h2>
         <ul className={style.grid}>
-          {breadArray.map((el) => (
+          {breadArray.map((el:Ingredient) => (
             <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard}/>
           ))}
         </ul>
@@ -88,7 +90,7 @@ export const BurgerIngredients = memo(({
           Соусы
         </h2>
         <ul className={style.grid}>
-          {sauceArray.map((el) => (
+          {sauceArray.map((el:Ingredient) => (
             <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>
@@ -96,7 +98,7 @@ export const BurgerIngredients = memo(({
           Начинки
         </h2>
         <ul className={style.grid}>
-          {fillingArray.map((el) => (
+          {fillingArray.map((el:Ingredient) => (
             <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>

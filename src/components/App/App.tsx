@@ -6,8 +6,8 @@ import { BurgerUnion } from '../BurgerUnion';
 export function App() {
   return (
     <div className={style.App}>
-      <AppHeader />
-      <BurgerUnion />
+        <AppHeader />
+        <BurgerUnion />
     </div>
   );
 }
