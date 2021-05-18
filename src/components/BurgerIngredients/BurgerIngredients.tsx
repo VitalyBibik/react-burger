@@ -5,7 +5,6 @@ import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
 import { IngredientContext  } from '../../context/ingredientContext';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
-import { ConstructorContext } from '../../context/constructorContext';
 
 type Ingredient = {
   _id: string,

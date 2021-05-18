@@ -8,7 +8,6 @@ import { IngredientDetails } from '../IngredientsDetails';
 import { ConstructorContext } from '../../context/constructorContext'
 import { IngredientContext } from '../../context/ingredientContext'
 import produce from 'immer';
-import { data } from '../../fixtures';
 
 // type Ingredient = {
 //   _id: string,
@@ -78,9 +77,9 @@ function reducer(state:any, action:any) {
       })
     case 'remove':
       return produce(state, (draft: any) => {
-        const item = draft.constructor.find((el: any) => el._id === action.payload)
-        draft.constructor.filter((el: any) => el._id !== item._id);
-      })
+          const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload)
+          if (index !== -1) draft.constructor.splice(index, 1)
+        });
     default:
       return state
   }
@@ -114,11 +113,6 @@ export const BurgerUnion = memo(() => {
       }
       const data = await res.json()
       dispatch({ type: 'request_success', payload: data.data })
-      dispatch({ type:'add', payload:'609a337df07d7e0026403ac6'})
-      dispatch({ type:'add', payload:'609a337df07d7e0026403acc'})
-      dispatch({ type:'add', payload:'609a337df07d7e0026403acb'})
-      dispatch({ type:'add', payload:'609a337df07d7e0026403ad2'})
-
     }
     catch {
       dispatch({ type: 'request_fail' })

@@ -1,13 +1,12 @@
-import React, { memo, useContext, useEffect, useMemo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
 import { ConstructorContext } from '../../context/constructorContext';
-import { apiPost, apiUrl, BUN } from '../../utils/constants';
-import { v4 as uuid } from 'uuid';
-import { data } from '../../fixtures';
+import { apiPost, BUN } from '../../utils/constants';
+
 
 type Ingredient = {
   _id: string,
@@ -40,13 +39,11 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
 
   let price = 0
-  for (let item of orderData) {
-    if (item.type === BUN) {
-      price += item.price * 2
-    } else {
-    price += item.price
-    }
-  }
+   for (let item of orderData) {
+     price += item.price
+     }
+
+
 
   const finalOrder = async () => {
     try {
@@ -76,20 +73,21 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
 
   return (
     <>
-    <div className={style.container}>
-      <OrderItem bread={bread} top={true} />
-      <ul className={style.container__item}>
-        <OrderItem productArray={productArray || null} />
-      </ul>
-      <OrderItem bread={bread} top={false} />
-      <div className={style.container__button}>
-        <PriceItem size="medium" price={price} />
-        <Button type="primary" size="medium" onClick={finalOrder}>
-          Оформить заказ
-        </Button>
+      { orderData.length > 0 &&
+      <div className={style.container}>
+        <OrderItem bread={bread} top={true} />
+        <ul className={style.container__item}>
+          <OrderItem productArray={productArray} />
+        </ul>
+        <OrderItem bread={bread} top={false} />
+        <div className={style.container__button}>
+          <PriceItem size="medium" price={price} />
+          <Button type="primary" size="medium" onClick={finalOrder}>
+            Оформить заказ
+          </Button>
+        </div>
       </div>
-    </div>
-
+    }
     </>
   );
 });

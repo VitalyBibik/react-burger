@@ -1,8 +1,10 @@
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
+import { IngredientContext } from '../../context/ingredientContext'
+import { BUN } from '../../utils/constants';
 
 type IngredientProps = {
   name: string,
@@ -13,9 +15,13 @@ type IngredientProps = {
   proteins: number,
   fat: number,
   carbohydrates: number,
-  findClosureCard:any
+  type:string
+  findClosureCard: any
 }
-
+type OrderArrayFind = {
+ _id: string,
+  type: string;
+}
 
 export const BurgerItem = memo(({ image_large,
   name,
@@ -25,7 +31,7 @@ export const BurgerItem = memo(({ image_large,
   calories,
   proteins,
   fat,
-  carbohydrates
+  carbohydrates, type
 }: IngredientProps) => {
 
   const card = {
@@ -36,14 +42,33 @@ export const BurgerItem = memo(({ image_large,
     calories,
     proteins,
     fat,
-    carbohydrates
+    carbohydrates,
+    type
   }
+  // @ts-ignore
+  const { state, dispatch } = useContext(IngredientContext)
   const findCard = () => {
     findClosureCard(card)
+    const orderArray = state.constructor
+    const bunCard = orderArray.find((el: OrderArrayFind) => el.type === BUN)
+    if (card.type === BUN) {
+      if ( bunCard !== undefined && bunCard._id !== card._id ) {
+        dispatch({ type:'remove', payload:bunCard._id})
+        dispatch({ type:'remove', payload:bunCard._id})
+        dispatch({ type:'add', payload:card._id})
+        dispatch({ type:'add', payload:card._id})
+      } else {
+        dispatch({ type:'add', payload:card._id})
+        dispatch({ type:'add', payload:card._id})
+      }
+
+    } else {
+      dispatch({ type:'add', payload:card._id})
+    }
   }
 
   return (
-    <li className={style.container} data-id={_id} onClick={findCard}>
+    <li className={style.container} onClick={findCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
         <Counter count={1} size="small" />
