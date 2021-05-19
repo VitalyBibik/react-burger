@@ -85,7 +85,23 @@ function reducer(state:any, action:any) {
           const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
           if (bunCard !== undefined) {
             if (bunCard._id !== newCard._id) {
-              draft.constructor.splice(index - 1, 2, newCard, newCard);
+              draft.constructor.splice(index - 1, 2, newCard, newCard)
+
+              const indexData = draft.data.findIndex((el: { _id: string; type: string; }) => {
+                if (el.type === BUN && el._id !== newCard._id) {
+                  return el
+                }
+              })
+              const bunCard = draft.data.find((el: { _id: string; type: string; }) => {
+                if (el.type === BUN && el._id !== newCard._id) {
+                  return el
+                }
+              })
+              const specialCard = {
+                ...bunCard,
+                count:0
+              }
+              draft.data.splice(indexData, 1, specialCard) // TODO
             }
             if (bunCard._id === newCard._id) {
               return
@@ -102,7 +118,7 @@ function reducer(state:any, action:any) {
       return produce(state, (draft: any) => {
         const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
         if (index !== -1) {
-          draft.constructor.splice(index, 1);
+          draft.constructor.splice(index, 1)
         }
         });
     case 'add_counter':
@@ -115,19 +131,6 @@ function reducer(state:any, action:any) {
         const index = draft.data.findIndex((el: { _id: string; }) => el._id === card._id)
         if (index !== -1) draft.data.splice(index, 1, card)
       });
-    case 'decrease_counter':
-      return produce(state, (draft: any) => {
-        const card = action.payload
-        const index = draft.data.findIndex((el: { _id: string; }) => el._id === action.payload._id)
-        if (index !== -1) {
-          const newCard = {
-            ...card,
-            count: card.count - 1
-          }
-          draft.constructor.splice(index, 1)
-        }
-      });
-
     default:
       return state
   }

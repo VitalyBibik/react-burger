@@ -52,7 +52,6 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
         const handleClose = () => {
           dispatch({ type:'remove', payload: el})
           dispatch({ type:'add_counter', payload: el})
-          //dispatch({ type:'decrease_counter-co', payload: card})
         }
         return (
           <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>

@@ -1,4 +1,3 @@
-import { BUN } from './constants'
 
 export const getCount = (card:any, orderArray:any) => {
   let count = 0
