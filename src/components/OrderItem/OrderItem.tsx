@@ -20,6 +20,7 @@ type OrderItem = {
   image_mobile: string;
   image_large: string;
   __v?: number;
+  constructorId:number;
 };
 type OrderItemProps = {
   bread?: OrderItem,
@@ -51,7 +52,7 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
           dispatch({ type:'remove', payload:el._id})
         }
         return (
-          <li className={style.container} key={el._id}>
+          <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
             <div className={style['container__icon']}><DragIcon type="primary" /></div>
             <ConstructorElement
               text={el.name}

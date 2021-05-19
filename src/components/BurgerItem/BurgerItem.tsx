@@ -59,7 +59,7 @@ export const BurgerItem = memo(({ image_large,
     const bunCard = orderArray.find((el: OrderArrayFind) => el.type === BUN)
     const newCard = {
       ...card,
-      _id:uuid()
+      constructorId:uuid()
     }
     if (card.type === BUN) {
       if ( bunCard !== undefined && bunCard._id !== card._id ) {
