@@ -83,7 +83,7 @@ export const BurgerIngredients = memo(({
         </h2>
         <ul className={style.grid}>
           {breadArray.map((el:Ingredient) => (
-            <BurgerItem key={el.constructorId ? el.constructorId : el._id} {...el} findClosureCard={findClosureCard}/>
+            <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard}/>
           ))}
         </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)} id='sauce'>
