@@ -79,6 +79,12 @@ function reducer(state:any, action:any) {
           const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload)
           if (index !== -1) draft.constructor.splice(index, 1)
         });
+    case 'get_count':
+      let count = 0
+      state.constructor.forEach((el:any) => {
+        if (action.payload === el.name) count++
+      })
+      return count
     default:
       return state
   }
