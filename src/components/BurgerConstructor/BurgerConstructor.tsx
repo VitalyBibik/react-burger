@@ -45,6 +45,7 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
 
 
 
+
   const finalOrder = async () => {
     try {
       const res = await fetch(apiPost, {
@@ -82,9 +83,10 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
         <OrderItem bread={bread} top={false} />
         <div className={style.container__button}>
           <PriceItem size="medium" price={price} />
+          { bread &&
           <Button type="primary" size="medium" onClick={finalOrder}>
             Оформить заказ
-          </Button>
+          </Button> }
         </div>
       </div>
     }
