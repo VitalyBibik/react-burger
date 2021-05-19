@@ -5,7 +5,6 @@ import style from './BurgerItem.module.scss'
 import { PriceItem } from '../PriceItem'
 import { IngredientContext } from '../../context/ingredientContext'
 import { BUN } from '../../utils/constants'
-import { v4 as uuid } from 'uuid'
 
 type IngredientProps = {
   name: string,
@@ -54,44 +53,15 @@ export const BurgerItem = memo(({ image_large,
     count
   }
   // @ts-ignore
-  const { state, dispatch } = useContext(IngredientContext)
+  const { dispatch } = useContext(IngredientContext)
 
   const findCard = () => {
     findClosureCard(card)
-    const orderArray = state.constructor
-    const bunCard = orderArray.find((el: OrderArrayFind) => el.type === BUN)
-    const newCard = {
-      ...card,
-      constructorId:uuid(),
-      count:test(card, orderArray)
-    }
-    dispatch({ type:'add_counter', payload:newCard})
-    if (card.type === BUN) {
-      if ( bunCard !== undefined && bunCard._id !== card._id ) {
-        dispatch({ type:'remove', payload:bunCard._id})
-        dispatch({ type:'remove', payload:bunCard._id})
-        dispatch({ type:'add', payload:newCard})
-        dispatch({ type:'add', payload:newCard})
-      } else {
-        dispatch({ type:'add', payload:newCard})
-        dispatch({ type:'add', payload:newCard})
-      }
-    } else {
-      dispatch({ type:'add', payload:newCard})
-    }
-  }
+    dispatch({ type:'add', payload: card})
+    dispatch({ type:'add_counter', payload: card})
 
-  const test = (card:any, orderArray:any) => {
-    let count = 1
-    if (card.type === BUN) {
-      return 2
-    } else {
-      for (let item of orderArray) {
-        if (card._id === item._id) count++
-      }
-      return count
+
     }
-  }
 
   return (
     <li className={style.container} onClick={findCard}>

@@ -3,11 +3,13 @@ import { BurgerIngredients } from '../BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
 import { Modal } from '../Modal';
-import { apiUrl } from '../../utils/constants';
+import { apiUrl, BUN } from '../../utils/constants'
 import { IngredientDetails } from '../IngredientsDetails';
 import { ConstructorContext } from '../../context/constructorContext'
 import { IngredientContext } from '../../context/ingredientContext'
 import produce from 'immer';
+import { getCount } from '../../utils/getCount'
+import { v4 as uuid } from 'uuid'
 
 // type Ingredient = {
 //   _id: string,
@@ -72,17 +74,58 @@ function reducer(state:any, action:any) {
       })
     case 'add':
       return produce(state, (draft: any) => {
-        draft.constructor.push(action.payload);
+        const card = action.payload
+        const newCard = {
+          ...card,
+          constructorId:uuid(),
+          count:getCount(card, draft.constructor)
+        }
+        if (newCard.type === BUN) {
+          const bunCard = draft.constructor.find((el: { type: string; }) => el.type === BUN)
+          const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
+          if (bunCard !== undefined) {
+            if (bunCard._id !== newCard._id) {
+              draft.constructor.splice(index - 1, 2, newCard, newCard);
+            }
+            if (bunCard._id === newCard._id) {
+              return
+            }
+          } else {
+            draft.constructor.push(newCard);
+            draft.constructor.push(newCard);
+          }
+        } else {
+          draft.constructor.push(newCard);
+        }
       })
     case 'remove':
       return produce(state, (draft: any) => {
-          const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload)
-          if (index !== -1) draft.constructor.splice(index, 1)
+        const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
+        if (index !== -1) {
+          draft.constructor.splice(index, 1);
+        }
         });
     case 'add_counter':
       return produce(state, (draft: any) => {
+        const count = getCount(action.payload, draft.constructor)
+        const card = {
+          ...action.payload,
+          count
+        }
+        const index = draft.data.findIndex((el: { _id: string; }) => el._id === card._id)
+        if (index !== -1) draft.data.splice(index, 1, card)
+      });
+    case 'decrease_counter':
+      return produce(state, (draft: any) => {
+        const card = action.payload
         const index = draft.data.findIndex((el: { _id: string; }) => el._id === action.payload._id)
-        if (index !== -1) draft.data.splice(index, 1, action.payload)
+        if (index !== -1) {
+          const newCard = {
+            ...card,
+            count: card.count - 1
+          }
+          draft.constructor.splice(index, 1)
+        }
       });
 
     default:

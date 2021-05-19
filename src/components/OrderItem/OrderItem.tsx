@@ -7,6 +7,7 @@ import cn from 'classnames';
 import style from './OrderItem.module.scss';
 import { ConstructorContext } from '../../context/constructorContext';
 
+
 type OrderItem = {
   _id: string;
   name: string;
@@ -49,7 +50,9 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       {productArray &&
       productArray.map((el: OrderItem) => {
         const handleClose = () => {
-          dispatch({ type:'remove', payload:el._id})
+          dispatch({ type:'remove', payload: el})
+          dispatch({ type:'add_counter', payload: el})
+          //dispatch({ type:'decrease_counter-co', payload: card})
         }
         return (
           <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
