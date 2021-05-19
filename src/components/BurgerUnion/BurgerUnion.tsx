@@ -72,8 +72,7 @@ function reducer(state:any, action:any) {
       })
     case 'add':
       return produce(state, (draft: any) => {
-        const item = draft.data.find((el: any) => el._id === action.payload)
-        draft.constructor.push(item);
+        draft.constructor.push(action.payload);
       })
     case 'remove':
       return produce(state, (draft: any) => {
