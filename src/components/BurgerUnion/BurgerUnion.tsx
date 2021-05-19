@@ -3,11 +3,13 @@ import { BurgerIngredients } from '../BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
 import { Modal } from '../Modal';
-import { apiUrl } from '../../utils/constants';
+import { apiUrl, BUN } from '../../utils/constants'
 import { IngredientDetails } from '../IngredientsDetails';
 import { ConstructorContext } from '../../context/constructorContext'
 import { IngredientContext } from '../../context/ingredientContext'
 import produce from 'immer';
+import { getCount } from '../../utils/getCount'
+import { v4 as uuid } from 'uuid'
 
 // type Ingredient = {
 //   _id: string,
@@ -72,19 +74,63 @@ function reducer(state:any, action:any) {
       })
     case 'add':
       return produce(state, (draft: any) => {
-        draft.constructor.push(action.payload);
+        const card = action.payload
+        const newCard = {
+          ...card,
+          constructorId:uuid(),
+          count:getCount(card, draft.constructor)
+        }
+        if (newCard.type === BUN) {
+          const bunCard = draft.constructor.find((el: { type: string; }) => el.type === BUN)
+          const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
+          if (bunCard !== undefined) {
+            if (bunCard._id !== newCard._id) {
+              draft.constructor.splice(index - 1, 2, newCard, newCard)
+
+              const indexData = draft.data.findIndex((el: { _id: string; type: string; }) => {
+                if (el.type === BUN && el._id !== newCard._id) {
+                  return el
+                }
+              })
+              const bunCard = draft.data.find((el: { _id: string; type: string; }) => {
+                if (el.type === BUN && el._id !== newCard._id) {
+                  return el
+                }
+              })
+              const specialCard = {
+                ...bunCard,
+                count:0
+              }
+              draft.data.splice(indexData, 1, specialCard) // TODO
+            }
+            if (bunCard._id === newCard._id) {
+              return
+            }
+          } else {
+            draft.constructor.push(newCard);
+            draft.constructor.push(newCard);
+          }
+        } else {
+          draft.constructor.push(newCard);
+        }
       })
     case 'remove':
       return produce(state, (draft: any) => {
-          const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload)
-          if (index !== -1) draft.constructor.splice(index, 1)
+        const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
+        if (index !== -1) {
+          draft.constructor.splice(index, 1)
+        }
         });
-    case 'get_count':
-      let count = 0
-      state.constructor.forEach((el:any) => {
-        if (action.payload === el.name) count++
-      })
-      return count
+    case 'add_counter':
+      return produce(state, (draft: any) => {
+        const count = getCount(action.payload, draft.constructor)
+        const card = {
+          ...action.payload,
+          count
+        }
+        const index = draft.data.findIndex((el: { _id: string; }) => el._id === card._id)
+        if (index !== -1) draft.data.splice(index, 1, card)
+      });
     default:
       return state
   }

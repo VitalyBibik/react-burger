@@ -34,7 +34,7 @@ type CardProps = {
   fat:number,
   carbohydrates:number,
   price?:number,
-  id?:number
+  id?:number,
 }
 
 export const BurgerIngredients = memo(({

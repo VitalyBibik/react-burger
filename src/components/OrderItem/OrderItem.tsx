@@ -7,6 +7,7 @@ import cn from 'classnames';
 import style from './OrderItem.module.scss';
 import { ConstructorContext } from '../../context/constructorContext';
 
+
 type OrderItem = {
   _id: string;
   name: string;
@@ -20,6 +21,7 @@ type OrderItem = {
   image_mobile: string;
   image_large: string;
   __v?: number;
+  constructorId:number;
 };
 type OrderItemProps = {
   bread?: OrderItem,
@@ -48,10 +50,11 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       {productArray &&
       productArray.map((el: OrderItem) => {
         const handleClose = () => {
-          dispatch({ type:'remove', payload:el._id})
+          dispatch({ type:'remove', payload: el})
+          dispatch({ type:'add_counter', payload: el})
         }
         return (
-          <li className={style.container} key={el._id}>
+          <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
             <div className={style['container__icon']}><DragIcon type="primary" /></div>
             <ConstructorElement
               text={el.name}
