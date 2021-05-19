@@ -65,8 +65,7 @@ export const BurgerItem = memo(({ image_large,
       constructorId:uuid(),
       count:test(card, orderArray)
     }
-    dispatch({ type:'remove_data', payload:newCard._id})
-    dispatch({ type:'add_data', payload:newCard})
+    dispatch({ type:'add_counter', payload:newCard})
     if (card.type === BUN) {
       if ( bunCard !== undefined && bunCard._id !== card._id ) {
         dispatch({ type:'remove', payload:bunCard._id})
