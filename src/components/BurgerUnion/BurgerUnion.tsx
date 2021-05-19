@@ -81,18 +81,17 @@ function reducer(state:any, action:any) {
           count:getCount(card, draft.constructor)
         }
         if (newCard.type === BUN) {
-          const bunCard = draft.constructor.find((el: { type: string; }) => el.type === BUN)
+          const bunCard = state.constructor.find((el: { type: string; }) => el.type === BUN)
           const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
           if (bunCard !== undefined) {
             if (bunCard._id !== newCard._id) {
               draft.constructor.splice(index - 1, 2, newCard, newCard)
-
-              const indexData = draft.data.findIndex((el: { _id: string; type: string; }) => {
+              const indexData = state.data.findIndex((el: { _id: string; type: string; }) => {
                 if (el.type === BUN && el._id !== newCard._id) {
                   return el
                 }
               })
-              const bunCard = draft.data.find((el: { _id: string; type: string; }) => {
+              const bunCard = state.data.find((el: { _id: string; type: string; }) => {
                 if (el.type === BUN && el._id !== newCard._id) {
                   return el
                 }
@@ -101,9 +100,10 @@ function reducer(state:any, action:any) {
                 ...bunCard,
                 count:0
               }
+              console.log('index=', indexData, 'a=',bunCard.count, 'b=',specialCard.count)
               draft.data.splice(indexData, 1, specialCard) // TODO
-            }
-            if (bunCard._id === newCard._id) {
+            } else {
+              console.log('!==', bunCard._id === newCard._id)
               return
             }
           } else {
