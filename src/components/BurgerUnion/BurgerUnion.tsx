@@ -79,6 +79,15 @@ function reducer(state:any, action:any) {
           const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload)
           if (index !== -1) draft.constructor.splice(index, 1)
         });
+    case 'add_data':
+      return produce(state, (draft: any) => {
+        draft.data.push(action.payload);
+      })
+    case 'remove_data':
+      return produce(state, (draft: any) => {
+        const index = draft.data.findIndex((el: { _id: string; }) => el._id === action.payload)
+        if (index !== -1) draft.data.splice(index, 1)
+      });
     default:
       return state
   }

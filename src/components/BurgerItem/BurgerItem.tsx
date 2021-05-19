@@ -1,11 +1,11 @@
-import { memo, useContext } from 'react';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import cn from 'classnames';
-import style from './BurgerItem.module.scss';
-import { PriceItem } from '../PriceItem';
+import { memo, useContext } from 'react'
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
+import cn from 'classnames'
+import style from './BurgerItem.module.scss'
+import { PriceItem } from '../PriceItem'
 import { IngredientContext } from '../../context/ingredientContext'
-import { BUN } from '../../utils/constants';
-import { v4 as uuid } from 'uuid';
+import { BUN } from '../../utils/constants'
+import { v4 as uuid } from 'uuid'
 
 type IngredientProps = {
   name: string,
@@ -18,7 +18,8 @@ type IngredientProps = {
   fat: number,
   carbohydrates: number,
   type:string
-  findClosureCard: any
+  findClosureCard: any,
+  count?:number
 }
 type OrderArrayFind = {
  _id: string,
@@ -35,7 +36,8 @@ export const BurgerItem = memo(({ image_large,
   fat,
   carbohydrates,
   type,
-  image_mobile
+  image_mobile,
+  count
 }: IngredientProps) => {
 
   const card = {
@@ -48,7 +50,8 @@ export const BurgerItem = memo(({ image_large,
     proteins,
     fat,
     carbohydrates,
-    type
+    type,
+    count
   }
   // @ts-ignore
   const { state, dispatch } = useContext(IngredientContext)
@@ -59,8 +62,11 @@ export const BurgerItem = memo(({ image_large,
     const bunCard = orderArray.find((el: OrderArrayFind) => el.type === BUN)
     const newCard = {
       ...card,
-      constructorId:uuid()
+      constructorId:uuid(),
+      count:test(card, orderArray)
     }
+    dispatch({ type:'remove_data', payload:newCard._id})
+    dispatch({ type:'add_data', payload:newCard})
     if (card.type === BUN) {
       if ( bunCard !== undefined && bunCard._id !== card._id ) {
         dispatch({ type:'remove', payload:bunCard._id})
@@ -74,7 +80,6 @@ export const BurgerItem = memo(({ image_large,
     } else {
       dispatch({ type:'add', payload:newCard})
     }
-    test(card, orderArray)
   }
 
   const test = (card:any, orderArray:any) => {
@@ -83,9 +88,8 @@ export const BurgerItem = memo(({ image_large,
       return 2
     } else {
       for (let item of orderArray) {
-        if (card.name === item.name) count++
+        if (card._id === item._id) count++
       }
-      console.log(count, 'Кол-во заказа')
       return count
     }
   }
@@ -94,7 +98,7 @@ export const BurgerItem = memo(({ image_large,
     <li className={style.container} onClick={findCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        <Counter count={0} size="small" />
+        <Counter count={card.count ? card.count : 0} size="small" />
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />
