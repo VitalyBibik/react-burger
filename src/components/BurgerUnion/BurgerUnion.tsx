@@ -1,26 +1,29 @@
-import React, { memo, useMemo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect, useCallback, useReducer } from 'react';
 import { BurgerIngredients } from '../BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
 import { Modal } from '../Modal';
-import { apiUrl, BUN, MAIN, SAUCE } from '../../utils/constants';
+import { apiUrl, BUN } from '../../utils/constants'
 import { IngredientDetails } from '../IngredientsDetails';
+import { ConstructorContext } from '../../context/constructorContext'
+import { IngredientContext } from '../../context/ingredientContext'
+import produce from 'immer';
+import { v4 as uuid } from 'uuid'
 
-
-type Ingredient = {
-  _id: string,
-  name: string,
-  type: string,
-  proteins: number,
-  fat: number,
-  carbohydrates: number,
-  calories: number,
-  price: number,
-  image: string,
-  image_mobile: string,
-  image_large: string,
-  __v?: number,
-}
+// type Ingredient = {
+//   _id: string,
+//   name: string,
+//   type: string,
+//   proteins: number,
+//   fat: number,
+//   carbohydrates: number,
+//   calories: number,
+//   price: number,
+//   image: string,
+//   image_mobile: string,
+//   image_large: string,
+//   __v?: number,
+// }
 
 type CardProps = {
   image_large:string,
@@ -38,14 +41,66 @@ type TModalData = {
   isShow: boolean;
   title: string;
   content: React.ReactNode | null;
+  order?: null;
 };
+type requestProp = {
+ isLoading: boolean; hasError: boolean;
+}
+
+const burgerInitialState = {
+  isLoading: false,
+  hasError: false,
+  data: [],
+  constructor: [],
+  bun:null, // Step1 -- Add new bun
+}
+
+function reducer(state:any, action:any) {
+  switch (action.type) {
+    case "request":
+      return produce(state, (draft: requestProp) => {
+        draft.isLoading = true;
+        draft.hasError = false;
+    })
+    case 'request_fail':
+      return produce(state, (draft: requestProp) => {
+        draft.hasError = true;
+        draft.isLoading = false;
+      })
+    case 'request_success':
+      return produce(state, (draft: any) => {
+        draft.data = action.payload;
+        draft.isLoading = false;
+      })
+    case 'add':
+      return produce(state, (draft: any) => {
+        const card = action.payload
+        const newCard = {
+          ...card,
+          constructorId:uuid()
+        }
+        if (newCard.type === BUN) {
+          return { ...state, bun: newCard };
+        } else {
+          draft.constructor.push(newCard)
+        }
+      })
+    case 'remove':
+      return produce(state, (draft: any) => {
+        const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
+        if (index !== -1) {
+          draft.constructor.splice(index, 1)
+        }
+        });
+    default:
+      return state
+  }
+}
 
 export const BurgerUnion = memo(() => {
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
+
+  const [state, dispatch] = useReducer(reducer, burgerInitialState);
+
   const [modalData, setModalData] = useState<TModalData>({
     isShow: false,
     title: 'Заголовок',
@@ -56,46 +111,29 @@ export const BurgerUnion = memo(() => {
     setModalData({
       isShow: false,
       title: 'Заголовок',
-      content: null
+      content: null,
     })
   },[])
 
 
   const getProducts = async () => {
-    setState({ ...state, hasError: false, isLoading: true });
+   dispatch({ type: 'request' })
     try {
       const res = await fetch(apiUrl)
       if (!res.ok) {
         throw new Error('error')
       }
       const data = await res.json()
-      setState({ ...state, data:data.data, isLoading: false })
+      dispatch({ type: 'request_success', payload: data.data })
     }
     catch {
-      setState({ ...state, hasError: true, isLoading: false });
+      dispatch({ type: 'request_fail' })
     }
   }
 
   useEffect( () => {
     getProducts()
   }, [])
-
-  const fillingArray = useMemo(() => state.data.filter((el:Ingredient) => el.type === MAIN), [
-    state.data
-  ]);
-  const breadArray = useMemo(() => state.data.filter((el:Ingredient) => el.type === BUN), [
-    state.data
-  ]);
-  const sauceArray = useMemo(() => state.data.filter((el:Ingredient) => el.type === SAUCE), [
-    state.data
-  ]);
-  const productArray = useMemo(() => sauceArray.concat(fillingArray), [
-    sauceArray,
-    fillingArray,
-  ]);
-  const bread = useMemo(() => breadArray[0], [
-    breadArray
-  ]);
 
   const renderModal = useCallback(
     (card:CardProps) => {
@@ -113,7 +151,6 @@ export const BurgerUnion = memo(() => {
       />
     })
   },[])
-
   return (
     <>
      <div className={style.container}>
@@ -122,17 +159,16 @@ export const BurgerUnion = memo(() => {
        !state.hasError &&
        state.data.length &&
        (<>
-         <BurgerIngredients
-         sauceArray={sauceArray}
-         breadArray={breadArray}
-         fillingArray={fillingArray}
-         renderModal = {renderModal}
-       />
-         <BurgerConstructor
-         productArray={productArray}
-         bread={bread}
-         setModal={setModalData}
+         <IngredientContext.Provider value={{state, dispatch}}>
+           <BurgerIngredients
+           renderModal = {renderModal}
          />
+         </IngredientContext.Provider>
+         <ConstructorContext.Provider value={{state, dispatch}}>
+           <BurgerConstructor
+           setModal={setModalData}
+           />
+         </ConstructorContext.Provider>
          </>)
        }
      </div>

@@ -2,10 +2,14 @@ import isDone from '../../images/access.png'
 import style from './OrderDetails.module.scss';
 import { memo } from 'react';
 
-export const OrderDetails = memo(() => {
+type OrderDetailsProps = {
+  order:number
+}
+
+export const OrderDetails = memo(({ order }: OrderDetailsProps) => {
   return (
     <div className={style.order}>
-      <p className="text text_type_digits-medium mb-4">034536</p>
+      <p className="text text_type_digits-medium mb-4">{order}</p>
       <p className="text text_type_main-default mb-4">
         идентификатор заказа
       </p>

@@ -15,7 +15,6 @@ export const PriceItem = memo(({
   margin = false,
 }: PriceItem) => {
   const auto = margin === false ? null : style.position_autoMargin;
-
   return (
     <>
       <span

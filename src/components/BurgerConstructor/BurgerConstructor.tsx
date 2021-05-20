@@ -1,9 +1,12 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
+import { ConstructorContext } from '../../context/constructorContext';
+import { apiPost, BUN } from '../../utils/constants';
+
 
 type Ingredient = {
   _id: string,
@@ -19,38 +22,66 @@ type Ingredient = {
   image_large: string,
   __v?: number,
 }
+
 type BurgerConstructorProps = {
-  bread: Ingredient;
-  productArray: Array<Ingredient>;
   setModal: any
 };
 
 
-export const BurgerConstructor = memo(({ bread, productArray, setModal }: BurgerConstructorProps) => {
+export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
+  // @ts-ignore
+  const { state } = useContext(ConstructorContext)
+  const orderData = state.constructor
+  const bread = state.bun
+  const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
 
-  const finalOrder = () => {
-    setModal({
-      isShow: true,
-      content: <OrderDetails />
-    })
+  const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
+
+
+  const finalOrder = async () => {
+    try {
+      const res = await fetch(apiPost, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ingredients: orderData.push(bread).push(bread),
+        }),
+      })
+      if (!res.ok) {
+        throw new Error('error')
+      }
+      const data = await res.json()
+      setModal({
+        isShow: true,
+        content: <OrderDetails order = {data.order.number} />,
+      })
+    }
+    catch {
+
+    }
+
   }
 
   return (
     <>
-    <div className={style.container}>
-      <OrderItem bread={bread} top={true} />
-      <ul className={style.container__item}>
-        <OrderItem productArray={productArray} />
-      </ul>
-      <OrderItem bread={bread} top={false} />
-      <div className={style.container__button}>
-        <PriceItem price={610} size="medium" />
-        <Button type="primary" size="medium" onClick={finalOrder}>
-          Оформить заказ
-        </Button>
+      { (orderData.length > 0 || bread) &&
+      <div className={style.container}>
+        <OrderItem bread={bread} top={true} />
+        <ul className={style.container__item}>
+          <OrderItem productArray={productArray} />
+        </ul>
+        <OrderItem bread={bread} top={false} />
+        <div className={style.container__button}>
+          <PriceItem size="medium" price={price} />
+          { bread &&
+          <Button type="primary" size="medium" onClick={finalOrder}>
+            Оформить заказ
+          </Button> }
+        </div>
       </div>
-    </div>
-
+    }
     </>
   );
 });

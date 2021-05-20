@@ -1,10 +1,11 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
+import { ConstructorContext } from '../../context/constructorContext';
 
 
 type OrderItem = {
@@ -20,6 +21,7 @@ type OrderItem = {
   image_mobile: string;
   image_large: string;
   __v?: number;
+  constructorId:number;
 };
 type OrderItemProps = {
   bread?: OrderItem,
@@ -28,6 +30,9 @@ type OrderItemProps = {
 }
 
 export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
+  // @ts-ignore
+  const { dispatch } = useContext(ConstructorContext)
+
   return (
     <>
       {bread && top === true && (
@@ -44,13 +49,17 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
 
       {productArray &&
       productArray.map((el: OrderItem) => {
+        const handleClose = () => {
+          dispatch({ type:'remove', payload: el})
+        }
         return (
-          <li className={style.container} key={el._id}>
+          <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
             <div className={style['container__icon']}><DragIcon type="primary" /></div>
             <ConstructorElement
               text={el.name}
               price={el.price}
               thumbnail={el['image_mobile']}
+              handleClose={handleClose}
             />
           </li>
         );
@@ -65,7 +74,6 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
             price={bread.price}
             thumbnail={bread['image_mobile']}
           />
-
         </div>
       )}
     </>
