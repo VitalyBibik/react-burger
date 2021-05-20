@@ -1,9 +1,9 @@
-import { memo, useContext } from 'react'
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-import cn from 'classnames'
-import style from './BurgerItem.module.scss'
-import { PriceItem } from '../PriceItem'
-import { IngredientContext } from '../../context/ingredientContext'
+import { memo, useContext, useMemo } from 'react';
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import cn from 'classnames';
+import style from './BurgerItem.module.scss';
+import { PriceItem } from '../PriceItem';
+import { IngredientContext } from '../../context/ingredientContext';
 
 type IngredientProps = {
   name: string,
@@ -49,19 +49,36 @@ export const BurgerItem = memo(({ image_large,
     count
   }
   // @ts-ignore
-  const { dispatch } = useContext(IngredientContext)
+  const { state, dispatch } = useContext(IngredientContext)
 
   const findCard = () => {
     findClosureCard(card)
     dispatch({ type:'add', payload: card})
-    dispatch({ type:'add_counter', payload: card})
+    //dispatch({ type:'add_counter', payload: card})
     }
+
+  const ingredientsWithCount = useMemo(() => {
+    return state.data.map((ingredient:any) => {
+      return {
+        ...ingredient,
+        count: state.constructor.filter(
+          (item: any) => item._id === ingredient._id
+        ).length
+      };
+    });
+  }, [state.data, state.constructor]);
+  const newCard = useMemo(() => {
+    return ingredientsWithCount.find((item:any) => item._id === card._id)
+  },[ingredientsWithCount])
+
+   const bunCount = state.bun;
+
 
   return (
     <li className={style.container} onClick={findCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        <Counter count={card.count ? card.count : 0} size="small" />
+        <Counter count={newCard.count} size="small" />
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />

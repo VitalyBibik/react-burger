@@ -79,7 +79,7 @@ function reducer(state:any, action:any) {
         const newCard = {
           ...card,
           constructorId:uuid(),
-          count:getCount(card, state)
+          // count:getCount(card, state)
         }
         if (newCard.type === BUN) {
           return { ...state, bun: newCard };
@@ -97,7 +97,6 @@ function reducer(state:any, action:any) {
     case 'add_counter':
       return produce(state, (draft: any) => {
         if (action.payload.type === BUN) {
-          console.log('count',action.payload.count, state.bun.count,'', action.payload._id, state.bun._id )
           if ( (action.payload.count === undefined || action.payload.count === 0) && (action.payload._id === state.bun._id))  {  // Если карточка равна 0 || undefined  action.payload._id, state.bun._id Всегда TRUE
               const card = {
                 ...action.payload,
