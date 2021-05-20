@@ -51,7 +51,6 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       productArray.map((el: OrderItem) => {
         const handleClose = () => {
           dispatch({ type:'remove', payload: el})
-          dispatch({ type:'add_counter', payload: el})
         }
         return (
           <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
@@ -75,7 +74,6 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
             price={bread.price}
             thumbnail={bread['image_mobile']}
           />
-
         </div>
       )}
     </>

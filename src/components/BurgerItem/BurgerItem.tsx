@@ -69,7 +69,7 @@ export const BurgerItem = memo(({ image_large,
   }, [state.data, state.constructor]);
   const newCard = useMemo(() => {
     return ingredientsWithCount.find((item:any) => item._id === card._id)
-  },[ingredientsWithCount])
+  },[card._id, ingredientsWithCount])
 
   const bunItem = state.bun;
   let bunCount = 0
