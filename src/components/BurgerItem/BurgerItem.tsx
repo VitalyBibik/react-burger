@@ -4,6 +4,7 @@ import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
 import { IngredientContext } from '../../context/ingredientContext';
+import { BUN } from '../../utils/constants';
 
 type IngredientProps = {
   name: string,
@@ -54,7 +55,6 @@ export const BurgerItem = memo(({ image_large,
   const findCard = () => {
     findClosureCard(card)
     dispatch({ type:'add', payload: card})
-    //dispatch({ type:'add_counter', payload: card})
     }
 
   const ingredientsWithCount = useMemo(() => {
@@ -71,14 +71,17 @@ export const BurgerItem = memo(({ image_large,
     return ingredientsWithCount.find((item:any) => item._id === card._id)
   },[ingredientsWithCount])
 
-   const bunCount = state.bun;
-
+  const bunItem = state.bun;
+  let bunCount = 0
+   if (bunItem && card._id === bunItem._id) {
+     bunCount = 2
+   }
 
   return (
     <li className={style.container} onClick={findCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        <Counter count={newCard.count} size="small" />
+        <Counter count={newCard.type === BUN ? bunCount : newCard.count } size="small" />
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />
