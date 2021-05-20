@@ -4,7 +4,6 @@ import cn from 'classnames'
 import style from './BurgerItem.module.scss'
 import { PriceItem } from '../PriceItem'
 import { IngredientContext } from '../../context/ingredientContext'
-import { BUN } from '../../utils/constants'
 
 type IngredientProps = {
   name: string,
@@ -20,10 +19,7 @@ type IngredientProps = {
   findClosureCard: any,
   count?:number
 }
-type OrderArrayFind = {
- _id: string,
-  type: string;
-}
+
 
 export const BurgerItem = memo(({ image_large,
   name,
@@ -59,8 +55,6 @@ export const BurgerItem = memo(({ image_large,
     findClosureCard(card)
     dispatch({ type:'add', payload: card})
     dispatch({ type:'add_counter', payload: card})
-
-
     }
 
   return (

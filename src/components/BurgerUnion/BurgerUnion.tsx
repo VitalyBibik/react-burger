@@ -53,6 +53,7 @@ const burgerInitialState = {
   hasError: false,
   data: [],
   constructor: [],
+  bun:null, // Step1 -- Add new bun
 }
 
 function reducer(state:any, action:any) {
@@ -78,40 +79,12 @@ function reducer(state:any, action:any) {
         const newCard = {
           ...card,
           constructorId:uuid(),
-          count:getCount(card, draft.constructor)
+          count:getCount(card, state)
         }
         if (newCard.type === BUN) {
-          const bunCard = state.constructor.find((el: { type: string; }) => el.type === BUN)
-          const index = draft.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
-          if (bunCard !== undefined) {
-            if (bunCard._id !== newCard._id) {
-              draft.constructor.splice(index - 1, 2, newCard, newCard)
-              const indexData = state.data.findIndex((el: { _id: string; type: string; }) => {
-                if (el.type === BUN && el._id !== newCard._id) {
-                  return el
-                }
-              })
-              const bunCard = state.data.find((el: { _id: string; type: string; }) => {
-                if (el.type === BUN && el._id !== newCard._id) {
-                  return el
-                }
-              })
-              const specialCard = {
-                ...bunCard,
-                count:0
-              }
-              console.log('index=', indexData, 'a=',bunCard.count, 'b=',specialCard.count)
-              draft.data.splice(indexData, 1, specialCard) // TODO
-            } else {
-              console.log('!==', bunCard._id === newCard._id)
-              return
-            }
-          } else {
-            draft.constructor.push(newCard);
-            draft.constructor.push(newCard);
-          }
+          return { ...state, bun: newCard };
         } else {
-          draft.constructor.push(newCard);
+          draft.constructor.push(newCard)
         }
       })
     case 'remove':
@@ -123,13 +96,44 @@ function reducer(state:any, action:any) {
         });
     case 'add_counter':
       return produce(state, (draft: any) => {
-        const count = getCount(action.payload, draft.constructor)
-        const card = {
-          ...action.payload,
-          count
+        if (action.payload.type === BUN) {
+          console.log('count',action.payload.count, state.bun.count,'', action.payload._id, state.bun._id )
+          if ( (action.payload.count === undefined || action.payload.count === 0) && (action.payload._id === state.bun._id))  {  // Если карточка равна 0 || undefined  action.payload._id, state.bun._id Всегда TRUE
+              const card = {
+                ...action.payload,
+                count: 2
+              }
+              const index = draft.data.findIndex((el: { _id: string; }) => el._id === card._id)
+              if (index !== -1) draft.data.splice(index, 1, card)
+          }
+        // console.log('Текущий стейт count=',state.bun.count, 'Payload count=',action.payload.count )
+        //   if ((state.bun.count === 0 || state.bun.count === 2) && (action.payload.count === 0 || action.payload.count === 2)  && state.bun.count !== action.payload.count) {  // Если текущая карточка в стейте
+        //     console.log('Смена текущей булки')
+        //       const stateCard = {
+        //         ...state.bun,
+        //         count: 0
+        //       }
+        //       const currentCard = {
+        //         ...action.payload,
+        //         count: 2
+        //       }
+        //       const stateIndex = draft.data.findIndex((el: { _id: string; }) => el._id === stateCard._id)
+        //       if (stateIndex !== -1) draft.data.splice(stateIndex, 1, stateCard)
+        //       const currentIndex = draft.data.findIndex((el: { _id: string; }) => el._id === currentCard._id)
+        //       if (currentIndex !== -1) draft.data.splice(currentIndex, 1, currentCard)
+        //
+        //   }
+
+
+        } else {
+          const count = getCount(action.payload, state)
+          const card = {
+            ...action.payload,
+            count
+          }
+          const index = draft.data.findIndex((el: { _id: string; }) => el._id === card._id)
+          if (index !== -1) draft.data.splice(index, 1, card)
         }
-        const index = draft.data.findIndex((el: { _id: string; }) => el._id === card._id)
-        if (index !== -1) draft.data.splice(index, 1, card)
       });
     default:
       return state

@@ -1,4 +1,4 @@
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useContext } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
@@ -32,18 +32,10 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   // @ts-ignore
   const { state } = useContext(ConstructorContext)
   const orderData = state.constructor
-  // const apiData = state.data
-
-  const breadArray = useMemo(() => orderData.filter((el:Ingredient) => el.type === BUN), [orderData])
-  const bread = breadArray[0]
+  const bread = state.bun
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
 
-  let price = 0
-   for (let item of orderData) {
-     price += item.price
-     }
-
-
+  const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
 
 
   const finalOrder = async () => {
@@ -54,7 +46,7 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          ingredients: orderData,
+          ingredients: orderData.push(bread).push(bread),
         }),
       })
       if (!res.ok) {
@@ -74,7 +66,7 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
 
   return (
     <>
-      { orderData.length > 0 &&
+      { (orderData.length > 0 || bread) &&
       <div className={style.container}>
         <OrderItem bread={bread} top={true} />
         <ul className={style.container__item}>
