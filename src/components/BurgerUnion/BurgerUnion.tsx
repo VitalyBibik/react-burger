@@ -67,21 +67,6 @@ const getProducts = useCallback(
   [dispatch]
 );
 
-  // const getProducts = async () => {
-  //   dispatch(request)
-  //   try {
-  //     const res = await fetch(apiUrl)
-  //     if (!res.ok) {
-  //       throw new Error('error')
-  //     }
-  //     const data = await res.json()
-  //     dispatch(request_success(data.data))
-  //   }
-  //   catch {
-  //     dispatch(request_fail)
-  //   }
-  // }
-
   useEffect( () => {
     getProducts()
   }, [getProducts])

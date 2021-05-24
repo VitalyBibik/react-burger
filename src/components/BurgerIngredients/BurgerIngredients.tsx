@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
@@ -47,6 +47,21 @@ export const BurgerIngredients = memo(({
     renderModal(card)
   }, [renderModal])
 
+  const rootRef = useRef(null)
+  const bunRef = useRef(null)
+  const sauceRef = useRef(null)
+  const mainRef = useRef(null)
+
+  const handleScroll = () => {
+    const bunDistance = Math.abs(rootRef.current.getBoundingClientRect().top - bunRef.current.getBoundingClientRect().top)
+    const sauceDistance = Math.abs(rootRef.current.getBoundingClientRect().top - sauceRef.current.getBoundingClientRect().top)
+    const mainDistance = Math.abs(rootRef.current.getBoundingClientRect().top - mainRef.current.getBoundingClientRect().top)
+    const min = Math.min(bunDistance, sauceDistance, mainDistance)
+    const activeTab = min === bunDistance ? 'bun' : min === sauceDistance ? 'sauce' : 'main';
+    setCurrent(prev => (activeTab === prev.current ? prev.current : activeTab))
+  }
+
+
   useEffect(() => {
     // @ts-ignore
     document.querySelector(`#${current}`).scrollIntoView();
@@ -75,8 +90,8 @@ export const BurgerIngredients = memo(({
           Начинки
         </Tab>
       </div>
-      <div className={style.scroll}>
-        <h2 className={cn('text text_type_main-large', style.container__title)} id='bun'>
+      <div className={style.scroll} ref={rootRef} onScroll={handleScroll}>
+        <h2 className={cn('text text_type_main-large', style.container__title)} id='bun' ref={bunRef}>
           Булки
         </h2>
         <ul className={style.grid}>
@@ -84,7 +99,7 @@ export const BurgerIngredients = memo(({
             <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard}/>
           ))}
         </ul>
-        <h2 className={cn('text text_type_main-large', style.container__title)} id='sauce'>
+        <h2 className={cn('text text_type_main-large', style.container__title)} id='sauce' ref={sauceRef}>
           Соусы
         </h2>
         <ul className={style.grid}>
@@ -92,7 +107,7 @@ export const BurgerIngredients = memo(({
             <BurgerItem key={el._id} {...el} findClosureCard={findClosureCard} />
           ))}
         </ul>
-        <h2 className={cn('text text_type_main-large', style.container__title)} id='main'>
+        <h2 className={cn('text text_type_main-large', style.container__title)} id='main' ref={mainRef}>
           Начинки
         </h2>
         <ul className={style.grid}>
