@@ -5,7 +5,7 @@ import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
 import { apiPost, BUN } from '../../utils/constants';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 type Ingredient = {
   _id: string,
@@ -30,7 +30,7 @@ type BurgerConstructorProps = {
 export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
   const orderData = useSelector((store:any) => store.constructorReducer.constructor)
   const bread = useSelector((store:any) => store.constructorReducer.bun)
-
+  const dispatch = useDispatch()
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
 
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)

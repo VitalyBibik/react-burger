@@ -41,7 +41,7 @@ const constructorSlice = createSlice({
   name:'constructor',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<any>) => {
+    add: (state:burgerState, action: PayloadAction<Ingredient>) => {
       const card = action.payload
       const newCard = {
         ...card,
@@ -53,24 +53,25 @@ const constructorSlice = createSlice({
         state.constructor.push(newCard)
       }
     },
-    remove: (state, action) => {
+    remove: (state:burgerState, action:PayloadAction<Ingredient>) => {
       const index = state.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
       if (index !== -1) {
         state.constructor.splice(index, 1)
       }
     },
-    request: (state) => {
+    request: (state:burgerState) => {
       state.isLoading = true
       state.hasError = false
     },
-    request_fail: (state) => {
+    request_fail: (state:burgerState) => {
       state.isLoading = false;
       state.hasError = true
     },
-    request_success: (state, action) => {
+    request_success: (state:burgerState, action:PayloadAction<any>) => {
       state.isLoading = false
       state.data = action.payload
     }
+
   },
 
   })
