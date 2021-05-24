@@ -1,14 +1,15 @@
-import React, { memo, useContext } from 'react';
+import React, { memo } from 'react';
 import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
-import { ConstructorContext } from '../../context/constructorContext';
+import { useDispatch } from 'react-redux';
+import { remove } from '../../services/ducks/constructor';
 
 
-type OrderItem = {
+type OrderItemIngredient = {
   _id: string;
   name: string;
   type: string;
@@ -24,14 +25,13 @@ type OrderItem = {
   constructorId:number;
 };
 type OrderItemProps = {
-  bread?: OrderItem,
-  productArray?: Array<OrderItem>,
+  bread?: OrderItemIngredient,
+  productArray?: Array<OrderItemIngredient>,
   top?:boolean
 }
 
 export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
-  // @ts-ignore
-  const { dispatch } = useContext(ConstructorContext)
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -48,9 +48,9 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       )}
 
       {productArray &&
-      productArray.map((el: OrderItem) => {
+      productArray.map((el: OrderItemIngredient) => {
         const handleClose = () => {
-          dispatch({ type:'remove', payload: el})
+          dispatch(remove(el))
         }
         return (
           <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>

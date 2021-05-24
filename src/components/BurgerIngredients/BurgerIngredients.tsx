@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
-import { IngredientContext  } from '../../context/ingredientContext';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
+import { useSelector } from 'react-redux';
 
 type Ingredient = {
   _id: string,
@@ -52,9 +52,8 @@ export const BurgerIngredients = memo(({
     document.querySelector(`#${current}`).scrollIntoView();
   }, [current]);
 
-  // @ts-ignore
-  const { state } = useContext(IngredientContext)
-  const dataArray = state.data
+  const dataArray = useSelector((store:any) => store.constructorReducer.data)
+
   const breadArray = useMemo(() => dataArray.filter((el:Ingredient) => el.type === BUN), [dataArray])
   const fillingArray = useMemo(() => dataArray.filter((el:Ingredient) => el.type === MAIN), [dataArray])
   const sauceArray = useMemo(() => dataArray.filter((el:Ingredient) => el.type === SAUCE), [dataArray])

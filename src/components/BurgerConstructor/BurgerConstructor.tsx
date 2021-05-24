@@ -1,12 +1,11 @@
-import React, { memo, useContext } from 'react';
+import React, { memo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import { ConstructorContext } from '../../context/constructorContext';
 import { apiPost, BUN } from '../../utils/constants';
-
+import { useSelector } from 'react-redux';
 
 type Ingredient = {
   _id: string,
@@ -29,10 +28,9 @@ type BurgerConstructorProps = {
 
 
 export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
-  // @ts-ignore
-  const { state } = useContext(ConstructorContext)
-  const orderData = state.constructor
-  const bread = state.bun
+  const orderData = useSelector((store:any) => store.constructorReducer.constructor)
+  const bread = useSelector((store:any) => store.constructorReducer.bun)
+
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
 
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
@@ -58,10 +56,7 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
         content: <OrderDetails order = {data.order.number} />,
       })
     }
-    catch {
-
-    }
-
+    catch { }
   }
 
   return (

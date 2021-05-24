@@ -1,10 +1,11 @@
-import { memo, useContext, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
-import { IngredientContext } from '../../context/ingredientContext';
 import { BUN } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { add } from '../../services/ducks/constructor';
 
 type IngredientProps = {
   name: string,
@@ -49,30 +50,32 @@ export const BurgerItem = memo(({ image_large,
     type,
     count
   }
-  // @ts-ignore
-  const { state, dispatch } = useContext(IngredientContext)
+  const dispatch = useDispatch()
+  const data = useSelector((store:any) => store.constructorReducer.data)
+  const constructor = useSelector((store:any) => store.constructorReducer.constructor)
+  const bunItem = useSelector((store:any) => store.constructorReducer.bun)
+
 
   const findCard = () => {
     findClosureCard(card)
-    dispatch({ type:'add', payload: card})
+    dispatch(add(card))
     }
 
   const ingredientsWithCount = useMemo(() => {
-    return state.data.map((ingredient:any) => {
+    return data.map((ingredient:any) => {
       return {
         ...ingredient,
-        count: state.constructor.filter(
+        count: constructor.filter(
           (item: any) => item._id === ingredient._id
         ).length
       };
     });
-  }, [state.data, state.constructor]);
+  }, [data, constructor]);
   const newCard = useMemo(() => {
     return ingredientsWithCount.find((item:any) => item._id === card._id)
   },[card._id, ingredientsWithCount])
 
-  const bunItem = state.bun;
-  let bunCount = 0
+   let bunCount = 0
    if (bunItem && card._id === bunItem._id) {
      bunCount = 2
    }

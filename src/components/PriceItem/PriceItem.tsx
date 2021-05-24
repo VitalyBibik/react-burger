@@ -3,7 +3,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import React, { memo } from 'react';
 import style from './PriceItem.module.scss';
 
-type PriceItem = {
+type PriceItemProps = {
   price: number;
   size?: string;
   margin?: boolean;
@@ -13,7 +13,7 @@ export const PriceItem = memo(({
   price,
   size = 'default',
   margin = false,
-}: PriceItem) => {
+}: PriceItemProps) => {
   const auto = margin === false ? null : style.position_autoMargin;
   return (
     <>
