@@ -58,7 +58,7 @@ export const BurgerItem = memo(({ image_large,
 
   const findCard = () => {
     findClosureCard(card)
-    dispatch(add( card))
+    dispatch(add(card))
     }
 
   const ingredientsWithCount = useMemo(() => {

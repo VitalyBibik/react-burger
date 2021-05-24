@@ -1,4 +1,4 @@
-import style from './IngredientsDetails.module.scss'
+   import style from './IngredientsDetails.module.scss'
 import cn from 'classnames';
 import { memo } from 'react';
 
