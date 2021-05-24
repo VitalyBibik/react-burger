@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { constructorReducer } from '../ducks/constructor';
-import { modalReducer } from '../ducks/modal'
+import { orderReducer } from '../ducks/order'
 
 export const rootReducer = combineReducers({
-  constructorReducer, modalReducer
+  constructorReducer, orderReducer
 });

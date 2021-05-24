@@ -6,6 +6,8 @@ import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
 import { apiPost, BUN } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
+import {request, request_success, setOrder} from "../../services/ducks/order";
+import {request_fail} from "../../services/ducks/constructor";
 
 type Ingredient = {
   _id: string,
@@ -26,37 +28,38 @@ type BurgerConstructorProps = {
   setModal: any
 };
 
-
 export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
   const orderData = useSelector((store:any) => store.constructorReducer.constructor)
   const bread = useSelector((store:any) => store.constructorReducer.bun)
   const dispatch = useDispatch()
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
-
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
-
-
   const finalOrder = async () => {
     try {
+      dispatch(request)
       const res = await fetch(apiPost, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          ingredients: orderData.push(bread).push(bread),
+          ingredients: [...orderData, bread],
         }),
       })
       if (!res.ok) {
         throw new Error('error')
       }
       const data = await res.json()
+      console.log(data,'data')
+      dispatch(request_success(data))
       setModal({
         isShow: true,
         content: <OrderDetails order = {data.order.number} />,
       })
     }
-    catch { }
+    catch {
+      dispatch(request_fail)
+    }
   }
 
   return (
