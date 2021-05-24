@@ -1,7 +1,6 @@
-   import style from './IngredientsDetails.module.scss'
+import style from './IngredientsDetails.module.scss'
 import cn from 'classnames';
 import { memo } from 'react';
-   import { useSelector } from 'react-redux'
 
 type IngredientDetailsProps = {
   name: string,
@@ -16,8 +15,7 @@ type IngredientDetailsProps = {
 }
 
 
-export const IngredientDetails = memo(() => {
-  const { image_large, desc, calories, proteins, fat, carbohydrates, name} = useSelector((store:any) => store.modalReducer.currentBurger)
+export const IngredientDetails = memo(({ image_large, desc, calories, proteins, fat, carbohydrates, name } :IngredientDetailsProps ) => {
 
   return (
     <div className={style.order}>

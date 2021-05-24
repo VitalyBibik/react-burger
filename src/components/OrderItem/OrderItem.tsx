@@ -7,7 +7,6 @@ import cn from 'classnames';
 import style from './OrderItem.module.scss';
 import { useDispatch } from 'react-redux';
 import { remove } from '../../services/ducks/constructor';
-import { openModal } from '../../services/ducks/modal';
 
 type OrderItemIngredient = {
   _id: string;
@@ -32,7 +31,6 @@ type OrderItemProps = {
 
 export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
   const dispatch = useDispatch()
-  dispatch(openModal)
   return (
     <>
       {bread && top === true && (
