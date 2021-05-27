@@ -29,7 +29,6 @@ type PropsOrderCard = {
 
 export const OrderCard = memo(({ card }: PropsOrderCard) => {
   const dispatch = useDispatch()
-
   const handleClose = () => {
     dispatch(remove(card))
   }

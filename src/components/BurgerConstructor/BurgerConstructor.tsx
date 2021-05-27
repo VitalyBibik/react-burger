@@ -66,11 +66,11 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   };
   const [{backgroundColor}, dropTarget] = useDrop({
     accept: 'test',
-    drop(card){
+    drop(card:Ingredient){
       dispatch(add(card))
     },
     collect:monitor => ({
-      backgroundColor: monitor.isOver() ? '1c1c21' : 'transparent',
+      backgroundColor: monitor.isOver() ? '#fff' : 'transparent',
     })
 
   })
@@ -80,7 +80,7 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
       { (orderData.length > 0 || bread) &&
       <div className={style.container}>
         <OrderItem bread={bread} top={true} />
-        <ul className={style.container__item} ref={dropTarget} onDrop={(e) => handleDrop(e)}>
+        <ul className={style.container__item} ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
           <OrderItem productArray={productArray} />
         </ul>
         <OrderItem bread={bread} top={false} />
