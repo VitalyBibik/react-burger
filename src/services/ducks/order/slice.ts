@@ -36,5 +36,5 @@ const orderSlice = createSlice({
     }
   },})
 
-export const { setOrder, request, request_success } = orderSlice.actions
+export const { setOrder, request, request_success, request_fail } = orderSlice.actions
 export const orderReducer = orderSlice.reducer

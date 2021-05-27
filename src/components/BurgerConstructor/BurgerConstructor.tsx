@@ -6,9 +6,11 @@ import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
 import { apiPost, BUN } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
-import {request, request_success, setOrder} from "../../services/ducks/order";
-import {add, request_fail} from "../../services/ducks/constructor";
-import {useDrop} from "react-dnd";
+import { request, request_success, request_fail } from "../../services/ducks/order";
+import { add,  } from "../../services/ducks/constructor";
+import { useDrop } from "react-dnd";
+import { BurgerStart } from "../BurgerStart";
+import cn from "classnames";
 
 type Ingredient = {
   _id: string,
@@ -72,27 +74,33 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
     collect:monitor => ({
       backgroundColor: monitor.isOver() ? '#fff' : 'transparent',
     })
-
   })
+  const marginTopAutoOn = orderData.length > 0 && bread
 
   return (
     <>
-      { (orderData.length > 0 || bread) &&
-      <div className={style.container}>
-        <OrderItem bread={bread} top={true} />
-        <ul className={style.container__item} ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
-          <OrderItem productArray={productArray} />
-        </ul>
-        <OrderItem bread={bread} top={false} />
-        <div className={style.container__button}>
-          <PriceItem size="medium" price={price} />
-          { bread &&
-          <Button type="primary" size="medium" onClick={finalOrder}>
-            Оформить заказ
-          </Button> }
-        </div>
+      <div className={cn(style.container, {
+        [style.container_auto]: marginTopAutoOn,
+      }) }
+           ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
+        { (marginTopAutoOn) ?
+        <>
+          <OrderItem bread={bread} top={true} />
+          <ul className={style.container__item} >
+            <OrderItem productArray={productArray} />
+          </ul>
+          <OrderItem bread={bread} top={false} />
+          <div className={style.container__button}>
+            <PriceItem size="medium" price={price} />
+            { bread &&
+            <Button type="primary" size="medium" onClick={finalOrder}>
+              Оформить заказ
+            </Button> }
+          </div>
+        </> : <BurgerStart bread = {bread} items={orderData.length > 0}/>
+        }
       </div>
-    }
+
     </>
   );
 });
