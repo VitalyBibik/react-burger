@@ -6,6 +6,7 @@ import { PriceItem } from '../PriceItem';
 import { BUN } from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { add } from '../../services/ducks/constructor';
+import {useDrag} from "react-dnd";
 
 type IngredientProps = {
   name: string,
@@ -79,9 +80,12 @@ export const BurgerItem = memo(({ image_large,
    if (bunItem && card._id === bunItem._id) {
      bunCount = 2
    }
-
+  const [, dragOrderCard] = useDrag({
+    type: 'test',
+    item: card,
+  })
   return (
-    <li className={style.container} onClick={findCard}>
+    <li className={style.container} onClick={findCard} ref={dragOrderCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
         <Counter count={newCard.type === BUN ? bunCount : newCard.count } size="small" />

@@ -7,7 +7,8 @@ import { OrderDetails } from '../OrderDetails';
 import { apiPost, BUN } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import {request, request_success, setOrder} from "../../services/ducks/order";
-import {request_fail} from "../../services/ducks/constructor";
+import {add, request_fail} from "../../services/ducks/constructor";
+import {useDrop} from "react-dnd";
 
 type Ingredient = {
   _id: string,
@@ -50,7 +51,6 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
         throw new Error('error')
       }
       const data = await res.json()
-      console.log(data,'data')
       dispatch(request_success(data))
       setModal({
         isShow: true,
@@ -61,13 +61,26 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
       dispatch(request_fail)
     }
   }
+  const handleDrop = (e:any) => {
+    e.preventDefault();
+  };
+  const [{backgroundColor}, dropTarget] = useDrop({
+    accept: 'test',
+    drop(card){
+      dispatch(add(card))
+    },
+    collect:monitor => ({
+      backgroundColor: monitor.isOver() ? '1c1c21' : 'transparent',
+    })
+
+  })
 
   return (
     <>
       { (orderData.length > 0 || bread) &&
       <div className={style.container}>
         <OrderItem bread={bread} top={true} />
-        <ul className={style.container__item}>
+        <ul className={style.container__item} ref={dropTarget} onDrop={(e) => handleDrop(e)}>
           <OrderItem productArray={productArray} />
         </ul>
         <OrderItem bread={bread} top={false} />
