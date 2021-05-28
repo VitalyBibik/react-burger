@@ -1,18 +1,36 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import type {PayloadAction, SerializedError} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { apiPost } from "../../../utils/constants";
 
 type TModalData = {
   orderId:number|null,
   data:any,
-  isLoading: boolean,
-  hasError: boolean,
+  isSending: boolean,
+  sendError: SerializedError | null,
 };
 const initialState: TModalData = {
   orderId:null,
   data:null,
-  isLoading: false,
-  hasError: false,
+  isSending: false,
+  sendError: null,
+
 }
+
+export const sendOrder = createAsyncThunk<any, any, any>(
+    'order/sendOrder',
+    async (data:any) => {
+      const res = await fetch(apiPost, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ingredients: data,
+        }),
+      })
+      return await res.json()
+    }
+);
 
 const orderSlice = createSlice({
   name:'order',
@@ -20,21 +38,25 @@ const orderSlice = createSlice({
   reducers: {
     setOrder: (state:TModalData, action: PayloadAction<any>) => {
       state.data = action.payload
-    },
-    request: (state:TModalData) => {
-      state.isLoading = true
-      state.hasError = false
-    },
-    request_fail: (state:TModalData) => {
-      state.isLoading = false
-      state.hasError = true
-    },
-    request_success: (state:TModalData, action:PayloadAction<any>) => {
-      state.isLoading = false
-      state.data = action.payload
-      state.orderId = action.payload.order.number
     }
-  },})
+  },
+  extraReducers: (builder) => {
+    builder.addCase(sendOrder.pending, (state:TModalData, action) => {
+      state.isSending = true;
+      state.sendError = null;
+    });
 
-export const { setOrder, request, request_success, request_fail } = orderSlice.actions
+    builder.addCase(sendOrder.fulfilled, (state:TModalData, action) => {
+      state.orderId = action.payload.order.number
+      state.isSending = false;
+    });
+
+    builder.addCase(sendOrder.rejected, (state:TModalData, action) => {
+      state.isSending = false;
+      state.sendError = action.error;
+    });
+  }
+})
+
+export const { setOrder } = orderSlice.actions
 export const orderReducer = orderSlice.reducer

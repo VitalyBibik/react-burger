@@ -4,13 +4,14 @@ import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import { apiPost, BUN } from '../../utils/constants';
+import { BUN } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { request, request_success, request_fail } from "../../services/ducks/order";
+import { sendOrder } from "../../services/ducks/order";
 import { add,  } from "../../services/ducks/constructor";
 import { useDrop } from "react-dnd";
 import { BurgerStart } from "../BurgerStart";
 import cn from "classnames";
+import { unwrapResult } from '@reduxjs/toolkit'
 
 type Ingredient = {
   _id: string,
@@ -37,31 +38,14 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   const dispatch = useDispatch()
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
-  const finalOrder = async () => {
-    try {
-      dispatch(request)
-      const res = await fetch(apiPost, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ingredients: [...orderData, bread],
-        }),
-      })
-      if (!res.ok) {
-        throw new Error('error')
-      }
-      const data = await res.json()
-      dispatch(request_success(data))
+  const finalOrder =  async () => {
+    const array = [...orderData, bread]
+    const res = await dispatch(sendOrder(array))
+    unwrapResult(res)
       setModal({
         isShow: true,
-        content: <OrderDetails order = {data.order.number} />,
+        content: <OrderDetails order = {123} />,
       })
-    }
-    catch {
-      dispatch(request_fail)
-    }
   }
   const handleDrop = (e:any) => {
     e.preventDefault();
