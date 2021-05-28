@@ -41,7 +41,7 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   const finalOrder =  async () => {
     const array = [...orderData, bread]
     const res = await dispatch(sendOrder(array))
-    unwrapResult(res)
+    console.log(res)
       setModal({
         isShow: true,
         content: <OrderDetails order = {123} />,
