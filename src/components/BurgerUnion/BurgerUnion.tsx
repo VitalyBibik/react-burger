@@ -3,10 +3,13 @@ import { BurgerIngredients } from '../BurgerIngredients';
 import { BurgerConstructor } from '../BurgerConstructor';
 import style from './BurgerUnion.module.scss';
 import { Modal } from '../Modal';
-import { apiUrl } from '../../utils/constants'
 import { IngredientDetails } from '../IngredientsDetails';
 import { useDispatch, useSelector } from 'react-redux';
-import { request, request_fail, request_success } from '../../services/ducks/constructor';
+import {
+  loadIngredients,
+} from '../../services/ducks/constructor';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 
 type CardProps = {
@@ -47,29 +50,9 @@ export const BurgerUnion = memo(() => {
     })
   },[])
 
-const getProducts = useCallback(
-  () => {
-    (async () => {
-      dispatch(request)
-      try {
-        const res = await fetch(apiUrl)
-        if (!res.ok) {
-          throw new Error('error')
-        }
-        const data = await res.json()
-        dispatch(request_success(data.data))
-      }
-      catch {
-        dispatch(request_fail)
-      }
-    })();
-  },
-  [dispatch]
-);
-
   useEffect( () => {
-    getProducts()
-  }, [getProducts])
+     dispatch(loadIngredients())
+  }, [dispatch])
 
 
 
@@ -97,13 +80,16 @@ const getProducts = useCallback(
        !state.hasError &&
        state.data.length &&
        (<>
+       <DndProvider backend={HTML5Backend}>
            <BurgerIngredients
            renderModal = {renderModal}
          />
            <BurgerConstructor
            setModal={setModalData}
            />
-         </>)
+       </DndProvider>
+         </>
+       )
        }
      </div>
       {modalData.isShow && <Modal title={modalData.title && modalData.title} setModal={setModalData} buttonClose={buttonClose}>{modalData.content}</Modal>}

@@ -4,10 +4,13 @@ import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import { apiPost, BUN } from '../../utils/constants';
+import { BUN } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
-import {request, request_success, setOrder} from "../../services/ducks/order";
-import {request_fail} from "../../services/ducks/constructor";
+import { sendOrder } from "../../services/ducks/order";
+import { add,  } from "../../services/ducks/constructor";
+import { useDrop } from "react-dnd";
+import { BurgerStart } from "../BurgerStart";
+import cn from "classnames";
 
 type Ingredient = {
   _id: string,
@@ -34,52 +37,53 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   const dispatch = useDispatch()
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
-  const finalOrder = async () => {
-    try {
-      dispatch(request)
-      const res = await fetch(apiPost, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ingredients: [...orderData, bread],
-        }),
-      })
-      if (!res.ok) {
-        throw new Error('error')
-      }
-      const data = await res.json()
-      console.log(data,'data')
-      dispatch(request_success(data))
+  const finalOrder =  async () => {
+    const array = [...orderData, bread]
+    const res = await dispatch(sendOrder(array))
+    const data = res as any;
       setModal({
         isShow: true,
-        content: <OrderDetails order = {data.order.number} />,
+        content: <OrderDetails order = {data.payload.order.number} />,
       })
-    }
-    catch {
-      dispatch(request_fail)
-    }
   }
+  const handleDrop = (e:any) => {
+    e.preventDefault();
+  };
+  const [{backgroundColor}, dropTarget] = useDrop({
+    accept: 'test',
+    drop(card:Ingredient){
+      dispatch(add(card))
+    },
+    collect:monitor => ({
+      backgroundColor: monitor.isOver() ? '#fff' : 'transparent',
+    })
+  })
+  const marginTopAutoOn = orderData.length > 0 && bread
 
   return (
     <>
-      { (orderData.length > 0 || bread) &&
-      <div className={style.container}>
-        <OrderItem bread={bread} top={true} />
-        <ul className={style.container__item}>
-          <OrderItem productArray={productArray} />
-        </ul>
-        <OrderItem bread={bread} top={false} />
-        <div className={style.container__button}>
-          <PriceItem size="medium" price={price} />
-          { bread &&
-          <Button type="primary" size="medium" onClick={finalOrder}>
-            Оформить заказ
-          </Button> }
-        </div>
+      <div className={cn(style.container, {
+        [style.container_auto]: marginTopAutoOn,
+      }) }
+           ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
+        { (marginTopAutoOn) ?
+        <>
+          <OrderItem bread={bread} top={true} />
+          <ul className={style.container__item} >
+            <OrderItem productArray={productArray} />
+          </ul>
+          <OrderItem bread={bread} top={false} />
+          <div className={style.container__button}>
+            <PriceItem size="medium" price={price} />
+            { bread &&
+            <Button type="primary" size="medium" onClick={finalOrder}>
+              Оформить заказ
+            </Button> }
+          </div>
+        </> : <BurgerStart bread = {bread} items={orderData.length > 0}/>
+        }
       </div>
-    }
+
     </>
   );
 });

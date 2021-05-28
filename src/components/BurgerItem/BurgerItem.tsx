@@ -4,8 +4,8 @@ import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
 import { BUN } from '../../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { add } from '../../services/ducks/constructor';
+import { useSelector } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 type IngredientProps = {
   name: string,
@@ -50,7 +50,6 @@ export const BurgerItem = memo(({ image_large,
     type,
     count
   }
-  const dispatch = useDispatch()
   const data = useSelector((store:any) => store.constructorReducer.data)
   const constructor = useSelector((store:any) => store.constructorReducer.constructor)
   const bunItem = useSelector((store:any) => store.constructorReducer.bun)
@@ -58,7 +57,6 @@ export const BurgerItem = memo(({ image_large,
 
   const findCard = () => {
     findClosureCard(card)
-    dispatch(add(card))
     }
 
   const ingredientsWithCount = useMemo(() => {
@@ -79,9 +77,12 @@ export const BurgerItem = memo(({ image_large,
    if (bunItem && card._id === bunItem._id) {
      bunCount = 2
    }
-
+  const [, dragOrderCard] = useDrag({
+    type: 'test',
+    item: card,
+  })
   return (
-    <li className={style.container} onClick={findCard}>
+    <li className={style.container} onClick={findCard} ref={dragOrderCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
         <Counter count={newCard.type === BUN ? bunCount : newCard.count } size="small" />

@@ -1,12 +1,10 @@
 import React, { memo } from 'react';
 import {
   ConstructorElement,
-  DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
-import { useDispatch } from 'react-redux';
-import { remove } from '../../services/ducks/constructor';
+import { OrderCard } from "../OrderCard";
 
 type OrderItemIngredient = {
   _id: string;
@@ -30,7 +28,7 @@ type OrderItemProps = {
 }
 
 export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
-  const dispatch = useDispatch()
+
   return (
     <>
       {bread && top === true && (
@@ -46,20 +44,9 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       )}
 
       {productArray &&
-      productArray.map((el: OrderItemIngredient) => {
-        const handleClose = () => {
-          dispatch(remove(el))
-        }
+      productArray.map((card: OrderItemIngredient) => {
         return (
-          <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
-            <div className={style['container__icon']}><DragIcon type="primary" /></div>
-            <ConstructorElement
-              text={el.name}
-              price={el.price}
-              thumbnail={el['image_mobile']}
-              handleClose={handleClose}
-            />
-          </li>
+          <OrderCard key={card.constructorId ? card.constructorId : card._id} card = {card} />
         );
       })}
 

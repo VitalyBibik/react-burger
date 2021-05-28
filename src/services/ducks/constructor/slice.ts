@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice, SerializedError} from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid';
-import { BUN } from '../../../utils/constants';
+import { apiUrl, BUN } from '../../../utils/constants';
 
 interface Ingredient  {
   _id: string,
@@ -25,18 +25,27 @@ interface ConstructorIng extends Ingredient {
 
 export type burgerState = {
   isLoading: boolean,
-  hasError: boolean,
+  hasError: SerializedError | null,
   data: Array<Ingredient>,
   constructor: Array<ConstructorIng>,
   bun: Ingredient | null,
 }
 const initialState: any = {
   isLoading: false,
-  hasError: false,
+  hasError: null,
   data: [],
   constructor: [],
   bun: null,
 }
+
+  export const loadIngredients = createAsyncThunk(
+      'constructor/loadIngredients',
+      async () => {
+      const res = await fetch(apiUrl)
+      const data = await res.json()
+      return data.data
+})
+
 const constructorSlice = createSlice({
   name:'constructor',
   initialState,
@@ -58,23 +67,24 @@ const constructorSlice = createSlice({
       if (index !== -1) {
         state.constructor.splice(index, 1)
       }
-    },
-    request: (state:burgerState) => {
-      state.isLoading = true
-      state.hasError = false
-    },
-    request_fail: (state:burgerState) => {
-      state.isLoading = false;
-      state.hasError = true
-    },
-    request_success: (state:burgerState, action:PayloadAction<any>) => {
-      state.isLoading = false
-      state.data = action.payload
     }
-
   },
+  extraReducers:(builder => {
+    builder.addCase(loadIngredients.pending, (state:burgerState) => {
+      state.isLoading = true;
+      state.hasError = null;
+    });
+    builder.addCase(loadIngredients.fulfilled, (state:burgerState, action) => {
+      state.data = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(loadIngredients.rejected, (state:burgerState, action) => {
+      state.isLoading = false;
+      state.hasError = action.error;
+    });
+  })
 
   })
 
-export const { add, remove, request, request_fail, request_success } = constructorSlice.actions
+export const { add, remove } = constructorSlice.actions
 export const constructorReducer = constructorSlice.reducer

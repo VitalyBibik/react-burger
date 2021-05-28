@@ -47,28 +47,25 @@ export const BurgerIngredients = memo(({
     renderModal(card)
   }, [renderModal])
 
-  const rootRef = useRef(null)
-  const bunRef = useRef(null)
-  const sauceRef = useRef(null)
-  const mainRef = useRef(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const bunRef = useRef<HTMLDivElement>(null)
+  const sauceRef = useRef<HTMLDivElement>(null)
+  const mainRef = useRef<HTMLDivElement>(null)
 
   const handleScroll = () => {
-    // @ts-ignore
-    const bunDistance = Math.abs(rootRef.current.getBoundingClientRect().top - bunRef.current.getBoundingClientRect().top)
-    // @ts-ignore
-    const sauceDistance = Math.abs(rootRef.current.getBoundingClientRect().top - sauceRef.current.getBoundingClientRect().top)
-    // @ts-ignore
-    const mainDistance = Math.abs(rootRef.current.getBoundingClientRect().top - mainRef.current.getBoundingClientRect().top)
-    const min = Math.min(bunDistance, sauceDistance, mainDistance)
-    const activeTab = min === bunDistance ? 'bun' : min === sauceDistance ? 'sauce' : 'main';
-    // @ts-ignore
-    setCurrent(prev => (activeTab === prev.current ? prev.current : activeTab))
+    if (rootRef.current && bunRef.current && sauceRef.current && mainRef.current) {
+      const bunDistance = Math.abs(rootRef?.current?.getBoundingClientRect()?.top - bunRef?.current?.getBoundingClientRect()?.top)
+      const sauceDistance = Math.abs(rootRef.current?.getBoundingClientRect()?.top - sauceRef.current?.getBoundingClientRect()?.top)
+      const mainDistance = Math.abs(rootRef.current?.getBoundingClientRect()?.top - mainRef.current?.getBoundingClientRect()?.top)
+      const min = Math.min(bunDistance, sauceDistance, mainDistance)
+      const activeTab = min === bunDistance ? 'bun' : min === sauceDistance ? 'sauce' : 'main';
+      setCurrent(activeTab)
+    }
   }
 
 
   useEffect(() => {
-    // @ts-ignore
-    document.querySelector(`#${current}`).scrollIntoView();
+    document.querySelector(`#${current}`)?.scrollIntoView();
   }, [current]);
 
   const dataArray = useSelector((store:any) => store.constructorReducer.data)
