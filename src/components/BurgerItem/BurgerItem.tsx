@@ -3,7 +3,7 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
-import { BUN } from '../../utils/constants';
+import {BUN, ItemTypes} from '../../utils/constants';
 import { useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 
@@ -78,14 +78,16 @@ export const BurgerItem = memo(({ image_large,
      bunCount = 2
    }
   const [, dragOrderCard] = useDrag({
-    type: 'test',
+    type: ItemTypes.CARD,
     item: card,
   })
+  const IngCount = newCard.type === BUN ? bunCount : newCard.count
+
   return (
     <li className={style.container} onClick={findCard} ref={dragOrderCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        <Counter count={newCard.type === BUN ? bunCount : newCard.count } size="small" />
+        { IngCount ? <Counter count={IngCount} size="small" /> : null}
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />

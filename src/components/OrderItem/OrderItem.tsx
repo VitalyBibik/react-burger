@@ -1,10 +1,13 @@
-import React, { memo } from 'react';
+import React, {memo, useCallback} from 'react';
 import {
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
 import { OrderCard } from "../OrderCard";
+import { useDispatch } from "react-redux";
+import { sort } from "../../services/ducks/constructor";
+
 
 type OrderItemIngredient = {
   _id: string;
@@ -28,7 +31,13 @@ type OrderItemProps = {
 }
 
 export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
+  const dispatch = useDispatch()
+  const moveCard = useCallback((dragIndex, hoverIndex) => {
+    if (productArray) {
+      dispatch(sort({dragIndex, hoverIndex}))
+    }
 
+  }, [productArray, dispatch]);
   return (
     <>
       {bread && top === true && (
@@ -44,9 +53,9 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       )}
 
       {productArray &&
-      productArray.map((card: OrderItemIngredient) => {
+      productArray.map((card: OrderItemIngredient, index) => {
         return (
-          <OrderCard key={card.constructorId ? card.constructorId : card._id} card = {card} />
+          <OrderCard key={card.constructorId ? card.constructorId : card._id} card = {card} moveCard = {moveCard} index={index}  />
         );
       })}
 

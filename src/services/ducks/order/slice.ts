@@ -41,12 +41,12 @@ const orderSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(sendOrder.pending, (state:TModalData, action) => {
+    builder.addCase(sendOrder.pending, (state:TModalData) => {
       state.isSending = true;
       state.sendError = null;
     });
 
-    builder.addCase(sendOrder.fulfilled, (state:TModalData, action) => {
+    builder.addCase(sendOrder.fulfilled, (state:TModalData, action:any) => {
       state.orderId = action.payload.order.number
       state.isSending = false;
     });

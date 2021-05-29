@@ -22,6 +22,10 @@ interface Ingredient  {
 interface ConstructorIng extends Ingredient {
   constructorId:string
 }
+type sortType = {
+  dragIndex:number
+  hoverIndex:number
+}
 
 export type burgerState = {
   isLoading: boolean,
@@ -38,6 +42,7 @@ const initialState: any = {
   bun: null,
 }
 
+
   export const loadIngredients = createAsyncThunk(
       'constructor/loadIngredients',
       async () => {
@@ -50,41 +55,44 @@ const constructorSlice = createSlice({
   name:'constructor',
   initialState,
   reducers: {
-    add: (state:burgerState, action: PayloadAction<Ingredient>) => {
+    add: (state: burgerState, action: PayloadAction<Ingredient>) => {
       const card = action.payload
       const newCard = {
         ...card,
-        constructorId:uuid()
+        constructorId: uuid()
       }
       if (newCard.type === BUN) {
-        return { ...state, bun: newCard };
+        return {...state, bun: newCard};
       } else {
         state.constructor.push(newCard)
       }
     },
-    remove: (state:burgerState, action:PayloadAction<Ingredient>) => {
+    remove: (state: burgerState, action: PayloadAction<Ingredient>) => {
       const index = state.constructor.findIndex((el: { _id: string; }) => el._id === action.payload._id)
       if (index !== -1) {
         state.constructor.splice(index, 1)
       }
-    }
+    },
+    sort: (state: burgerState, action: PayloadAction<sortType>) => {
+      const { dragIndex, hoverIndex } = action.payload
+      state.constructor.splice(dragIndex, 0, state.constructor.splice(hoverIndex, 1)[0])
+    },
   },
   extraReducers:(builder => {
     builder.addCase(loadIngredients.pending, (state:burgerState) => {
       state.isLoading = true;
       state.hasError = null;
     });
-    builder.addCase(loadIngredients.fulfilled, (state:burgerState, action) => {
+    builder.addCase(loadIngredients.fulfilled, (state:burgerState, action:any) => {
       state.data = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(loadIngredients.rejected, (state:burgerState, action) => {
+    builder.addCase(loadIngredients.rejected, (state:burgerState, action:any) => {
       state.isLoading = false;
       state.hasError = action.error;
     });
   })
-
   })
 
-export const { add, remove } = constructorSlice.actions
+export const { add, remove, sort } = constructorSlice.actions
 export const constructorReducer = constructorSlice.reducer
