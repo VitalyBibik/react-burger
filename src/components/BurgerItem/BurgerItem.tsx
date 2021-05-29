@@ -81,11 +81,13 @@ export const BurgerItem = memo(({ image_large,
     type: ItemTypes.CARD,
     item: card,
   })
+  const IngCount = newCard.type === BUN ? bunCount : newCard.count
+
   return (
     <li className={style.container} onClick={findCard} ref={dragOrderCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        <Counter count={newCard.type === BUN ? bunCount : newCard.count } size="small" />
+        { IngCount ? <Counter count={IngCount} size="small" /> : null}
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />
