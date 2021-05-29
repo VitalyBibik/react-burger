@@ -7,6 +7,7 @@ import style from './OrderCard.module.scss';
 import { useDispatch } from 'react-redux';
 import { remove } from '../../services/ducks/constructor';
 import { useDrag, useDrop } from 'react-dnd';
+import {ItemTypes} from "../../utils/constants";
 
 type OrderItemIngredient = {
   _id: string;
@@ -25,8 +26,8 @@ type OrderItemIngredient = {
 };
 type PropsOrderCard = {
   card: OrderItemIngredient,
-  moveCard:any,
-  index:any
+  moveCard: (dragIndex:number, hoverIndex:number) => void,
+  index: number
 }
 
 
@@ -37,7 +38,7 @@ export const OrderCard = memo(({ card, moveCard, index }: PropsOrderCard) => {
     dispatch(remove(card))
   }
   const [, drop] = useDrop({
-    accept: 'drop',
+    accept: ItemTypes.SORT,
     hover(item:any, monitor) {
       if (!ref.current) {
         return;
@@ -63,10 +64,9 @@ export const OrderCard = memo(({ card, moveCard, index }: PropsOrderCard) => {
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'drop',
+    type: ItemTypes.SORT,
     item: () => {
-      let id;
-      return { id, index };
+      return { index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),

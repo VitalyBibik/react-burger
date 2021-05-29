@@ -83,11 +83,11 @@ const constructorSlice = createSlice({
       state.isLoading = true;
       state.hasError = null;
     });
-    builder.addCase(loadIngredients.fulfilled, (state:burgerState, action) => {
+    builder.addCase(loadIngredients.fulfilled, (state:burgerState, action:any) => {
       state.data = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(loadIngredients.rejected, (state:burgerState, action) => {
+    builder.addCase(loadIngredients.rejected, (state:burgerState, action:any) => {
       state.isLoading = false;
       state.hasError = action.error;
     });

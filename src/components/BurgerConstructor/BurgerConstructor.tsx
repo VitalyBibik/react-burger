@@ -4,7 +4,7 @@ import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import { BUN } from '../../utils/constants';
+import {BUN, ItemTypes} from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from "../../services/ducks/order";
 import { add,  } from "../../services/ducks/constructor";
@@ -50,12 +50,12 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
     e.preventDefault();
   };
   const [{backgroundColor}, dropTarget] = useDrop({
-    accept: 'test',
+    accept: ItemTypes.CARD,
     drop(card:Ingredient){
       dispatch(add(card))
     },
     collect:monitor => ({
-      backgroundColor: monitor.isOver() ? '#fff' : 'transparent',
+      backgroundColor: monitor.isOver() ? 'grey' : 'transparent',
     })
   })
   const marginTopAutoOn = orderData.length > 0 && bread
