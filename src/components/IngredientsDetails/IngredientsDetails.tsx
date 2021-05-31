@@ -15,7 +15,8 @@ type IngredientDetailsProps = {
 }
 
 
-export const IngredientDetails = memo(({ image_large, desc, calories, proteins, fat, carbohydrates, name}: IngredientDetailsProps) => {
+export const IngredientDetails = memo(({ image_large, desc, calories, proteins, fat, carbohydrates, name } :IngredientDetailsProps ) => {
+
   return (
     <div className={style.order}>
       <img src={image_large} alt={desc}/>

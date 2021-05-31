@@ -1,12 +1,16 @@
-import React, { memo, useContext } from 'react';
+import React, { memo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import { ConstructorContext } from '../../context/constructorContext';
-import { apiPost, BUN } from '../../utils/constants';
-
+import {BUN, ItemTypes} from '../../utils/constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { sendOrder } from "../../services/ducks/order";
+import { add,  } from "../../services/ducks/constructor";
+import { useDrop } from "react-dnd";
+import { BurgerStart } from "../BurgerStart";
+import cn from "classnames";
 
 type Ingredient = {
   _id: string,
@@ -27,61 +31,59 @@ type BurgerConstructorProps = {
   setModal: any
 };
 
-
 export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
-  // @ts-ignore
-  const { state } = useContext(ConstructorContext)
-  const orderData = state.constructor
-  const bread = state.bun
+  const orderData = useSelector((store:any) => store.constructorReducer.constructor)
+  const bread = useSelector((store:any) => store.constructorReducer.bun)
+  const dispatch = useDispatch()
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
-
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
-
-
-  const finalOrder = async () => {
-    try {
-      const res = await fetch(apiPost, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ingredients: orderData.push(bread).push(bread),
-        }),
-      })
-      if (!res.ok) {
-        throw new Error('error')
-      }
-      const data = await res.json()
+  const finalOrder =  async () => {
+    const array = [...orderData, bread]
+    const res = await dispatch(sendOrder(array))
+    const data = res as any;
       setModal({
         isShow: true,
-        content: <OrderDetails order = {data.order.number} />,
+        content: <OrderDetails order = {data.payload.order.number} />,
       })
-    }
-    catch {
-
-    }
-
   }
+  const handleDrop = (e:any) => {
+    e.preventDefault();
+  };
+  const [{backgroundColor}, dropTarget] = useDrop({
+    accept: ItemTypes.CARD,
+    drop(card:Ingredient){
+      dispatch(add(card))
+    },
+    collect:monitor => ({
+      backgroundColor: monitor.isOver() ? 'grey' : 'transparent',
+    })
+  })
+  const marginTopAutoOn = orderData.length > 0 && bread
 
   return (
     <>
-      { (orderData.length > 0 || bread) &&
-      <div className={style.container}>
-        <OrderItem bread={bread} top={true} />
-        <ul className={style.container__item}>
-          <OrderItem productArray={productArray} />
-        </ul>
-        <OrderItem bread={bread} top={false} />
-        <div className={style.container__button}>
-          <PriceItem size="medium" price={price} />
-          { bread &&
-          <Button type="primary" size="medium" onClick={finalOrder}>
-            Оформить заказ
-          </Button> }
-        </div>
+      <div className={cn(style.container, {
+        [style.container_auto]: marginTopAutoOn,
+      }) }
+           ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
+        { (marginTopAutoOn) ?
+        <>
+          <OrderItem bread={bread} top={true} />
+          <ul className={style.container__item} >
+            <OrderItem productArray={productArray} />
+          </ul>
+          <OrderItem bread={bread} top={false} />
+          <div className={style.container__button}>
+            <PriceItem size="medium" price={price} />
+            { bread &&
+            <Button type="primary" size="medium" onClick={finalOrder}>
+              Оформить заказ
+            </Button> }
+          </div>
+        </> : <BurgerStart bread = {bread} items={orderData.length > 0}/>
+        }
       </div>
-    }
+
     </>
   );
 });

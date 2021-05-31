@@ -1,10 +1,11 @@
-import { memo, useContext, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
-import { IngredientContext } from '../../context/ingredientContext';
-import { BUN } from '../../utils/constants';
+import {ItemTypes} from '../../utils/constants';
+import { useSelector } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 type IngredientProps = {
   name: string,
@@ -49,39 +50,37 @@ export const BurgerItem = memo(({ image_large,
     type,
     count
   }
-  // @ts-ignore
-  const { state, dispatch } = useContext(IngredientContext)
+  const data = useSelector((store:any) => store.constructorReducer.data)
+  const constructor = useSelector((store:any) => store.constructorReducer.constructor)
+  const bunItem = useSelector((store:any) => store.constructorReducer.bun)
+
 
   const findCard = () => {
     findClosureCard(card)
-    dispatch({ type:'add', payload: card})
     }
 
   const ingredientsWithCount = useMemo(() => {
-    return state.data.map((ingredient:any) => {
-      return {
-        ...ingredient,
-        count: state.constructor.filter(
-          (item: any) => item._id === ingredient._id
-        ).length
-      };
-    });
-  }, [state.data, state.constructor]);
-  const newCard = useMemo(() => {
-    return ingredientsWithCount.find((item:any) => item._id === card._id)
-  },[card._id, ingredientsWithCount])
-
-  const bunItem = state.bun;
-  let bunCount = 0
-   if (bunItem && card._id === bunItem._id) {
-     bunCount = 2
-   }
-
+    const counters:any = {};
+    data.forEach((ingredient:any) => {
+    counters[ingredient._id] = constructor.filter(
+      (item:any) => item._id === ingredient._id
+    ).length;
+    if (bunItem && bunItem._id === ingredient._id) {
+      counters[ingredient._id] += 2;
+    }
+  })
+  return counters;
+},[bunItem, constructor, data])
+  const [, dragOrderCard] = useDrag({
+    type: ItemTypes.CARD,
+    item: card,
+  })
+  const countRender = ingredientsWithCount[card._id]
   return (
-    <li className={style.container} onClick={findCard}>
+    <li className={style.container} onClick={findCard} ref={dragOrderCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        <Counter count={newCard.type === BUN ? bunCount : newCard.count } size="small" />
+        { countRender ? <Counter count={countRender} size="small" /> : null}
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />

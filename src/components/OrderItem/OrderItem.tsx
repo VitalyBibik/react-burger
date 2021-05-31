@@ -1,14 +1,15 @@
-import React, { memo, useContext } from 'react';
+import React, {memo, useCallback} from 'react';
 import {
   ConstructorElement,
-  DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './OrderItem.module.scss';
-import { ConstructorContext } from '../../context/constructorContext';
+import { OrderCard } from "../OrderCard";
+import { useDispatch } from "react-redux";
+import { sort } from "../../services/ducks/constructor";
 
 
-type OrderItem = {
+type OrderItemIngredient = {
   _id: string;
   name: string;
   type: string;
@@ -24,15 +25,19 @@ type OrderItem = {
   constructorId:number;
 };
 type OrderItemProps = {
-  bread?: OrderItem,
-  productArray?: Array<OrderItem>,
+  bread?: OrderItemIngredient,
+  productArray?: Array<OrderItemIngredient>,
   top?:boolean
 }
 
 export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => {
-  // @ts-ignore
-  const { dispatch } = useContext(ConstructorContext)
+  const dispatch = useDispatch()
+  const moveCard = useCallback((dragIndex, hoverIndex) => {
+    if (productArray) {
+      dispatch(sort({dragIndex, hoverIndex}))
+    }
 
+  }, [productArray, dispatch]);
   return (
     <>
       {bread && top === true && (
@@ -48,20 +53,9 @@ export const OrderItem = memo(({ bread, productArray, top }: OrderItemProps) => 
       )}
 
       {productArray &&
-      productArray.map((el: OrderItem) => {
-        const handleClose = () => {
-          dispatch({ type:'remove', payload: el})
-        }
+      productArray.map((card: OrderItemIngredient, index) => {
         return (
-          <li className={style.container} key={el.constructorId ? el.constructorId : el._id}>
-            <div className={style['container__icon']}><DragIcon type="primary" /></div>
-            <ConstructorElement
-              text={el.name}
-              price={el.price}
-              thumbnail={el['image_mobile']}
-              handleClose={handleClose}
-            />
-          </li>
+          <OrderCard key={card.constructorId ? card.constructorId : card._id} card = {card} moveCard = {moveCard} index={index}  />
         );
       })}
 
