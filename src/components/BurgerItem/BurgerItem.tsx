@@ -3,7 +3,7 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerItem.module.scss';
 import { PriceItem } from '../PriceItem';
-import {BUN, ItemTypes} from '../../utils/constants';
+import {ItemTypes} from '../../utils/constants';
 import { useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 
@@ -60,34 +60,27 @@ export const BurgerItem = memo(({ image_large,
     }
 
   const ingredientsWithCount = useMemo(() => {
-    return data.map((ingredient:any) => {
-      return {
-        ...ingredient,
-        count: constructor.filter(
-          (item: any) => item._id === ingredient._id
-        ).length
-      };
-    });
-  }, [data, constructor]);
-  const newCard = useMemo(() => {
-    return ingredientsWithCount.find((item:any) => item._id === card._id)
-  },[card._id, ingredientsWithCount])
-
-   let bunCount = 0
-   if (bunItem && card._id === bunItem._id) {
-     bunCount = 2
-   }
+    const counters:any = {};
+    data.forEach((ingredient:any) => {
+    counters[ingredient._id] = constructor.filter(
+      (item:any) => item._id === ingredient._id
+    ).length;
+    if (bunItem && bunItem._id === ingredient._id) {
+      counters[ingredient._id] += 2;
+    }
+  })
+  return counters;
+},[bunItem, constructor, data])
   const [, dragOrderCard] = useDrag({
     type: ItemTypes.CARD,
     item: card,
   })
-  const IngCount = newCard.type === BUN ? bunCount : newCard.count
-
+  const countRender = ingredientsWithCount[card._id]
   return (
     <li className={style.container} onClick={findCard} ref={dragOrderCard}>
       <div className={style.container__image}>
         <img className={style.image} srcSet={image_large} alt="text" />
-        { IngCount ? <Counter count={IngCount} size="small" /> : null}
+        { countRender ? <Counter count={countRender} size="small" /> : null}
       </div>
       <div className={style.container__price}>
         <PriceItem price={price} />
