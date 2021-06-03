@@ -1,4 +1,4 @@
-import style from './Login.module.scss'
+import style from './Register.module.scss'
 import { memo, useRef, useState } from 'react';
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
@@ -9,7 +9,7 @@ type LoginProps = {
   close?: () => void
 }
 
-export const Login = memo(({ close }: LoginProps) => {
+export const Register = memo(({ close }: LoginProps) => {
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
   const onIconClick = () => {
@@ -19,8 +19,19 @@ export const Login = memo(({ close }: LoginProps) => {
       <div className={style.container}>
         <form className={style.login}>
           <h2 className={cn('text text_type_main-medium', style.title)}>
-            Вход
+            Регистрация
           </h2>
+          <Input
+              onChange={e => setValue(e.target.value)}
+              type={'text'}
+              placeholder={'Имя'}
+              value={value}
+              name={'name'}
+              error={false}
+              ref={inputRef}
+              errorText={'Ошибка'}
+              size={'default'}
+          />
           <Input
               onChange={e => setValue(e.target.value)}
               type={'text'}
@@ -37,14 +48,11 @@ export const Login = memo(({ close }: LoginProps) => {
               value={value}
               name={'password'}
           />
-          <Button type="primary" size="small">
-            Войти
+          <Button type="primary" size="medium">
+            Зарегистрироваться
           </Button>
-          <span className="text text_type_main-default text_color_inactive">
-            Вы — новый пользователь? <Link to={ROUTES.REGISTER} className={style.move}>Зарегистрироваться</Link>
-          </span>
-          <span className="text text_type_main-default text_color_inactive">
-            Забыли пароль? <Link to={ROUTES.PROFILE} className={style.move}>Восстановить пароль</Link>
+          <span className={cn("text text_type_main-default text_color_inactive", 'mt-20')}>
+            Уже зарегистрированы? <Link to={ROUTES.LOGIN} className={style.move}>Войти</Link>
           </span>
         </form>
       </div>
