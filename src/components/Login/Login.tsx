@@ -1,6 +1,6 @@
 import style from './Login.module.scss'
 import { memo, useRef, useState } from 'react';
-import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { ROUTES } from "../../constants/routes";
 import { Link } from "react-router-dom";

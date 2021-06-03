@@ -6,6 +6,8 @@ import { BurgerUnion } from '../BurgerUnion';
 import { ROUTES } from "../../constants/routes";
 import { Login } from '../Login'
 import { Register } from "../Register";
+import { ForgotPassword } from "../ForgotPassword";
+
 export function App() {
   return (
     <div className={style.App}>
@@ -20,6 +22,9 @@ export function App() {
                 </Route>
                 <Route path={ROUTES.REGISTER}>
                     <Register />
+                </Route>
+                <Route path={ROUTES.FORGOT_PASSWORD}>
+                    <ForgotPassword />
                 </Route>
             </Switch>
         </Router>
