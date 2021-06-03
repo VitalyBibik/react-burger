@@ -8,3 +8,6 @@
 .constructor-element__price {
     margin-left: auto !important;
 }
+.input_size_default {
+    width: 480px;
+}
