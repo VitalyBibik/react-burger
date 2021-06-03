@@ -7,6 +7,7 @@ import { ROUTES } from "../../constants/routes";
 import { Login } from '../Login'
 import { Register } from "../Register";
 import { ForgotPassword } from "../ForgotPassword";
+import { ResetPassword } from "../ResetPassword";
 
 export function App() {
   return (
@@ -25,6 +26,12 @@ export function App() {
                 </Route>
                 <Route path={ROUTES.FORGOT_PASSWORD}>
                     <ForgotPassword />
+                </Route>
+                <Route path={ROUTES.FORGOT_PASSWORD}>
+                    <ForgotPassword />
+                </Route>
+                <Route path={ROUTES.RESET_PASSWORD}>
+                    <ResetPassword />
                 </Route>
             </Switch>
         </Router>

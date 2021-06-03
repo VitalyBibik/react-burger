@@ -1,4 +1,4 @@
-import style from './Login.module.scss'
+import style from './ResetPassword.module.scss'
 import { memo, useRef, useState } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
@@ -9,7 +9,7 @@ type LoginProps = {
   close?: () => void
 }
 
-export const Login = memo(({ close }: LoginProps) => {
+export const ResetPassword = memo(({ close }: LoginProps) => {
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
   const onIconClick = () => {
@@ -19,32 +19,29 @@ export const Login = memo(({ close }: LoginProps) => {
       <div className={style.container}>
         <form className={style.login}>
           <h2 className={cn('text text_type_main-medium', style.title)}>
-            Вход
+            Восстановление пароля
           </h2>
-          <Input
-              onChange={e => setValue(e.target.value)}
-              type={'text'}
-              placeholder={'E-mail'}
-              value={value}
-              name={'email'}
-              error={false}
-              ref={inputRef}
-              errorText={'Ошибка'}
-              size={'default'}
-          />
           <PasswordInput
               onChange={e => setValue(e.target.value)}
               value={value}
               name={'password'}
           />
+          <Input
+              onChange={e => setValue(e.target.value)}
+              type={'text'}
+              placeholder={'Введите код из письма'}
+              value={value}
+              name={'code'}
+              error={false}
+              ref={inputRef}
+              errorText={'Ошибка'}
+              size={'default'}
+          />
           <Button type="primary" size="medium">
-            Войти
+            Сохранить
           </Button>
           <span className={cn("text text_type_main-default text_color_inactive", 'mt-20')}>
-            Вы — новый пользователь? <Link to={ROUTES.REGISTER} className={style.move}>Зарегистрироваться</Link>
-          </span>
-          <span className="text text_type_main-default text_color_inactive">
-            Забыли пароль? <Link to={ROUTES.PROFILE} className={style.move}>Восстановить пароль</Link>
+            Вспомнили пароль? <Link to={ROUTES.LOGIN} className={style.move}>Войти</Link>
           </span>
         </form>
       </div>
