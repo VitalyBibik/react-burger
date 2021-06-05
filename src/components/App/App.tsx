@@ -8,34 +8,38 @@ import { Login } from '../Login'
 import { Register } from "../Register";
 import { ForgotPassword } from "../ForgotPassword";
 import { ResetPassword } from "../ResetPassword";
+import { Profile } from "../Profile";
 
 export function App() {
-  return (
-    <div className={style.App}>
-        <AppHeader />
-        <Router>
-            <Switch>
-                <Route path={ROUTES.MAIN} exact={true}>
-                    <BurgerUnion />
-                </Route>
-                <Route path={ROUTES.LOGIN}>
-                    <Login />
-                </Route>
-                <Route path={ROUTES.REGISTER}>
-                    <Register />
-                </Route>
-                <Route path={ROUTES.FORGOT_PASSWORD}>
-                    <ForgotPassword />
-                </Route>
-                <Route path={ROUTES.FORGOT_PASSWORD}>
-                    <ForgotPassword />
-                </Route>
-                <Route path={ROUTES.RESET_PASSWORD}>
-                    <ResetPassword />
-                </Route>
-            </Switch>
-        </Router>
+    return (
+        <div className={style.App}>
+            <AppHeader/>
+            <Router>
+                <Switch>
+                    <Route path={ROUTES.MAIN} exact={true}>
+                        <BurgerUnion/>
+                    </Route>
+                    <Route path={ROUTES.LOGIN}>
+                        <Login/>
+                    </Route>
+                    <Route path={ROUTES.REGISTER}>
+                        <Register/>
+                    </Route>
+                    <Route path={ROUTES.FORGOT_PASSWORD}>
+                        <ForgotPassword/>
+                    </Route>
+                    <Route path={ROUTES.FORGOT_PASSWORD}>
+                        <ForgotPassword/>
+                    </Route>
+                    <Route path={ROUTES.RESET_PASSWORD}>
+                        <ResetPassword/>
+                    </Route>
+                    <Route path={ROUTES.PROFILE}>
+                        <Profile />
+                    </Route>
+                </Switch>
+            </Router>
 
-    </div>
-  );
+        </div>
+    );
 }
