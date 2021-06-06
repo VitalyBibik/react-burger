@@ -16,7 +16,7 @@ export const PriceItem = memo(({
 }: PriceItemProps) => {
   const auto = margin === false ? null : style.position_autoMargin;
   return (
-    <>
+    <div className={style.box}>
       <span
         className={cn(`text text_type_digits-${size}`, style.position, auto)}
       >
@@ -25,6 +25,6 @@ export const PriceItem = memo(({
       <span className={style['position-icon']}>
         <CurrencyIcon type="primary" />
       </span>
-    </>
+    </div>
   );
 });

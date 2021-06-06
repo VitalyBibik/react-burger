@@ -1,0 +1,29 @@
+.container {
+  height: 246px;
+  width: 844px;
+  background: #1C1C21;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  list-style: none;
+}
+.container_mini {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.burgerList {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+.canceled {
+  color: #E52B1A;
+}
+.inProgress {
+  color: #00CCCC;
+}
+.isDone {
+  color:#F2F2F3;
+}

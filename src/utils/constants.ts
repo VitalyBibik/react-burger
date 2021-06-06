@@ -21,3 +21,5 @@ export const ItemTypes = {
   CARD: 'card',
   SORT:'sort'
 }
+
+export const historyOrderLimit = 5
