@@ -1,6 +1,6 @@
 import { serverConfig } from './constants';
 
-export const getProducts =  async () => {
+export const getProducts = async () => {
     const res = await fetch(`${serverConfig.baseUrl}/ingredients`, {
         method: 'GET',
         headers: serverConfig.headers,
