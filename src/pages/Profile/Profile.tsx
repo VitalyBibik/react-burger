@@ -6,7 +6,7 @@ import { ROUTES } from "../../constants/routes";
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import { OrderHistory } from "../../components/OrdersHistory";
-import { OrderHistoryDetailCard } from "../../components/OrderHistoryDetailCard";
+import { OrderHistoryDetailCard } from "../OrderHistoryDetailCard";
 
 
 type LoginProps = {

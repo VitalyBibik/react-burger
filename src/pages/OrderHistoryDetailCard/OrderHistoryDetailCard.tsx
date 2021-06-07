@@ -2,7 +2,7 @@ import React, {memo, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
 import style from './OrderHistoryDetailCard.module.scss'
 import cn from "classnames";
-import { PriceItem } from "../PriceItem";
+import { PriceItem } from "../../components/PriceItem";
 import { data } from "../../fixtures";
 import { getSum } from "../../utils/getSum";
 

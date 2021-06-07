@@ -10,7 +10,7 @@ import { ForgotPassword } from "../../pages/ForgotPassword";
 import { ResetPassword } from "../../pages/ResetPassword";
 import { Profile } from "../../pages/Profile";
 import { Feed } from "../../pages/Feed";
-import { OrderHistoryDetailCard } from '../OrderHistoryDetailCard'
+import { OrderHistoryDetailCard } from '../../pages/OrderHistoryDetailCard'
 
 export function App() {
     return (
