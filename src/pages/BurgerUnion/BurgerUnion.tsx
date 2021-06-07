@@ -1,9 +1,9 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
-import { BurgerIngredients } from '../BurgerIngredients';
-import { BurgerConstructor } from '../BurgerConstructor';
+import { BurgerIngredients } from '../../components/BurgerIngredients';
+import { BurgerConstructor } from '../../components/BurgerConstructor';
 import style from './BurgerUnion.module.scss';
-import { Modal } from '../Modal';
-import { IngredientDetails } from '../IngredientsDetails';
+import { Modal } from '../../components/Modal';
+import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   loadIngredients,

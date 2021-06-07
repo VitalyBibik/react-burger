@@ -11,10 +11,22 @@
   margin-top: 180px;
 }
 .cards {
-  flex-direction: column;
-  row-gap: 24px;
+  display: grid;
   margin-top: 40px;
   padding: 0;
+  height: 680px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #8585AD;
+    border: 3px solid #2F2F37;
+    border-radius: 6px;
+  }
 }
 
 .login {

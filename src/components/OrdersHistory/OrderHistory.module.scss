@@ -1,10 +1,14 @@
+@import "../../utils/variables";
+
 .container {
-  height: 246px;
   width: 844px;
   background: #1C1C21;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
   border-radius: 40px;
   list-style: none;
+}
+.smallSize {
+  width:584px;
 }
 .container_mini {
   display: flex;

@@ -3,34 +3,40 @@ import React, { memo, useRef, useState } from 'react';
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { ROUTES } from "../../constants/routes";
-import {Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
-import {OrderHistory} from "../OrdersHistory";
+import { OrderHistory } from "../../components/OrdersHistory";
+import {OrderHistoryDetailCard} from "../../components/OrderHistoryDetailCard";
+
 
 type LoginProps = {
   close?: () => void
 }
 
 export const Profile = memo(({ close }: LoginProps) => {
-    const { url } = useRouteMatch()
+  const { path, url } = useRouteMatch()
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
   const onIconClick = () => {
 
   }
+
+
   return (
       <div className={style.box}>
         <div className={style.container}>
             <div className={style.links}>
-                <NavLink to={url} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Профиль</NavLink>
-                <NavLink to={`${url}${ROUTES.ORDERS}`} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>История заказов</NavLink>
-                <NavLink to='/' exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Выход</NavLink>
+                <Route path={[`${path}`, `${path}${ROUTES.ORDERS}`]} exact>
+                    <NavLink to={url} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Профиль</NavLink>
+                    <NavLink to={`${url}${ROUTES.ORDERS}`} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>История заказов</NavLink>
+                    <NavLink to={ROUTES.MAIN} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Выход</NavLink>
+                </Route>
             </div>
         </div>
 
         <ul className={cn(style.container, style.cards)}>
             <Switch>
-                <Route path={url} exact>
+                <Route path={path} exact>
                     <form className={style.login}>
                         <Input
                             onChange={e => setValue(e.target.value)}
@@ -70,12 +76,16 @@ export const Profile = memo(({ close }: LoginProps) => {
                         />
                     </form>
                 </Route>
-                <Route path={`${url}${ROUTES.ORDERS}`} exact>
-                        <OrderHistory />
+                <Route path={`${path}${ROUTES.ORDERS}`} exact>
+                    <OrderHistory />
                 </Route>
             </Switch>
-
         </ul>
+          <Switch>
+              <Route path={`${path}${ROUTES.ORDERS}/:id`} exact>
+                  <OrderHistoryDetailCard />
+              </Route>
+          </Switch>
       </div>
   );
 })
