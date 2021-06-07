@@ -63,9 +63,9 @@ export const resetPassword = async ({ password, token }:any) => {
         return requestHandler(res)
 }
 
-const requestHandler = (res:any) => {
+const requestHandler = async (res:any) => {
     if (res.ok) {
-        return res.json();
+        return await res.json();
     }
         return Promise.reject(res.status)
 }
