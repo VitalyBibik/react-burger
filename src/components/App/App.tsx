@@ -10,6 +10,7 @@ import { ForgotPassword } from "../../pages/ForgotPassword";
 import { ResetPassword } from "../../pages/ResetPassword";
 import { Profile } from "../../pages/Profile";
 import { Feed } from "../../pages/Feed";
+import { OrderHistoryDetailCard } from '../OrderHistoryDetailCard'
 
 export function App() {
     return (
@@ -35,8 +36,11 @@ export function App() {
                     <Route path={ROUTES.PROFILE}>
                         <Profile />
                     </Route>
-                    <Route path={ROUTES.FEED}>
+                    <Route path={ROUTES.FEED} exact>
                         <Feed />
+                    </Route>
+                    <Route path={`${ROUTES.FEED}/:id`} exact>
+                        <OrderHistoryDetailCard />
                     </Route>
                 </Switch>
             </Router>

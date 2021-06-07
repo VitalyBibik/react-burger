@@ -1,14 +1,11 @@
-import React, {memo, useEffect, useMemo} from 'react'
-
-import { useDispatch, useSelector } from 'react-redux';
+import React, {memo, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
 import style from './OrderHistoryDetailCard.module.scss'
 import cn from "classnames";
 import { PriceItem } from "../PriceItem";
 import { data } from "../../fixtures";
 import { getSum } from "../../utils/getSum";
-import { BUN } from "../../utils/constants";
-import { loadIngredients } from "../../services/ducks/constructor";
+
 
 
 type OrderItemIngredient = {
@@ -28,12 +25,7 @@ type OrderItemIngredient = {
 };
 
 export const OrderHistoryDetailCard = memo(() => {
-    const { id }  = useParams<any>();
-  //   const dispatch = useDispatch()
-  //   useEffect(() => {
-  //       dispatch(loadIngredients())
-  //   }, [dispatch]);
-  // const bunItem = useSelector((store:any) => store.constructorReducer.data.filter((el:any) => el.type === BUN))
+  const { id }  = useParams<any>();
   const colors = {
     canceled:style.canceled,
     inProgress:style.inProgress,
@@ -62,7 +54,7 @@ export const OrderHistoryDetailCard = memo(() => {
               <h3 className={cn('text text_type_main-medium')}>Black Hole Singularity острый бургер</h3>
           </div>
           <div className={cn(style.container_mini, 'mt-3 mb-15',)}>
-              <p className={cn('text text_type_main-small', colors.inProgress )}>Выполнен</p>
+              <p className={cn('text text_type_main-default', colors.inProgress )}>Выполнен</p>
           </div>
           <div className={cn(style.container_mini, 'mb-6')}>
               <h3 className={cn('text text_type_main-medium')}>Cостав:</h3>
@@ -77,9 +69,7 @@ export const OrderHistoryDetailCard = memo(() => {
               </li>
             )
           })
-
           }
-
         </ul>
         <div className={style.container_mini}>
             <p className={cn('text text_type_main-default text_color_inactive')}>Сегодня, 16:20 i-GMT+3</p>

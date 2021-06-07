@@ -21,7 +21,6 @@ export const Profile = memo(({ close }: LoginProps) => {
 
   }
 
-
   return (
       <div className={style.box}>
         <div className={style.container}>
@@ -34,7 +33,7 @@ export const Profile = memo(({ close }: LoginProps) => {
             </div>
         </div>
 
-        <ul className={cn(style.container, style.cards)}>
+        <ul className={cn(style.container, style.cards, 'ml-15')}>
             <Switch>
                 <Route path={path} exact>
                     <form className={style.login}>

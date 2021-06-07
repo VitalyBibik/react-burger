@@ -21,4 +21,29 @@
 }
 .right {
   position: relative;
+  max-width: 580px;
 }
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 36px;
+}
+.inner {
+  position: relative;
+}
+.control {
+  padding-left: 0;
+  margin: 0;
+}
+.list {
+  list-style: none;
+  color: #00CCCC;
+  &_white{
+    color:white;
+  }
+ &:last-child {
+   margin-bottom: 0;
+ }
+
+}
+

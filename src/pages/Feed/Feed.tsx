@@ -21,33 +21,34 @@ export const Feed = memo(({ close }: LoginProps) => {
             <OrderHistory smallSize={true}/>
           </div>
           <div className={style.right}>
-            <div className={style.info}>
+            <div className={cn(style.info, 'mb-15')}>
+              <div className={style.inner}>
+                  <h2 className={cn('text text_type_main-medium','mb-6')}>Готовы:</h2>
+                  <ul className={style.control}>
+                    <li className={cn(style.list, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                    <li className={cn(style.list, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                    <li className={cn(style.list, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                    <li className={cn(style.list, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                    <li className={cn(style.list, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                  </ul>
+                </div>
               <div className={style.box_mini}>
-                <h2>Готовы:</h2>
+                <h2 className={cn('text text_type_main-medium','mb-6')}>В работе:</h2>
                 <ul className={style.control}>
-                  <li className={style.list}>034533</li>
-                  <li className={style.list}>034533</li>
-                  <li className={style.list}>034533</li>
-                  <li className={style.list}>034533</li>
-                  <li className={style.list}>034533</li>
+                  <li className={cn(style.list, style.list_white, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                  <li className={cn(style.list, style.list_white, 'text text_type_digits-default', 'mb-2')}>034533</li>
+                  <li className={cn(style.list, style.list_white, 'text text_type_digits-default', 'mb-2')}>034533</li>
                 </ul>
               </div>
             </div>
-            <div className={style.box_mini}>
-              <h2>В работе:</h2>
-              <ul className={style.control}>
-                <li className={cn(style.list, style.list_white)}>034533</li>
-                <li className={cn(style.list, style.list_white)}>034533</li>
-                <li className={cn(style.list, style.list_white)}>034533</li>
-              </ul>
+
+            <div className={cn('mb-15')}>
+              <h2 className={'text text_type_main-medium'}>Выполнено за все время:</h2>
+              <span className={'text_type_digits-large'}>28 752</span>
             </div>
             <div className={style.task}>
-              <h2>Выполнено за все время</h2>
-              <p className={'text_type_digits-large'}>28 752</p>
-            </div>
-            <div className={style.task}>
-              <h2>Выполнено за сегодня</h2>
-              <p className={'text_type_digits-large'}>138</p>
+              <h2 className={'text text_type_main-medium'}>Выполнено за сегодня:</h2>
+              <span className={'text_type_digits-large'}>138</span>
             </div>
           </div>
         </div>
