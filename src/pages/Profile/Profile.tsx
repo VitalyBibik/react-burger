@@ -19,7 +19,7 @@ export const Profile = memo(({ close }: LoginProps) => {
   const inputRef = useRef(null)
   const isCard = !!useRouteMatch(`${path}${ROUTES.ORDERS}`);
   const isOrderId = !!useRouteMatch(`${path}${ROUTES.ORDERS}/:id`)
-
+console.log(isCard)
   const onIconClick = () => {
 
   }
@@ -39,6 +39,8 @@ export const Profile = memo(({ close }: LoginProps) => {
         </div>
         <ul className={cn(style.container, style.cards, {
             [style.cards_margin]: isCard,
+        }, {
+            [style.cards_height]: !isCard,
         }, 'ml-15')}>
             <Switch>
                 <Route path={path} exact>
