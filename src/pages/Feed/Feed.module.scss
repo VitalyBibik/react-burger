@@ -7,8 +7,19 @@
   margin-top: 40px;
   margin-bottom: 28px;
 }
-.control {
+::-webkit-scrollbar {
+  width: 12px;
+  height: 300px;
 
+}
+::-webkit-scrollbar-track {
+  background: #2F2F37;
+  height: 300px;
+}
+::-webkit-scrollbar-thumb {
+  background: #8585AD;
+  border: 2px solid #2F2F37;
+  border-radius: 6px;
 }
 
 .main {
@@ -17,10 +28,10 @@
   gap: 60px;
 }
 .left {
-  position: relative;
+  height: 663px;
+  overflow-y: auto;
 }
 .right {
-  position: relative;
   max-width: 580px;
 }
 .info {
