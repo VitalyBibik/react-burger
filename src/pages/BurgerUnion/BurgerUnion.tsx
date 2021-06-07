@@ -10,6 +10,7 @@ import {
 } from '../../services/ducks/constructor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import {Loader} from "../../components/Loader";
 
 
 type CardProps = {
@@ -35,7 +36,7 @@ type TModalData = {
 export const BurgerUnion = memo(() => {
 
   const dispatch = useDispatch()
-  const state = useSelector((store:any) => store.constructorReducer)
+  const isLoading = useSelector((store:any) => store.constructorReducer.isLoading)
   const [modalData, setModalData] = useState<TModalData>({
     isShow: false,
     title: 'Заголовок',
@@ -54,8 +55,6 @@ export const BurgerUnion = memo(() => {
      dispatch(loadIngredients())
   }, [dispatch])
 
-
-
   const renderModal = useCallback(
     (card:CardProps) => {
     setModalData({
@@ -72,27 +71,26 @@ export const BurgerUnion = memo(() => {
       />
     })
   },[])
-  return (
-    <>
-     <div className={style.container}>
-       {state.hasError && 'Произошла ошибка'}
-       {!state.isLoading &&
-       !state.hasError &&
-       state.data.length &&
-       (<>
-       <DndProvider backend={HTML5Backend}>
-           <BurgerIngredients
-           renderModal = {renderModal}
-         />
-           <BurgerConstructor
-           setModal={setModalData}
-           />
-       </DndProvider>
-         </>
-       )
-       }
-     </div>
+
+  const render = () => {
+   return(<>
+      <div className={style.container}>
+        <>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients
+                renderModal = {renderModal}
+            />
+            <BurgerConstructor
+                setModal={setModalData}
+            />
+          </DndProvider>
+        </>
+      </div>
       {modalData.isShow && <Modal title={modalData.title && modalData.title} setModal={setModalData} buttonClose={buttonClose}>{modalData.content}</Modal>}
-    </>
-  );
+    </>)
+  }
+
+  if (isLoading) return <Loader/>;
+  return render();
+
 });
