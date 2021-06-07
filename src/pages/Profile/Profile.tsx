@@ -6,7 +6,7 @@ import { ROUTES } from "../../constants/routes";
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import { OrderHistory } from "../../components/OrdersHistory";
-import {OrderHistoryDetailCard} from "../../components/OrderHistoryDetailCard";
+import { OrderHistoryDetailCard } from "../../components/OrderHistoryDetailCard";
 
 
 type LoginProps = {
@@ -17,14 +17,19 @@ export const Profile = memo(({ close }: LoginProps) => {
   const { path, url } = useRouteMatch()
   const [value, setValue] = useState('')
   const inputRef = useRef(null)
+  const isCard = !!useRouteMatch(`${path}${ROUTES.ORDERS}`);
+  const isOrderId = !!useRouteMatch(`${path}${ROUTES.ORDERS}/:id`)
+
   const onIconClick = () => {
 
   }
 
   return (
       <div className={style.box}>
-        <div className={style.container}>
-            <div className={style.links}>
+        <div className={cn({
+            [style.container_hiden]:isOrderId,
+        }, style.container)}>
+            <div className={cn(style.links)}>
                 <Route path={[`${path}`, `${path}${ROUTES.ORDERS}`]} exact>
                     <NavLink to={url} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Профиль</NavLink>
                     <NavLink to={`${url}${ROUTES.ORDERS}`} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>История заказов</NavLink>
@@ -32,8 +37,9 @@ export const Profile = memo(({ close }: LoginProps) => {
                 </Route>
             </div>
         </div>
-
-        <ul className={cn(style.container, style.cards, 'ml-15')}>
+        <ul className={cn(style.container, style.cards, {
+            [style.cards_margin]: isCard,
+        }, 'ml-15')}>
             <Switch>
                 <Route path={path} exact>
                     <form className={style.login}>

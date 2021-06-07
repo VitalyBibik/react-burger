@@ -9,6 +9,10 @@
   display: flex;
   justify-content: center;
   margin-top: 180px;
+  margin-left: 0;
+}
+.container_hiden {
+  display: none;
 }
 .cards {
   display: grid;
@@ -27,6 +31,9 @@
     border: 3px solid #2F2F37;
     border-radius: 6px;
   }
+}
+.cards_margin {
+  margin-top: 40px;
 }
 
 .login {
@@ -47,6 +54,7 @@
   flex-direction: column;
   grid-row-gap: 24px;
   row-gap: 24px;
+  margin-right: 40px;
 }
 
 .link {
