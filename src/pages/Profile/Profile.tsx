@@ -9,18 +9,29 @@ import { OrderHistory } from "../../components/OrdersHistory";
 import { OrderHistoryDetailCard } from "../OrderHistoryDetailCard";
 
 
-type LoginProps = {
-  close?: () => void
-}
-
-export const Profile = memo(({ close }: LoginProps) => {
+export const Profile = memo(() => {
   const { path, url } = useRouteMatch()
-  const [value, setValue] = useState('')
-  const inputRef = useRef(null)
   const isCard = !!useRouteMatch(`${path}${ROUTES.ORDERS}`);
   const isOrderId = !!useRouteMatch(`${path}${ROUTES.ORDERS}/:id`)
+  const [state, setState] = useState({
+        name: '',
+        email: '',
+        password: '',
+    })
+    const handleInputChange = (event: { target: any; }) => {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        setState({
+            ...state,
+            [name]: value
+        });
+    }
+  const nameInputRef = useRef(null)
+  const emailInputRef = useRef(null)
+  const passwordInputRef = useRef(null)
   const onIconClick = () => {
-
+      alert('Icon Click')
   }
 
   return (
@@ -56,40 +67,43 @@ export const Profile = memo(({ close }: LoginProps) => {
                 <Route path={path} exact>
                     <form className={style.login}>
                         <Input
-                            onChange={e => setValue(e.target.value)}
+                            onChange={handleInputChange}
                             type={'text'}
                             placeholder={'Имя'}
-                            value={value}
+                            value={state.name}
                             name={'name'}
                             error={false}
-                            ref={inputRef}
+                            ref={nameInputRef}
                             errorText={'Ошибка'}
                             size={'default'}
                             icon={"EditIcon"}
+                            onIconClick={onIconClick}
                         />
                         <Input
-                            onChange={e => setValue(e.target.value)}
+                            onChange={handleInputChange}
                             type={'text'}
                             placeholder={'Логин'}
-                            value={value}
-                            name={'login'}
+                            value={state.email}
+                            name={'email'}
                             error={false}
-                            ref={inputRef}
+                            ref={emailInputRef}
                             errorText={'Ошибка'}
                             size={'default'}
                             icon={"EditIcon"}
+                            onIconClick={onIconClick}
                         />
                         <Input
-                            onChange={e => setValue(e.target.value)}
+                            onChange={handleInputChange}
                             type={'password'}
                             placeholder={'Пароль'}
-                            value={value}
-                            name={'name'}
+                            value={state.password}
+                            ref={passwordInputRef}
+                            name={'password'}
                             error={false}
-                            ref={inputRef}
                             errorText={'Ошибка'}
                             size={'default'}
                             icon={"EditIcon"}
+                            onIconClick={onIconClick}
                         />
                     </form>
                 </Route>

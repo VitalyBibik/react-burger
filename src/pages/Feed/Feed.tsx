@@ -1,18 +1,9 @@
 import style from './Feed.module.scss'
-import React, { memo, useRef, useState } from 'react';
+import React, { memo } from 'react';
 import { OrderHistory } from "../../components/OrdersHistory";
 import cn from "classnames";
 
-type LoginProps = {
-  close?: () => void
-}
-
-export const Feed = memo(({ close }: LoginProps) => {
-  const [value, setValue] = useState('')
-  const inputRef = useRef(null)
-  const onIconClick = () => {
-
-  }
+export const Feed = memo(() => {
   return (
       <div className={style.container}>
         <h2 className={cn('text text_type_main-large', style.title)}>Лента заказов</h2>
@@ -41,7 +32,6 @@ export const Feed = memo(({ close }: LoginProps) => {
                 </ul>
               </div>
             </div>
-
             <div className={cn('mb-15')}>
               <h2 className={'text text_type_main-medium'}>Выполнено за все время:</h2>
               <span className={cn('text_type_digits-large', style.shadow)}>28 752</span>

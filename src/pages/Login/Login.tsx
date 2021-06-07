@@ -4,38 +4,60 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import { ROUTES } from "../../constants/routes";
 import { Link } from "react-router-dom";
+import { signIn } from "../../utils/api";
 
-type LoginProps = {
-  close?: () => void
-}
-
-export const Login = memo(({ close }: LoginProps) => {
-  const [value, setValue] = useState('')
+export const Login = memo(() => {
+  const [state, setState] = useState({
+    login: '',
+    password: ''
+  })
   const inputRef = useRef(null)
-  const onIconClick = () => {
-
+  const handleInputChange = (event: { target: any; }) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setState({
+      ...state,
+      [name]: value
+    });
   }
+
+  const onIconClick = () => {
+    alert('Icon Click')
+  }
+  const submit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    console.log(state);
+    try {
+      const res = await signIn(state)
+      console.log(res)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  };
   return (
       <div className={style.container}>
-        <form className={style.login}>
+        <form className={style.login}  onSubmit={submit}>
           <h2 className={cn('text text_type_main-medium', style.title)}>
             Вход
           </h2>
           <Input
-              onChange={e => setValue(e.target.value)}
+              onChange={handleInputChange}
               type={'text'}
               placeholder={'E-mail'}
-              value={value}
+              value={state.login}
               name={'email'}
               error={false}
               ref={inputRef}
               errorText={'Ошибка'}
               size={'default'}
+              onIconClick={onIconClick}
           />
           <PasswordInput
-              onChange={e => setValue(e.target.value)}
-              value={value}
+              value={state.password}
               name={'password'}
+              onChange={handleInputChange}
           />
           <Button type="primary" size="medium">
             Войти
@@ -48,7 +70,6 @@ export const Login = memo(({ close }: LoginProps) => {
           </span>
         </form>
       </div>
-
   );
 })
 

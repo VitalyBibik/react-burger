@@ -4,33 +4,54 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import { ROUTES } from "../../constants/routes";
 import { Link } from "react-router-dom";
+import { resetPassword } from '../../utils/api';
 
-type LoginProps = {
-  close?: () => void
-}
-
-export const ResetPassword = memo(({ close }: LoginProps) => {
-  const [value, setValue] = useState('')
+export const ResetPassword = memo(() => {
+  const [state, setState] = useState({
+    password: '',
+    token: '',
+  })
+  const handleInputChange = (event: { target: any; }) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setState({
+      ...state,
+      [name]: value
+    });
+  }
   const inputRef = useRef(null)
   const onIconClick = () => {
-
+    alert('Icon Click')
   }
+  const submit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    try {
+      const res = await resetPassword(state)
+      console.log(res)
+    }
+    catch (e) {
+      console.log(e)
+    }
+
+  };
   return (
       <div className={style.container}>
-        <form className={style.login}>
+        <form className={style.login} onSubmit={submit}>
           <h2 className={cn('text text_type_main-medium', style.title)}>
             Восстановление пароля
           </h2>
           <PasswordInput
-              onChange={e => setValue(e.target.value)}
-              value={value}
+              onChange={handleInputChange}
+              value={state.password}
               name={'password'}
           />
           <Input
-              onChange={e => setValue(e.target.value)}
+              onIconClick={onIconClick}
+              onChange={handleInputChange}
               type={'text'}
               placeholder={'Введите код из письма'}
-              value={value}
+              value={state.token}
               name={'code'}
               error={false}
               ref={inputRef}
