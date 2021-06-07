@@ -18,19 +18,19 @@ export function App() {
             <Router>
                 <AppHeader/>
                 <Switch>
-                    <Route path={ROUTES.MAIN} exact={true}>
+                    <Route path={ROUTES.MAIN} exact>
                         <BurgerUnion />
                     </Route>
-                    <Route path={ROUTES.LOGIN}>
+                    <Route path={ROUTES.LOGIN} exact>
                         <Login />
                     </Route>
-                    <Route path={ROUTES.REGISTER}>
+                    <Route path={ROUTES.REGISTER} exact>
                         <Register />
                     </Route>
-                    <Route path={ROUTES.FORGOT_PASSWORD}>
+                    <Route path={ROUTES.FORGOT_PASSWORD} exact>
                         <ForgotPassword />
                     </Route>
-                    <Route path={ROUTES.RESET_PASSWORD}>
+                    <Route path={ROUTES.RESET_PASSWORD} exact>
                         <ResetPassword />
                     </Route>
                     <Route path={ROUTES.PROFILE}>
@@ -41,6 +41,11 @@ export function App() {
                     </Route>
                     <Route path={`${ROUTES.FEED}/:id`} exact>
                         <OrderHistoryDetailCard />
+                    </Route>
+                    <Route>
+                        <div>
+                            <h1> 404 Здесь ничего нет</h1>
+                        </div>
                     </Route>
                 </Switch>
             </Router>
