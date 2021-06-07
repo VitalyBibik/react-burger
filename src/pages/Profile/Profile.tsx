@@ -19,7 +19,6 @@ export const Profile = memo(({ close }: LoginProps) => {
   const inputRef = useRef(null)
   const isCard = !!useRouteMatch(`${path}${ROUTES.ORDERS}`);
   const isOrderId = !!useRouteMatch(`${path}${ROUTES.ORDERS}/:id`)
-console.log(isCard)
   const onIconClick = () => {
 
   }
@@ -34,6 +33,17 @@ console.log(isCard)
                     <NavLink to={url} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Профиль</NavLink>
                     <NavLink to={`${url}${ROUTES.ORDERS}`} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>История заказов</NavLink>
                     <NavLink to={ROUTES.MAIN} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Выход</NavLink>
+                </Route>
+                <Route path={`${path}`} exact>
+                    <span className={cn('text text_type_main-default text_color_inactive', style.info)}>
+                        В этом разделе вы можете
+                        изменить свои персональные данные
+                    </span>
+                </Route>
+                <Route path={`${path}${ROUTES.ORDERS}`} exact>
+                    <span className={cn('text text_type_main-default text_color_inactive', style.info)}>
+                   В этом разделе вы можете просмотреть свою историю заказов
+                    </span>
                 </Route>
             </div>
         </div>
