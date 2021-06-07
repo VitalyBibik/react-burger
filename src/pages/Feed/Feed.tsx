@@ -44,11 +44,11 @@ export const Feed = memo(({ close }: LoginProps) => {
 
             <div className={cn('mb-15')}>
               <h2 className={'text text_type_main-medium'}>Выполнено за все время:</h2>
-              <span className={'text_type_digits-large'}>28 752</span>
+              <span className={cn('text_type_digits-large', style.shadow)}>28 752</span>
             </div>
             <div className={style.task}>
               <h2 className={'text text_type_main-medium'}>Выполнено за сегодня:</h2>
-              <span className={'text_type_digits-large'}>138</span>
+              <span className={cn('text_type_digits-large', style.shadow)}>138</span>
             </div>
           </div>
         </div>
