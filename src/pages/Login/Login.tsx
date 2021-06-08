@@ -1,5 +1,5 @@
 import style from './Login.module.scss'
-import { memo, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { ROUTES } from "../../constants/routes";
@@ -11,7 +11,6 @@ export const Login = memo(() => {
     login: '',
     password: ''
   })
-  const inputRef = useRef(null)
   const handleInputChange = (event: { target: any; }) => {
     const target = event.target;
     const value = target.value;
@@ -47,9 +46,8 @@ export const Login = memo(() => {
               type={'text'}
               placeholder={'E-mail'}
               value={state.login}
-              name={'email'}
+              name={'login'}
               error={false}
-              ref={inputRef}
               errorText={'Ошибка'}
               size={'default'}
               onIconClick={onIconClick}

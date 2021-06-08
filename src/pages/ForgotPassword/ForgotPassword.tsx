@@ -1,5 +1,5 @@
 import style from './ForgotPassword.module.scss'
-import { memo, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { ROUTES } from "../../constants/routes";
@@ -8,7 +8,6 @@ import { forgotPassword } from "../../utils/api";
 
 export const ForgotPassword = memo(() => {
   const [value, setValue] = useState('')
-  const inputRef = useRef(null)
   const onIconClick = () => {
     alert('Icon Click')
   }
@@ -36,7 +35,6 @@ export const ForgotPassword = memo(() => {
               value={value}
               name={'email'}
               error={false}
-              ref={inputRef}
               errorText={'Ошибка'}
               size={'default'}
               onIconClick = {onIconClick}

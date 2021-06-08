@@ -27,9 +27,6 @@ export const Profile = memo(() => {
             [name]: value
         });
     }
-  const nameInputRef = useRef(null)
-  const emailInputRef = useRef(null)
-  const passwordInputRef = useRef(null)
   const onIconClick = () => {
       alert('Icon Click')
   }
@@ -73,7 +70,6 @@ export const Profile = memo(() => {
                             value={state.name}
                             name={'name'}
                             error={false}
-                            ref={nameInputRef}
                             errorText={'Ошибка'}
                             size={'default'}
                             icon={"EditIcon"}
@@ -86,7 +82,6 @@ export const Profile = memo(() => {
                             value={state.email}
                             name={'email'}
                             error={false}
-                            ref={emailInputRef}
                             errorText={'Ошибка'}
                             size={'default'}
                             icon={"EditIcon"}
@@ -97,7 +92,6 @@ export const Profile = memo(() => {
                             type={'password'}
                             placeholder={'Пароль'}
                             value={state.password}
-                            ref={passwordInputRef}
                             name={'password'}
                             error={false}
                             errorText={'Ошибка'}

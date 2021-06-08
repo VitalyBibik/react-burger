@@ -12,7 +12,6 @@ export const Register = memo(() => {
     email: '',
     password: '',
   })
-  const inputRef = useRef(null)
   const handleInputChange = (event: { target: any; }) => {
     const target = event.target;
     const value = target.value;
@@ -48,7 +47,6 @@ export const Register = memo(() => {
               value={state.name}
               name={'name'}
               error={false}
-              ref={inputRef}
               errorText={'Ошибка'}
               size={'default'}
               onIconClick={onIconClick}
@@ -60,7 +58,6 @@ export const Register = memo(() => {
               value={state.email}
               name={'email'}
               error={false}
-              ref={inputRef}
               errorText={'Ошибка'}
               size={'default'}
               onIconClick={onIconClick}

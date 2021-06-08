@@ -20,7 +20,6 @@ export const ResetPassword = memo(() => {
       [name]: value
     });
   }
-  const inputRef = useRef(null)
   const onIconClick = () => {
     alert('Icon Click')
   }
@@ -52,9 +51,8 @@ export const ResetPassword = memo(() => {
               type={'text'}
               placeholder={'Введите код из письма'}
               value={state.token}
-              name={'code'}
+              name={'token'}
               error={false}
-              ref={inputRef}
               errorText={'Ошибка'}
               size={'default'}
           />
