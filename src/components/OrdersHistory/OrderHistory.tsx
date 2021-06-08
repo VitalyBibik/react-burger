@@ -1,4 +1,4 @@
-import React, {memo, useMemo} from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 import style from './OrderHistory.module.scss';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { PriceItem } from "../PriceItem";
 import { v4 as uuid } from 'uuid';
 import { historyOrderLimit } from "../../utils/constants";
 import {useRouteMatch} from "react-router-dom";
-import {getSum} from "../../utils/getSum";
+import { getSum } from "../../utils/getSum";
 
 type Burger = {
   _id: string;
@@ -59,8 +59,8 @@ export const OrderHistory = ({ smallSize = false }:OrderHistoryProps) => {
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
             <ul className={cn(style.burgerList)}>
               { testArray.map((el:Burger, index) => {
-                if (index < historyOrderLimit) return <OrderHistoryCard key={uuid()} card={el} index={index} />
-                if (index === arrayLength) return <OrderHistoryCard key={uuid()} card={el} last={true} length={arrayLength - historyOrderLimit} index={index} />
+                if (index < historyOrderLimit) return <OrderHistoryCard key={el._id} card={el} index={index} />
+                if (index === arrayLength) return <OrderHistoryCard key={el._id} card={el} last={true} length={arrayLength - historyOrderLimit} index={index} />
                 return null
               }
               )}
