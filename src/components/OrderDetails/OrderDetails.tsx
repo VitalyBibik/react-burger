@@ -1,6 +1,7 @@
 import isDone from '../../images/access.png'
 import style from './OrderDetails.module.scss';
 import { memo } from 'react';
+import cn from "classnames";
 
 type OrderDetailsProps = {
   order:number
@@ -9,7 +10,7 @@ type OrderDetailsProps = {
 export const OrderDetails = memo(({ order }: OrderDetailsProps) => {
   return (
     <div className={style.order}>
-      <p className="text text_type_digits-medium mb-4">{order}</p>
+      <p className={cn("text text_type_digits-medium mb-4", style.shadow)}>{order}</p>
       <p className="text text_type_main-default mb-4">
         идентификатор заказа
       </p>

@@ -1,3 +1,4 @@
+
 export const BUN = 'bun';
 export const MAIN = 'main';
 export const SAUCE = 'sauce';
@@ -15,9 +16,20 @@ export const category = [
     title: 'Соусы',
   },
 ];
-export const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
-export const apiPost = 'https://norma.nomoreparties.space/api/orders';
+export const serverConfig = {
+  baseUrl: 'https://norma.nomoreparties.space/api',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
+export const apiUrl = `${serverConfig.baseUrl}/ingredients`;
+export const apiPost = `${serverConfig.baseUrl}/orders`;
+
 export const ItemTypes = {
   CARD: 'card',
-  SORT:'sort'
+  SORT: 'sort'
 }
+
+export const historyOrderLimit = 5
+

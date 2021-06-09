@@ -1,3 +1,4 @@
+@import "../../utils/variables";
 
 .header {
   background-color: #1C1C21;
@@ -14,7 +15,6 @@
   &__position {
     padding-top: 24px;
     padding-bottom: 24px;
-
   }
   &__text-position {
     margin-left: 9px !important;
@@ -34,4 +34,7 @@
     margin-left: 132px;
     margin-right: 311px;
   }
+}
+.test {
+  color:red
 }
