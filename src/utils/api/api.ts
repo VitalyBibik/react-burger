@@ -1,4 +1,5 @@
-import { serverConfig } from './constants';
+import { serverConfig } from '../constants/constants';
+import {getCookie} from "../functions/cookies";
 
 export const getProducts = async () => {
     const res = await fetch(`${serverConfig.baseUrl}/ingredients`, {
@@ -62,6 +63,48 @@ export const resetPassword = async ({ password, token }:any) => {
     })
         return requestHandler(res)
 }
+export const getUser = async () => {
+    const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {...serverConfig.headers,
+        Authorization: 'Bearer ' + getCookie('token')
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+    })
+    return requestHandler(res)
+}
+
+export const getResetCode = async (email:string) => {
+    const res = await fetch(`${serverConfig.baseUrl}/password-reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: email,
+        }),
+    });
+    return requestHandler(res)
+};
+
+export const logoutRequest = async (refreshToken:string) => {
+    return await fetch(`${serverConfig.baseUrl}/auth/logout`, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: `${refreshToken}`,
+        }),
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer'
+    });
+};
+
 
 const requestHandler = async (res:any) => {
     if (res.ok) {

@@ -2,9 +2,9 @@ import style from './Login.module.scss'
 import { memo, useState } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { signIn } from "../../utils/api";
+import { signIn } from "../../utils/api/api";
 
 export const Login = memo(() => {
   const [state, setState] = useState({

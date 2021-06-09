@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import style from './App.module.scss';
 import { AppHeader } from '../AppHeader';
 import { BurgerUnion } from '../../pages/BurgerUnion';
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 import { Login } from '../../pages/Login'
 import { Register } from "../../pages/Register";
 import { ForgotPassword } from "../../pages/ForgotPassword";

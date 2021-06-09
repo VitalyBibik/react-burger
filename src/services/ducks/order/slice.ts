@@ -1,6 +1,6 @@
 import type {PayloadAction, SerializedError} from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { apiPost } from "../../../utils/constants";
+import { apiPost } from "../../../utils/constants/constants";
 
 type TModalData = {
   orderId:number|null,
@@ -46,7 +46,7 @@ const orderSlice = createSlice({
       state.sendError = null;
     });
 
-    builder.addCase(sendOrder.fulfilled, (state:TModalData, action:any) => {
+    builder.addCase(sendOrder.fulfilled, (state:TModalData, action:PayloadAction<any>) => {
       state.orderId = action.payload.order.number
       state.isSending = false;
     });

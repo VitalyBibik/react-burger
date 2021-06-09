@@ -8,7 +8,7 @@ import {
 import cn from 'classnames';
 import style from './AppHeader.module.scss';
 import { NavLink, useRouteMatch} from "react-router-dom";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 
 export const AppHeader = memo(() => {
   const isConstructor = !!useRouteMatch({ path: ROUTES.MAIN, exact: true});

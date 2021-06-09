@@ -2,7 +2,7 @@ import style from './Profile.module.scss'
 import React, { memo, useRef, useState } from 'react';
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import { OrderHistory } from "../../components/OrdersHistory";

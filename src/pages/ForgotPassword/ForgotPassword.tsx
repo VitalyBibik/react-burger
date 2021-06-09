@@ -2,9 +2,9 @@ import style from './ForgotPassword.module.scss'
 import { memo, useState } from 'react';
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { forgotPassword } from "../../utils/api";
+import { forgotPassword } from "../../utils/api/api";
 
 export const ForgotPassword = memo(() => {
   const [value, setValue] = useState('')

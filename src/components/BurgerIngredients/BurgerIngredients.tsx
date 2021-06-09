@@ -3,7 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
-import { BUN, MAIN, SAUCE } from '../../utils/constants';
+import { BUN, MAIN, SAUCE } from '../../utils/constants/constants';
 import { useSelector } from 'react-redux';
 
 type Ingredient = {

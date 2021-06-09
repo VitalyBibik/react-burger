@@ -6,9 +6,9 @@ import { data } from "../../fixtures";
 import { OrderHistoryCard } from "../OrdersHistoryCard";
 import { PriceItem } from "../PriceItem";
 import { v4 as uuid } from 'uuid';
-import { historyOrderLimit } from "../../utils/constants";
+import { historyOrderLimit } from "../../utils/constants/constants";
 import {useRouteMatch} from "react-router-dom";
-import { getSum } from "../../utils/getSum";
+import { getSum } from "../../utils/functions/getSum";
 
 type Burger = {
   _id: string;

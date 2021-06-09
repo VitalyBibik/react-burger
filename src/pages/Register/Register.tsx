@@ -2,9 +2,11 @@ import style from './Register.module.scss'
 import { memo, useRef, useState } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { signUp } from "../../utils/api";
+import { signUp } from "../../utils/api/api";
+import {useDispatch} from "react-redux";
+import {registerUser} from "../../services/ducks/auth";
 
 export const Register = memo(() => {
   const [state, setState] = useState({
@@ -12,6 +14,7 @@ export const Register = memo(() => {
     email: '',
     password: '',
   })
+  const dispatch = useDispatch()
   const handleInputChange = (event: { target: any; }) => {
     const target = event.target;
     const value = target.value;
@@ -27,8 +30,9 @@ export const Register = memo(() => {
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      const res = await signUp(state)
-      console.log(res)
+      console.log(state)
+      dispatch(registerUser(state))
+      // const res = await signUp(state)
     }
     catch (e) {
       console.log(e)

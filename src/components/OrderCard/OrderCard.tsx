@@ -7,7 +7,7 @@ import style from './OrderCard.module.scss';
 import { useDispatch } from 'react-redux';
 import { remove } from '../../services/ducks/constructor';
 import { useDrag, useDrop } from 'react-dnd';
-import {ItemTypes} from "../../utils/constants";
+import {ItemTypes} from "../../utils/constants/constants";
 
 type OrderItemIngredient = {
   _id: string;

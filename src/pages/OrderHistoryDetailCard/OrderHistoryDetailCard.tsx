@@ -4,7 +4,7 @@ import style from './OrderHistoryDetailCard.module.scss'
 import cn from "classnames";
 import { PriceItem } from "../../components/PriceItem";
 import { data } from "../../fixtures";
-import { getSum } from "../../utils/getSum";
+import { getSum } from "../../utils/functions/getSum";
 
 
 

@@ -2,9 +2,9 @@ import style from './ResetPassword.module.scss'
 import { memo, useRef, useState } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { resetPassword } from '../../utils/api';
+import { resetPassword } from '../../utils/api/api';
 
 export const ResetPassword = memo(() => {
   const [state, setState] = useState({

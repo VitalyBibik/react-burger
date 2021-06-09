@@ -4,7 +4,7 @@ import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import {BUN, ItemTypes} from '../../utils/constants';
+import {BUN, ItemTypes} from '../../utils/constants/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from "../../services/ducks/order";
 import { add,  } from "../../services/ducks/constructor";
