@@ -4,13 +4,15 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { signIn } from "../../utils/api/api";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../services/ducks/auth";
 
 export const Login = memo(() => {
   const [state, setState] = useState({
     login: '',
     password: ''
   })
+  const dispatch = useDispatch()
   const handleInputChange = (event: { target: any; }) => {
     const target = event.target;
     const value = target.value;
@@ -26,14 +28,10 @@ export const Login = memo(() => {
   }
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log(state);
-    try {
-      const res = await signIn(state)
-      console.log(res)
-    }
-    catch (e) {
-      console.log(e)
-    }
+    console.log('submitted')
+    console.log(state,'state')
+    dispatch(loginUser(state))
+
   };
   return (
       <div className={style.container}>

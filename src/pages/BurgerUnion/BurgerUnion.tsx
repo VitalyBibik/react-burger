@@ -36,7 +36,10 @@ type TModalData = {
 export const BurgerUnion = memo(() => {
 
   const dispatch = useDispatch()
-  const isLoading = useSelector((store:any) => store.constructorReducer.isLoading)
+  const isLoading = useSelector((store:any) => {
+    console.log(store)
+    return (store.constructorReducer.isLoading)
+  })
   const [modalData, setModalData] = useState<TModalData>({
     isShow: false,
     title: 'Заголовок',

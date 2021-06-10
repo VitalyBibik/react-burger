@@ -4,7 +4,7 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { resetPassword } from '../../utils/api/api';
+import { resetFetchPassword } from '../../utils/api/api';
 
 export const ResetPassword = memo(() => {
   const [state, setState] = useState({
@@ -26,7 +26,7 @@ export const ResetPassword = memo(() => {
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      const res = await resetPassword(state)
+      const res = await resetFetchPassword(state)
       console.log(res)
     }
     catch (e) {

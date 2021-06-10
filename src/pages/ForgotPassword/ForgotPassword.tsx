@@ -4,7 +4,7 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { forgotPassword } from "../../utils/api/api";
+import { forgotFetchPassword } from "../../utils/api/api";
 
 export const ForgotPassword = memo(() => {
   const [value, setValue] = useState('')
@@ -15,7 +15,7 @@ export const ForgotPassword = memo(() => {
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      const res = await forgotPassword(value)
+      const res = await forgotFetchPassword(value)
       console.log(res)
     }
     catch (e) {

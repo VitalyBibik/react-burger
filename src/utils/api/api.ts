@@ -1,7 +1,7 @@
 import { serverConfig } from '../constants/constants';
-import {getCookie} from "../functions/cookies";
+import { getCookie } from "../functions/cookies";
 
-export const getProducts = async () => {
+export const getProductsFetch = async () => {
     const res = await fetch(`${serverConfig.baseUrl}/ingredients`, {
         method: 'GET',
         headers: serverConfig.headers,
@@ -9,7 +9,7 @@ export const getProducts = async () => {
         return requestHandler(res)
 }
 
-export const addOrders = async (ingredients:any) => {
+export const addOrdersFetch = async (ingredients:any) => {
     const res = await fetch(`${serverConfig.baseUrl}/orders`, {
         method: 'POST',
         headers: serverConfig.headers,
@@ -20,7 +20,7 @@ export const addOrders = async (ingredients:any) => {
         return requestHandler(res)
 }
 
-export const signUp = async ({ email, password, name }:any) => {
+export const signUpFetch = async ({ email, password, name }:any) => {
     const res = await fetch(`${serverConfig.baseUrl}/auth/register`, {
         method: 'POST',
         headers: serverConfig.headers,
@@ -31,18 +31,18 @@ export const signUp = async ({ email, password, name }:any) => {
         return requestHandler(res)
 }
 
-export const signIn = async ({ login, password }:any) => {
-    const res = fetch(`${serverConfig.baseUrl}/auth`, {
+export const signInFetch = async ({ login, password }:any) => {
+    const res = await fetch(`${serverConfig.baseUrl}/auth/login`, {
         method: 'POST',
         headers: serverConfig.headers,
         body: JSON.stringify(
-            { login, password }
+            { email:login, password }
         )
     })
         return requestHandler(res)
 }
 
-export const forgotPassword = async (value:any) => {
+export const forgotFetchPassword = async (value:any) => {
     const res = await fetch(`${serverConfig.baseUrl}/password-reset`, {
         method: 'POST',
         headers: serverConfig.headers,
@@ -53,7 +53,7 @@ export const forgotPassword = async (value:any) => {
         return requestHandler(res)
 }
 
-export const resetPassword = async ({ password, token }:any) => {
+export const resetFetchPassword = async ({ password, token }:any) => {
     const res = await fetch(`${serverConfig.baseUrl}/password-reset/reset`, {
         method: 'POST',
         headers: serverConfig.headers,
@@ -63,7 +63,7 @@ export const resetPassword = async ({ password, token }:any) => {
     })
         return requestHandler(res)
 }
-export const getUser = async () => {
+export const getFetchUser = async () => {
     const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
         mode: 'cors',
         cache: 'no-cache',
@@ -77,7 +77,25 @@ export const getUser = async () => {
     return requestHandler(res)
 }
 
-export const getResetCode = async (email:string) => {
+export const setFetchUserData = async ({name, email}:any) => {
+    const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
+        method:'PATCH',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {...serverConfig.headers,
+            Authorization: 'Bearer ' + getCookie('token')
+        },
+        body: JSON.stringify(
+            { name, email }
+        ),
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+    })
+    return requestHandler(res)
+}
+
+export const getFetchResetCode = async (email:string) => {
     const res = await fetch(`${serverConfig.baseUrl}/password-reset`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,7 +106,7 @@ export const getResetCode = async (email:string) => {
     return requestHandler(res)
 };
 
-export const logoutRequest = async (refreshToken:string) => {
+export const logoutFetchRequest = async (refreshToken:string) => {
     return await fetch(`${serverConfig.baseUrl}/auth/logout`, {
         method: 'POST',
         mode: 'cors',
