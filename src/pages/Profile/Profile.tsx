@@ -7,6 +7,8 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import { OrderHistory } from "../../components/OrdersHistory";
 import { OrderHistoryDetailCard } from "../OrderHistoryDetailCard";
+import {useDispatch} from "react-redux";
+import {signOut} from "../../services/ducks/auth";
 
 
 export const Profile = memo(() => {
@@ -18,6 +20,7 @@ export const Profile = memo(() => {
         email: '',
         password: '',
     })
+  const dispatch = useDispatch()
     const handleInputChange = (event: { target: any; }) => {
         const target = event.target;
         const value = target.value;
@@ -30,6 +33,9 @@ export const Profile = memo(() => {
   const onIconClick = () => {
       alert('Icon Click')
   }
+  const logout = () => {
+      dispatch(signOut())
+  }
 
   return (
       <div className={style.box}>
@@ -40,7 +46,7 @@ export const Profile = memo(() => {
                 <Route path={[`${path}`, `${path}${ROUTES.ORDERS}`]} exact>
                     <NavLink to={url} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Профиль</NavLink>
                     <NavLink to={`${url}${ROUTES.ORDERS}`} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>История заказов</NavLink>
-                    <NavLink to={ROUTES.MAIN} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active}>Выход</NavLink>
+                    <NavLink to={ROUTES.MAIN} exact className={cn('text text_type_main-default', style.link)} activeClassName={style.active} onClick={logout}>Выход</NavLink>
                 </Route>
                 <Route path={`${path}`} exact>
                     <span className={cn('text text_type_main-default text_color_inactive', style.info)}>

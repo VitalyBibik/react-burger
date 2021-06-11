@@ -7,10 +7,9 @@ import {
     signInFetch,
     signUpFetch
 } from '../../../utils/api/api'
-import { setCookie } from "../../../utils/functions/cookies";
 import { push } from "connected-react-router";
 import { ROUTES } from "../../../utils/routes/routes";
-import {setTokens} from "../../../utils/functions/setTokens";
+import {clearStorage, setTokens} from "../../../utils/functions/tokens";
 
 export const sliceName = "auth";
 
@@ -75,7 +74,7 @@ export const forgotUserPassword = createAsyncThunk<any, any, any>(
 
 export const signOut = () => (dispatch:any) => {
     dispatch(setUserData(null));
-    localStorage.removeItem("jwt");
+    clearStorage()
 };
 
 interface AuthState {
