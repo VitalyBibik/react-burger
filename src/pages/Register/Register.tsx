@@ -23,9 +23,7 @@ export const Register = memo(() => {
       [name]: value
     });
   }
-  const onIconClick = () => {
-    alert('Icon Click')
-  }
+
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(registerUser(state))
@@ -46,7 +44,6 @@ export const Register = memo(() => {
               error={false}
               errorText={'Ошибка'}
               size={'default'}
-              onIconClick={onIconClick}
           />
           <Input
               onChange={handleInputChange}
@@ -57,7 +54,6 @@ export const Register = memo(() => {
               error={false}
               errorText={'Ошибка'}
               size={'default'}
-              onIconClick={onIconClick}
           />
           <PasswordInput
               onChange={handleInputChange}

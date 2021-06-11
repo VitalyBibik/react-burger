@@ -31,3 +31,4 @@ export function setCookie(name:string, value:any, props:any) {
 export function deleteCookie(name:string) {
     setCookie(name, null, { expires: -1 });
 }
+

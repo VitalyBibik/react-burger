@@ -3,25 +3,19 @@ import { createBrowserHistory } from "history";
 import { routerMiddleware, connectRouter } from 'connected-react-router';
 import { rootReducer } from "./rootReducer";
 import { configureStore } from "@reduxjs/toolkit";
-import {constructorReducer} from "../ducks/constructor";
-import {orderReducer} from "../ducks/order";
-import {authReducer} from "../ducks/auth";
+import logger from "redux-logger";
 
 
 export const history = createBrowserHistory()
-// export const store = createStore(
-//   rootReducer,
-//   composeWithDevTools(applyMiddleware(logger, thunk))
-// );
-
 
 export const store = configureStore({
     reducer: {
-        constructorReducer, orderReducer, authReducer,
+        ...rootReducer,
         router: connectRouter(history)
     },
     middleware: [
         thunk,
-        routerMiddleware(history)
+        routerMiddleware(history),
+        logger
     ]
 })

@@ -4,23 +4,16 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { forgotFetchPassword } from "../../utils/api/api";
+import { useDispatch } from "react-redux";
+import { forgotUserPassword } from "../../services/ducks/auth";
 
 export const ForgotPassword = memo(() => {
   const [value, setValue] = useState('')
-  const onIconClick = () => {
-    alert('Icon Click')
-  }
+  const dispatch = useDispatch()
 
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    try {
-      const res = await forgotFetchPassword(value)
-      console.log(res)
-    }
-    catch (e) {
-      console.log(e)
-    }
+    dispatch(forgotUserPassword(value))
   };
   return (
       <div className={style.container}>
@@ -37,7 +30,6 @@ export const ForgotPassword = memo(() => {
               error={false}
               errorText={'Ошибка'}
               size={'default'}
-              onIconClick = {onIconClick}
           />
           <Button type="primary" size="medium">
             Восстановить

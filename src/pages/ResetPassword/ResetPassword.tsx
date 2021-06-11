@@ -4,7 +4,8 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import { resetFetchPassword } from '../../utils/api/api';
+import { useDispatch } from "react-redux";
+import { setUserPassword } from "../../services/ducks/auth";
 
 export const ResetPassword = memo(() => {
   const [state, setState] = useState({
@@ -20,18 +21,11 @@ export const ResetPassword = memo(() => {
       [name]: value
     });
   }
-  const onIconClick = () => {
-    alert('Icon Click')
-  }
+  const dispatch = useDispatch()
+
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    try {
-      const res = await resetFetchPassword(state)
-      console.log(res)
-    }
-    catch (e) {
-      console.log(e)
-    }
+    dispatch(setUserPassword(state))
 
   };
   return (
@@ -46,7 +40,6 @@ export const ResetPassword = memo(() => {
               name={'password'}
           />
           <Input
-              onIconClick={onIconClick}
               onChange={handleInputChange}
               type={'text'}
               placeholder={'Введите код из письма'}

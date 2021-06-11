@@ -42,18 +42,18 @@ export const signInFetch = async ({ login, password }:any) => {
         return requestHandler(res)
 }
 
-export const forgotFetchPassword = async (value:any) => {
+export const forgotFetchPassword = async (value:string) => {
     const res = await fetch(`${serverConfig.baseUrl}/password-reset`, {
         method: 'POST',
         headers: serverConfig.headers,
         body: JSON.stringify(
-            { email: value }
+            {email:value}
         )
     })
         return requestHandler(res)
 }
 
-export const resetFetchPassword = async ({ password, token }:any) => {
+export const setFetchPassword = async ({ password, token }:any) => {
     const res = await fetch(`${serverConfig.baseUrl}/password-reset/reset`, {
         method: 'POST',
         headers: serverConfig.headers,
@@ -123,10 +123,8 @@ export const logoutFetchRequest = async (refreshToken:string) => {
     });
 };
 
-
-const requestHandler = async (res:any) => {
-    if (res.ok) {
-        return await res.json();
-    }
-        return Promise.reject(res.status)
+const requestHandler = (res:any) => {
+    if (res.ok) return res.json()
+    if (res.json) return res.json().then((err:any) => Promise.reject(err))
+    return Promise.reject(res)
 }

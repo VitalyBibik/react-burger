@@ -28,8 +28,6 @@ export const Login = memo(() => {
   }
   const submit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log('submitted')
-    console.log(state,'state')
     dispatch(loginUser(state))
 
   };
@@ -62,7 +60,7 @@ export const Login = memo(() => {
             Вы — новый пользователь? <Link to={ROUTES.REGISTER} className={style.move}>Зарегистрироваться</Link>
           </span>
           <span className="text text_type_main-default text_color_inactive">
-            Забыли пароль? <Link to={ROUTES.PROFILE} className={style.move}>Восстановить пароль</Link>
+            Забыли пароль? <Link to={ROUTES.RESET_PASSWORD} className={style.move}>Восстановить пароль</Link>
           </span>
         </form>
       </div>
