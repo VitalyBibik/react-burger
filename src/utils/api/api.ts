@@ -63,6 +63,7 @@ export const setFetchPassword = async ({ password, token }:any) => {
     })
         return requestHandler(res)
 }
+
 export const getFetchUser = async () => {
     const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
         mode: 'cors',
@@ -78,6 +79,7 @@ export const getFetchUser = async () => {
 }
 
 export const setFetchUserData = async ({name, email}:any) => {
+    console.log('name,email', {name, email})
     const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
         method:'PATCH',
         mode: 'cors',
@@ -95,16 +97,6 @@ export const setFetchUserData = async ({name, email}:any) => {
     return requestHandler(res)
 }
 
-export const getFetchResetCode = async (email:string) => {
-    const res = await fetch(`${serverConfig.baseUrl}/password-reset`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: email,
-        }),
-    });
-    return requestHandler(res)
-};
 
 export const logoutFetchRequest = async (refreshToken:string) => {
     return await fetch(`${serverConfig.baseUrl}/auth/logout`, {

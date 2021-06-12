@@ -1,6 +1,6 @@
 import style from './Profile.module.scss'
-import React, {memo, useEffect, useState} from 'react';
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {memo, SyntheticEvent, useEffect, useState} from 'react';
+import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
@@ -8,8 +8,9 @@ import { NavLink } from "react-router-dom";
 import { OrderHistory } from "../../components/OrdersHistory";
 import { OrderHistoryDetailCard } from "../OrderHistoryDetailCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, signOut } from "../../services/ducks/auth";
+import { getUser, patchUser, signOut } from "../../services/ducks/auth";
 import { Loader } from "../../components/Loader";
+import { getRefreshToken } from "../../utils/functions/tokens";
 
 
 export const Profile = memo(() => {
@@ -20,6 +21,9 @@ export const Profile = memo(() => {
         name: 'user',
         email: 'user@mail.ru',
         password: '',
+        emailIsDisabled:true,
+        nameIsDisabled:true,
+        passwordIsDisabled:true,
     })
   const dispatch = useDispatch()
     const isLoading = useSelector((store:any) => store.authReducer.getUserSending)
@@ -33,21 +37,57 @@ export const Profile = memo(() => {
             [name]: value
         });
     }
-  const onIconClick = () => {
-      alert('Icon Click')
+    const nameRef = React.useRef<HTMLInputElement>(null);
+    const emailRef = React.useRef<HTMLInputElement>(null);
+    const passwordRef = React.useRef<HTMLInputElement>(null);
+
+    const iconName = state.nameIsDisabled ? 'EditIcon' : 'CloseIcon'
+    const iconEmail = state.emailIsDisabled ? 'EditIcon' : 'CloseIcon'
+    const iconPassword = state.passwordIsDisabled ? 'EditIcon' : 'CloseIcon'
+
+  const submit = async (e:SyntheticEvent) => {
+        e.preventDefault()
+         let data = {};
+         data = state.name !== profileData.name ? { ...data, name: state.name } : data;
+         data = state.email !== profileData.email ? { ...data, email: state.email } : data;
+         data = state.password.length !== 0 ? { ...data, password: state.password } : data;
+      console.log({ ...data });
+      dispatch(patchUser({ ...data }))
+
   }
+
+  const onIconClickName = () => {
+          setTimeout(() => nameRef?.current?.focus(), 0)
+          setState(prevState => {
+          return {...prevState, nameIsDisabled: !prevState.nameIsDisabled
+          }})
+
+  }
+    const onIconEmail = () => {
+        setTimeout(() => emailRef?.current?.focus(), 0)
+        setState(prevState => {
+            return {...prevState, emailIsDisabled: !prevState.emailIsDisabled
+            }})
+
+    }
+    const onIconClickPassword = () => {
+        setTimeout(() => passwordRef?.current?.focus(), 0)
+        setState(prevState => {
+            return {...prevState, passwordIsDisabled: !prevState.passwordIsDisabled
+            }})
+    }
   const logout = () => {
-      dispatch(signOut())
+      dispatch(signOut(getRefreshToken()))
   }
     useEffect(() => {
         dispatch(getUser(null))
-        setState(state => {
-            return {...state, email: state.email, name: state.name}})
+        setState(prevState => {
+            return {...prevState, email: prevState.email, name: prevState.name}})
     }, [dispatch]);
     useEffect(() => {
         if (profileData) {
-            setState( state => {
-                    return {...state, email: profileData.email, name: profileData.name }})
+            setState( prevState => {
+                    return {...prevState, email: profileData.email, name: profileData.name }})
         }
     }, [profileData]);
 const render = () => {
@@ -82,7 +122,7 @@ const render = () => {
             }, 'ml-15')}>
                 <Switch>
                     <Route path={path} exact>
-                        <form className={style.login}>
+                        <form className={style.login} onSubmit={submit}>
                             <Input
                                 onChange={handleInputChange}
                                 type={'text'}
@@ -92,8 +132,10 @@ const render = () => {
                                 error={false}
                                 errorText={'Ошибка'}
                                 size={'default'}
-                                icon={"EditIcon"}
-                                onIconClick={onIconClick}
+                                icon={iconName}
+                                onIconClick={onIconClickName}
+                                ref={nameRef}
+                                disabled={state.nameIsDisabled}
                             />
                             <Input
                                 onChange={handleInputChange}
@@ -104,8 +146,10 @@ const render = () => {
                                 error={false}
                                 errorText={'Ошибка'}
                                 size={'default'}
-                                icon={"EditIcon"}
-                                onIconClick={onIconClick}
+                                icon={iconEmail}
+                                onIconClick={onIconEmail}
+                                ref={emailRef}
+                                disabled={state.emailIsDisabled}
                             />
                             <Input
                                 onChange={handleInputChange}
@@ -116,9 +160,23 @@ const render = () => {
                                 error={false}
                                 errorText={'Ошибка'}
                                 size={'default'}
-                                icon={"EditIcon"}
-                                onIconClick={onIconClick}
-                            />
+                                icon={iconPassword}
+                                onIconClick={onIconClickPassword}
+                                ref={passwordRef}
+                                disabled={state.passwordIsDisabled}
+                            />{
+                            profileData ? isLoading === false && !(state.email === profileData.email && state.name === profileData.name && state.password.length === 0) ?
+                                <div className={style.buttons}>
+                                    <Button type="secondary" size="medium">
+                                        Отмена
+                                    </Button>
+                                    <Button type="primary" size="medium">
+                                        Cохранить
+                                    </Button>
+                                </div>
+                                :null
+                                :null
+                        }
                         </form>
                     </Route>
                     <Route path={`${path}${ROUTES.ORDERS}`} exact>

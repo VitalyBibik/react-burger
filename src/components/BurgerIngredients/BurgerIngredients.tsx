@@ -55,8 +55,8 @@ export const BurgerIngredients = memo(({
   const handleScroll = () => {
     if (rootRef.current && bunRef.current && sauceRef.current && mainRef.current) {
       const bunDistance = Math.abs(rootRef?.current?.getBoundingClientRect()?.top - bunRef?.current?.getBoundingClientRect()?.top)
-      const sauceDistance = Math.abs(rootRef.current?.getBoundingClientRect()?.top - sauceRef.current?.getBoundingClientRect()?.top)
-      const mainDistance = Math.abs(rootRef.current?.getBoundingClientRect()?.top - mainRef.current?.getBoundingClientRect()?.top)
+      const sauceDistance = Math.abs(rootRef?.current?.getBoundingClientRect()?.top - sauceRef.current?.getBoundingClientRect()?.top)
+      const mainDistance = Math.abs(rootRef?.current?.getBoundingClientRect()?.top - mainRef.current?.getBoundingClientRect()?.top)
       const min = Math.min(bunDistance, sauceDistance, mainDistance)
       const activeTab = min === bunDistance ? 'bun' : min === sauceDistance ? 'sauce' : 'main';
       setCurrent(activeTab)

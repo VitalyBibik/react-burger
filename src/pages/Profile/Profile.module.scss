@@ -47,6 +47,7 @@
   align-items: center;
   row-gap: 24px;
   align-self: baseline;
+  padding-right: 70px;
 }
 
 .box {
@@ -73,4 +74,9 @@
 .info {
   max-width: 320px;
   margin-top: 56px;
+}
+.buttons {
+  display: flex;
+  align-self: flex-end;
+  padding-bottom: 70px;
 }

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction, SerializedError} from "@reduxjs/toolkit";
 import {
     forgotFetchPassword,
-    getFetchUser,
+    getFetchUser, logoutFetchRequest,
     setFetchPassword,
     setFetchUserData,
     signInFetch,
@@ -12,6 +12,40 @@ import { ROUTES } from "../../../utils/routes/routes";
 import { clearStorage, setTokens } from "../../../utils/functions/tokens";
 
 export const sliceName = "auth";
+interface AuthState {
+    data: any | null;
+    authChecking: boolean;
+    registerSending: boolean;
+    registerError: SerializedError | null;
+    loginSending: boolean;
+    loginError: SerializedError | null;
+    getUserSending: boolean;
+    getUserError: SerializedError | null;
+    setUserPasswordSending: boolean;
+    setUserPasswordError: SerializedError | null;
+    forgotUserPasswordSending: boolean;
+    forgotUserPasswordError: SerializedError | null;
+    deleteRefreshTokenSending: boolean;
+    deleteRefreshTokenError: SerializedError | null;
+
+}
+const initialState: AuthState = {
+    data: null,
+    authChecking: true,
+    registerSending: false,
+    registerError: null,
+    loginSending: false,
+    loginError: null,
+    getUserSending: false,
+    getUserError: null,
+    setUserPasswordSending: false,
+    setUserPasswordError: null,
+    forgotUserPasswordSending: false,
+    forgotUserPasswordError: null,
+    deleteRefreshTokenSending: false,
+    deleteRefreshTokenError: null
+
+};
 
 export const registerUser = createAsyncThunk<any, any, any>(
     `${sliceName}/registerUser`,
@@ -46,7 +80,6 @@ export const patchUser = createAsyncThunk<any, any, any>(
 export const getUser = createAsyncThunk<any, any, any>(
     `${sliceName}/getUser`,
     async (_, { dispatch}) => {
-        console.log('GETDATA PROFILE')
         const res = await getFetchUser()
         dispatch(setUserData(res))
         return res;
@@ -71,41 +104,16 @@ export const forgotUserPassword = createAsyncThunk<any, any, any>(
     }
 );
 
-export const signOut = () => (dispatch:any) => {
-    dispatch(setUserData(null));
-    clearStorage()
-};
-
-interface AuthState {
-    data: any | null;
-    authChecking: boolean;
-    registerSending: boolean;
-    registerError: SerializedError | null;
-    loginSending: boolean;
-    loginError: SerializedError | null;
-    getUserSending: boolean;
-    getUserError: SerializedError | null;
-    setUserPasswordSending: boolean;
-    setUserPasswordError: SerializedError | null;
-    forgotUserPasswordSending: boolean;
-    forgotUserPasswordError: SerializedError | null;
-
-}
-
-const initialState: AuthState = {
-    data: null,
-    authChecking: true,
-    registerSending: false,
-    registerError: null,
-    loginSending: false,
-    loginError: null,
-    getUserSending: false,
-    getUserError: null,
-    setUserPasswordSending: false,
-    setUserPasswordError: null,
-    forgotUserPasswordSending: false,
-    forgotUserPasswordError: null,
-};
+export const signOut = createAsyncThunk<any, any, any>(
+    `${sliceName}/signOut`,
+    async (refreshToken, { dispatch}) => {
+        const res = await logoutFetchRequest(refreshToken)
+        dispatch(push(`${ROUTES.MAIN}`))
+        dispatch(setUserData(null));
+        clearStorage()
+        return res;
+    }
+);
 
 const authSlice = createSlice({
     name: sliceName,
@@ -146,7 +154,6 @@ const authSlice = createSlice({
         builder.addCase(getUser.fulfilled, (state:AuthState, action:PayloadAction<any>) => {
             state.getUserSending = false;
             state.getUserError = null;
-                console.log('PoluchilUsera', action.payload)
             state.data = action.payload.user
         });
         builder.addCase(getUser.rejected, (state:AuthState, action:any) => {
@@ -172,6 +179,17 @@ const authSlice = createSlice({
             state.forgotUserPasswordError = null;
         });
         builder.addCase(forgotUserPassword.rejected, (state:AuthState, action:any) => {
+            state.forgotUserPasswordSending = false;
+            state.forgotUserPasswordError = action.error;
+        });
+        builder.addCase(signOut.pending, (state:AuthState) => {
+            state.forgotUserPasswordSending = true;
+        });
+        builder.addCase(signOut.fulfilled, (state:AuthState, action:PayloadAction<any>) => {
+            state.forgotUserPasswordSending = false;
+            state.forgotUserPasswordError = null;
+        });
+        builder.addCase(signOut.rejected, (state:AuthState, action:any) => {
             state.forgotUserPasswordSending = false;
             state.forgotUserPasswordError = action.error;
         });

@@ -1,4 +1,4 @@
-import { deleteCookie, setCookie} from "./cookies";
+import { deleteCookie, setCookie } from "./cookies";
 
 const TOKEN = 'token'
 
@@ -12,5 +12,7 @@ export const setTokens = (res:any) => {
 export const clearStorage = () => {
     deleteCookie(TOKEN)
     localStorage.removeItem(TOKEN)
-
+}
+export const getRefreshToken = () => {
+   return localStorage.getItem(TOKEN)
 }
