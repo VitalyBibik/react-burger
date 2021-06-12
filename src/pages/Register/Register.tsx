@@ -4,8 +4,8 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
 import { Link } from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {getUser, registerUser} from "../../services/ducks/auth";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../services/ducks/auth";
 
 export const Register = memo(() => {
   const [state, setState] = useState({

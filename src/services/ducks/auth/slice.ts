@@ -9,7 +9,7 @@ import {
 } from '../../../utils/api/api'
 import { push } from "connected-react-router";
 import { ROUTES } from "../../../utils/routes/routes";
-import {clearStorage, setTokens} from "../../../utils/functions/tokens";
+import { clearStorage, setTokens } from "../../../utils/functions/tokens";
 
 export const sliceName = "auth";
 
@@ -45,17 +45,17 @@ export const patchUser = createAsyncThunk<any, any, any>(
 );
 export const getUser = createAsyncThunk<any, any, any>(
     `${sliceName}/getUser`,
-    async (_, {dispatch}) => {
+    async (_, { dispatch}) => {
+        console.log('GETDATA PROFILE')
         const res = await getFetchUser()
         dispatch(setUserData(res))
         return res;
     }
 );
 
-
 export const setUserPassword = createAsyncThunk<any, any, any>(
     `${sliceName}/resetUserPassword`,
-    async (changeData, {dispatch}) => {
+    async (changeData, { dispatch}) => {
         const res = await setFetchPassword(changeData)
         dispatch(push(`${ROUTES.LOGIN}`))
         return res;
@@ -64,13 +64,12 @@ export const setUserPassword = createAsyncThunk<any, any, any>(
 
 export const forgotUserPassword = createAsyncThunk<any, any, any>(
     `${sliceName}/forgotUserPassword`,
-    async (changeData, {dispatch}) => {
+    async (changeData, { dispatch}) => {
         const res = await forgotFetchPassword(changeData)
         dispatch(push(`${ROUTES.RESET_PASSWORD}`))
         return res;
     }
 );
-
 
 export const signOut = () => (dispatch:any) => {
     dispatch(setUserData(null));
@@ -147,7 +146,7 @@ const authSlice = createSlice({
         builder.addCase(getUser.fulfilled, (state:AuthState, action:PayloadAction<any>) => {
             state.getUserSending = false;
             state.getUserError = null;
-            console.log('PoluchilUsera', action.payload)
+                console.log('PoluchilUsera', action.payload)
             state.data = action.payload.user
         });
         builder.addCase(getUser.rejected, (state:AuthState, action:any) => {

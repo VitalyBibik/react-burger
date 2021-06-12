@@ -42,7 +42,7 @@ export const signInFetch = async ({ login, password }:any) => {
         return requestHandler(res)
 }
 
-export const forgotFetchPassword = async (value:string) => {
+export const forgotFetchPassword = async (value:any) => {
     const res = await fetch(`${serverConfig.baseUrl}/password-reset`, {
         method: 'POST',
         headers: serverConfig.headers,

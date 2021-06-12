@@ -1,5 +1,5 @@
 import style from './ResetPassword.module.scss'
-import { memo, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import cn from "classnames";
 import { ROUTES } from "../../utils/routes/routes";
