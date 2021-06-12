@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, {memo, useEffect} from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
@@ -11,6 +11,9 @@ import { add,  } from "../../services/ducks/constructor";
 import { useDrop } from "react-dnd";
 import { BurgerStart } from "../BurgerStart";
 import cn from "classnames";
+import { push } from "connected-react-router";
+import {ROUTES} from "../../utils/routes/routes";
+import { getUser } from "../../services/ducks/auth";
 
 type Ingredient = {
   _id: string,
@@ -32,19 +35,32 @@ type BurgerConstructorProps = {
 };
 
 export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => {
+  const dispatch = useDispatch()
+
   const orderData = useSelector((store:any) => store.constructorReducer.constructor)
   const bread = useSelector((store:any) => store.constructorReducer.bun)
-  const dispatch = useDispatch()
+  const isUser = !!useSelector((store:any) => store.authReducer.data)
+  // const isUserLoading = useSelector((state:any) => state.authReducer.getUserSending )
+
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
-  const finalOrder =  async () => {
-    const array = [...orderData, bread]
-    const res = await dispatch(sendOrder(array))
-    const data = res as any;
+
+  useEffect(() => {
+    dispatch(getUser(null))
+  }, [dispatch, isUser]);
+
+  const finalOrder = async () => {
+    if (isUser) {
+      const array = [...orderData, bread]
+      const res = await dispatch(sendOrder(array))
+      const data = res as any;
       setModal({
         isShow: true,
         content: <OrderDetails order = {data.payload.order.number} />,
       })
+    } else {
+      dispatch(push(`${ROUTES.LOGIN}`))
+    }
   }
   const handleDrop = (e:any) => {
     e.preventDefault();
