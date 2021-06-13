@@ -77,7 +77,7 @@ export const loginUser = createAsyncThunk<any, any, any>(
 
 export const patchUser = createAsyncThunk<any, any, any>(
   `${sliceName}/patchUser`,
-  async (changeData, { dispatch }) => {
+  async (changeData, { dispatch, rejectWithValue }) => {
     try {
       const res = await setFetchUserData(changeData);
       dispatch(setUserData(res));
@@ -86,14 +86,14 @@ export const patchUser = createAsyncThunk<any, any, any>(
       if (e.message === 'jwt expired') {
         await dispatch(refreshToken(setUserPassword(changeData)));
       } else {
-        throw e;
+          rejectWithValue(e);
       }
     }
   }
 );
 export const getUser = createAsyncThunk<any, any, any>(
   `${sliceName}/getUser`,
-  async (_, { dispatch }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const res = await getFetchUser();
       dispatch(setUserData(res));
@@ -102,7 +102,7 @@ export const getUser = createAsyncThunk<any, any, any>(
         await dispatch(refreshToken(getUser(null)));
       } else {
         dispatch(push(`${ROUTES.LOGIN}`));
-        throw e;
+        rejectWithValue(e);
       }
     }
   }
