@@ -56,7 +56,6 @@ export const BurgerConstructor = memo(
     // }, [dispatch, isUser]);
 
     const finalOrder = async () => {
-      if (getRefreshToken()) {
         const array = [...orderData, bread];
         const res = await dispatch(sendOrder(array));
         const data = res as any;
@@ -64,9 +63,6 @@ export const BurgerConstructor = memo(
           isShow: true,
           content: <OrderDetails order={data.payload.order.number} />,
         });
-      } else {
-        dispatch(push(`${ROUTES.LOGIN}`));
-      }
     };
     const handleDrop = (e: any) => {
       e.preventDefault();
