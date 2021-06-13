@@ -15,10 +15,10 @@ import { push } from 'connected-react-router';
 import { ROUTES } from '../../utils/routes/routes';
 import { getRefreshToken } from '../../utils/functions/tokens';
 import {
-  getBread,
-  getOrderData,
-  getPrice,
-  getProductArray,
+    getBread,
+    getOrderData,
+    getPrice,
+    getProductArray, getSendOrderArray,
 } from '../../services/ducks/constructor/selectors';
 
 type Ingredient = {
@@ -50,10 +50,11 @@ export const BurgerConstructor = memo(
     const productArray = useSelector(getProductArray);
     const price = useSelector(getPrice);
 
+    const sendOrderArray = useSelector(getSendOrderArray)
+
     const finalOrder = async () => {
       if (hasToken) {
-        const array = [...orderData, bread];
-        const res = await dispatch(sendOrder(array));
+        const res = await dispatch(sendOrder(sendOrderArray));
         const data = res as any;
         setModal({
           isShow: true,

@@ -1,6 +1,7 @@
 import { sliceName } from './slice';
 import { BUN, MAIN, SAUCE } from '../../../utils/constants/constants';
 import { createSelector } from '@reduxjs/toolkit';
+import {sendOrder} from "../order";
 
 // TODO: Сделать в интерфейс ингридиент
 type Ingredient = {
@@ -34,6 +35,8 @@ export const getFillingArray = createSelector(getData, (dataArray) =>
 export const getSauceArray = createSelector(getData, (dataArray) =>
   dataArray.filter((el: Ingredient) => el.type === SAUCE)
 );
+export const getSendOrderArray = createSelector(getOrderData, getBread, (orderData, bread) => [...orderData, bread])
+
 
 export const getProductArray = createSelector(getOrderData, (items) =>
   items.filter((el: Ingredient) => el.type !== BUN)
