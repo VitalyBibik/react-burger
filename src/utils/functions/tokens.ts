@@ -16,3 +16,16 @@ export const clearStorage = () => {
 export const getRefreshToken = () => {
    return localStorage.getItem(TOKEN)
 }
+
+/*
+  try {
+            const res = await setFetchPassword(changeData)
+            dispatch(push(`${ROUTES.LOGIN}`))
+            return res;
+        }
+        catch (e) {
+            if (e.message === "jwt expired") {
+                dispatch(refreshToken(setUserPassword))
+            }
+        }
+ */

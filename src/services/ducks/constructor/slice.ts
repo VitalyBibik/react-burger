@@ -1,7 +1,8 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit'
-import { v4 as uuid } from 'uuid';
-import { apiUrl, BUN } from '../../../utils/constants/constants';
+import type {PayloadAction} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice, SerializedError} from '@reduxjs/toolkit'
+import {v4 as uuid} from 'uuid';
+import {BUN} from '../../../utils/constants/constants';
+import {loadFetchIngredients} from "../../../utils/api/api";
 
 interface Ingredient  {
   _id: string,
@@ -42,13 +43,10 @@ const initialState: any = {
   bun: null,
 }
 
-
-  export const loadIngredients = createAsyncThunk(
+export const loadIngredients = createAsyncThunk(
       'constructor/loadIngredients',
       async () => {
-      const res = await fetch(apiUrl)
-      const data = await res.json()
-      return data.data
+        return await loadFetchIngredients()
 })
 
 const constructorSlice = createSlice({
@@ -84,7 +82,7 @@ const constructorSlice = createSlice({
       state.hasError = null;
     });
     builder.addCase(loadIngredients.fulfilled, (state:burgerState, action:any) => {
-      state.data = action.payload;
+      state.data = action.payload.data;
       state.isLoading = false;
     });
     builder.addCase(loadIngredients.rejected, (state:burgerState, action:any) => {

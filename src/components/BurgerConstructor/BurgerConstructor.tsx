@@ -14,6 +14,7 @@ import cn from "classnames";
 import { push } from "connected-react-router";
 import {ROUTES} from "../../utils/routes/routes";
 import { getUser } from "../../services/ducks/auth";
+import {getRefreshToken} from "../../utils/functions/tokens";
 
 type Ingredient = {
   _id: string,
@@ -39,18 +40,18 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
 
   const orderData = useSelector((store:any) => store.constructorReducer.constructor)
   const bread = useSelector((store:any) => store.constructorReducer.bun)
-  const isUser = !!useSelector((store:any) => store.authReducer.data)
+  // const isUser = !!useSelector((store:any) => store.authReducer.data)
   // const isUserLoading = useSelector((state:any) => state.authReducer.getUserSending )
 
   const productArray = orderData.filter((el:Ingredient) => el.type !== BUN )
   const price = (bread ? bread.price * 2 : 0) + orderData.reduce((s:any,v:any) => s + v.price, 0)
 
-  useEffect(() => {
-    dispatch(getUser(null))
-  }, [dispatch, isUser]);
+  // useEffect(() => {
+  //   dispatch(getUser(null))
+  // }, [dispatch, isUser]);
 
   const finalOrder = async () => {
-    if (isUser) {
+    if (getRefreshToken()) {
       const array = [...orderData, bread]
       const res = await dispatch(sendOrder(array))
       const data = res as any;
@@ -77,29 +78,29 @@ export const BurgerConstructor = memo(({ setModal }: BurgerConstructorProps) => 
   const marginTopAutoOn = orderData.length > 0 && bread
 
   return (
-    <>
-      <div className={cn(style.container, {
-        [style.container_auto]: marginTopAutoOn,
-      }) }
-           ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
-        { (marginTopAutoOn) ?
-        <>
-          <OrderItem bread={bread} top={true} />
-          <ul className={style.container__item} >
-            <OrderItem productArray={productArray} />
-          </ul>
-          <OrderItem bread={bread} top={false} />
-          <div className={style.container__button}>
-            <PriceItem size="medium" price={price} />
-            { bread &&
-            <Button type="primary" size="medium" onClick={finalOrder}>
-              Оформить заказ
-            </Button> }
-          </div>
-        </> : <BurgerStart bread = {bread} items={orderData.length > 0}/>
-        }
-      </div>
+      <>
+        <div className={cn(style.container, {
+          [style.container_auto]: marginTopAutoOn,
+        }) }
+             ref={dropTarget} onDrop={(e) => handleDrop(e)} style={{backgroundColor}}>
+          { (marginTopAutoOn) ?
+              <>
+                <OrderItem bread={bread} top={true} />
+                <ul className={style.container__item} >
+                  <OrderItem productArray={productArray} />
+                </ul>
+                <OrderItem bread={bread} top={false} />
+                <div className={style.container__button}>
+                  <PriceItem size="medium" price={price} />
+                  { bread &&
+                  <Button type="primary" size="medium" onClick={finalOrder}>
+                    Оформить заказ
+                  </Button> }
+                </div>
+              </> : <BurgerStart bread = {bread} items={orderData.length > 0}/>
+          }
+        </div>
 
-    </>
+      </>
   );
 });

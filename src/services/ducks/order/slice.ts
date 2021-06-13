@@ -1,6 +1,6 @@
 import type {PayloadAction, SerializedError} from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { apiPost } from "../../../utils/constants/constants";
+import { fetchOrder } from "../../../utils/api/api";
 
 type TModalData = {
   orderId:number|null,
@@ -13,22 +13,12 @@ const initialState: TModalData = {
   data:null,
   isSending: false,
   sendError: null,
-
 }
 
 export const sendOrder = createAsyncThunk<any, any, any>(
     'order/sendOrder',
-    async (data:any) => {
-      const res = await fetch(apiPost, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ingredients: data,
-        }),
-      })
-      return await res.json()
+    async (data) => {
+      return await fetchOrder(data)
     }
 );
 

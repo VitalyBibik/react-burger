@@ -11,7 +11,7 @@ type ProtectedRouteProps = {
     exact: boolean;
 };
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({path, children, exact}) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({path, children, exact}) => {
     const isLoggedIn = useSelector(getIsAuth);
     const isChecking = useSelector(getIsAuthChecking);
 
@@ -20,9 +20,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({path, children, exact}) 
             { isChecking ? (
                     <Loader />
             ) : (
-                isLoggedIn ? children : <Redirect to="/profile" />
+                isLoggedIn ? children : <Redirect to="/login" />
             )}
         </Route>
     )}
-
-export default ProtectedRoute;

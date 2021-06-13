@@ -1,5 +1,6 @@
 import { serverConfig } from '../constants/constants';
 import { getCookie } from "../functions/cookies";
+import {getRefreshToken} from "../functions/tokens";
 
 export const getProductsFetch = async () => {
     const res = await fetch(`${serverConfig.baseUrl}/ingredients`, {
@@ -81,7 +82,7 @@ export const getFetchUser = async () => {
 export const setFetchUserData = async ({name, email}:any) => {
     console.log('name,email', {name, email})
     const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
-        method:'PATCH',
+        method: 'PATCH',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -97,16 +98,13 @@ export const setFetchUserData = async ({name, email}:any) => {
     return requestHandler(res)
 }
 
-
 export const logoutFetchRequest = async (refreshToken:string) => {
     return await fetch(`${serverConfig.baseUrl}/auth/logout`, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: {...serverConfig.headers},
         body: JSON.stringify({
             token: `${refreshToken}`,
         }),
@@ -114,6 +112,34 @@ export const logoutFetchRequest = async (refreshToken:string) => {
         referrerPolicy: 'no-referrer'
     });
 };
+
+export const refreshFetchToken = async () => {
+    const res = await fetch(`${serverConfig.baseUrl}/auth/token`,{
+        method: 'POST',
+        headers: {...serverConfig.headers },
+        body: JSON.stringify({
+            token: `${getRefreshToken()}`
+        })
+    })
+    return requestHandler(res)
+}
+
+export const fetchOrder = async (data:any) => {
+    const res = await fetch(`${serverConfig.baseUrl}/orders`, {
+        method: 'POST',
+        headers: {...serverConfig.headers },
+        body: JSON.stringify({
+            ingredients: data,
+        }),
+    })
+    return requestHandler(res)
+}
+export const loadFetchIngredients = async () => {
+    const res = await fetch(`${serverConfig.baseUrl}/ingredients`)
+    return requestHandler(res)
+}
+
+
 
 const requestHandler = (res:any) => {
     if (res.ok) return res.json()

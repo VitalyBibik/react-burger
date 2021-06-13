@@ -78,9 +78,10 @@ export const Profile = memo(() => {
     }
   const logout = () => {
       dispatch(signOut(getRefreshToken()))
+
   }
     useEffect(() => {
-        dispatch(getUser(null))
+        getRefreshToken() && dispatch(getUser(null))
         setState(prevState => {
             return {...prevState, email: prevState.email, name: prevState.name}})
     }, [dispatch]);

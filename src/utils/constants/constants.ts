@@ -23,9 +23,6 @@ export const serverConfig = {
   }
 }
 
-export const apiUrl = `${serverConfig.baseUrl}/ingredients`;
-export const apiPost = `${serverConfig.baseUrl}/orders`;
-
 export const ItemTypes = {
   CARD: 'card',
   SORT: 'sort'

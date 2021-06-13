@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction, SerializedError} from "@reduxjs/toolkit";
 import {
     forgotFetchPassword,
-    getFetchUser, logoutFetchRequest,
+    getFetchUser, logoutFetchRequest, refreshFetchToken,
     setFetchPassword,
     setFetchUserData,
     signInFetch,
@@ -12,6 +12,7 @@ import { ROUTES } from "../../../utils/routes/routes";
 import { clearStorage, setTokens } from "../../../utils/functions/tokens";
 
 export const sliceName = "auth";
+
 interface AuthState {
     data: any | null;
     authChecking: boolean;
@@ -71,18 +72,36 @@ export const loginUser = createAsyncThunk<any, any, any>(
 
 export const patchUser = createAsyncThunk<any, any, any>(
     `${sliceName}/patchUser`,
-    async (changeData, { dispatch}) => {
-        const res = await setFetchUserData(changeData)
-        dispatch(setUserData(res))
-        return changeData;
+    async (changeData, {dispatch}) => {
+        try {
+            const res = await setFetchUserData(changeData)
+            dispatch(setUserData(res))
+            return changeData;
+        }
+        catch (e) {
+            if (e.message === "jwt expired") {
+                await dispatch(refreshToken(setUserPassword(changeData)))
+            } else {
+                throw e
+            }
+        }
     }
 );
 export const getUser = createAsyncThunk<any, any, any>(
     `${sliceName}/getUser`,
     async (_, { dispatch}) => {
-        const res = await getFetchUser()
-        dispatch(setUserData(res))
-        return res;
+        try {
+            const res = await getFetchUser()
+            dispatch(setUserData(res))
+        }
+        catch (e) {
+            if (e.message === "jwt expired") {
+                await dispatch(refreshToken(getUser(null)))
+            } else {
+                dispatch(push(`${ROUTES.LOGIN}`))
+                throw e
+            }
+        }
     }
 );
 
@@ -94,6 +113,16 @@ export const setUserPassword = createAsyncThunk<any, any, any>(
         return res;
     }
 );
+export const refreshToken = createAsyncThunk<any, any, any>(
+    `${sliceName}/refreshToken`,
+    async (afterRefresh, {dispatch}) => {
+            const res = await refreshFetchToken()
+            setTokens(res)
+            dispatch(afterRefresh)
+            return res;
+    }
+);
+
 
 export const forgotUserPassword = createAsyncThunk<any, any, any>(
     `${sliceName}/forgotUserPassword`,
