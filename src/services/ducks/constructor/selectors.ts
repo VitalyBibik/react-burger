@@ -18,6 +18,8 @@ type Ingredient = {
   __v?: number;
 };
 
+export const getIsLoading = (store: any) => store[sliceName].isLoading;
+
 export const getOrderData = (store: any) => store[sliceName].constructor;
 export const getBread = (store: any) => store[sliceName].bun;
 export const getData = (store: any) => store[sliceName].data;
