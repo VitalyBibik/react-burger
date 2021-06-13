@@ -2,44 +2,45 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshToken } from '../../services/ducks/auth';
 import {
-  getIsTokenUpdated,
-  getTokenUpdateDate,
+    getIsTokenUpdated,
+    getTokenUpdateDate,
 } from '../../services/ducks/auth/selectors';
 import { Redirect, Route } from 'react-router-dom';
 import { getRefreshToken } from '../../utils/functions/tokens';
 
 export const ProtectedRoute = ({children, ...rest}:any) => {
-  const dispatch = useDispatch();
-  const isTokenUpdated = useSelector(getIsTokenUpdated);
-  const tokenUpdateDate = useSelector(getTokenUpdateDate);
-  const hasToken = getRefreshToken();
-  console.log('isTokenUpdated', isTokenUpdated);
-  console.log('hasToken', hasToken);
+    const dispatch = useDispatch();
+    const isTokenUpdated = useSelector(getIsTokenUpdated);
+    const tokenUpdateDate = useSelector(getTokenUpdateDate);
+    const hasToken = !!getRefreshToken();
+    console.log('isTokenUpdated', isTokenUpdated);
+    console.log('hasToken', hasToken);
 
-  useEffect(() => {
+    useEffect(() => {
+        if (hasToken && !isTokenUpdated) {
+
+            dispatch(refreshToken(null));
+        }
+    }, [dispatch, hasToken]);
+
     if (hasToken && !isTokenUpdated) {
-      dispatch(refreshToken(null));
+        return null;
     }
-  }, [dispatch, hasToken]);
-
-  if (hasToken && !isTokenUpdated) {
-    return null;
-  }
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        hasToken && tokenUpdateDate ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
+    return (
+        <Route
+            {...rest}
+            render={({ location }) =>
+                hasToken && tokenUpdateDate ? (
+                    children
+                ) : (
+                    <Redirect
+                        to={{
+                            pathname: '/login',
+                            state: { from: location },
+                        }}
+                    />
+                )
+            }
+        />
+    );
 };
