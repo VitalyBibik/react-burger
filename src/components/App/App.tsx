@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import style from './App.module.scss';
 import { AppHeader } from '../AppHeader';
 import { BurgerUnion } from '../../pages/BurgerUnion';
@@ -12,8 +12,6 @@ import { Profile } from '../../pages/Profile';
 import { Feed } from '../../pages/Feed';
 import { OrderHistoryDetailCard } from '../../pages/OrderHistoryDetailCard';
 import { ProtectedRoute } from '../ProtectedRoute';
-import { useSelector } from 'react-redux';
-import { getIsAuth } from '../../services/ducks/auth/selectors';
 
 export function App() {
   return (
@@ -35,9 +33,9 @@ export function App() {
         <Route path={ROUTES.RESET_PASSWORD} exact>
           <ResetPassword />
         </Route>
-        <Route path={ROUTES.PROFILE} exact={false}>
+        <ProtectedRoute path={ROUTES.PROFILE} exact={false}>
           <Profile />
-        </Route>
+        </ProtectedRoute>
         <Route path={ROUTES.FEED} exact>
           <Feed />
         </Route>

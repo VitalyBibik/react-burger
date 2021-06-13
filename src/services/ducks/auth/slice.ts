@@ -121,10 +121,15 @@ export const setUserPassword = createAsyncThunk<any, any, any>(
 export const refreshToken = createAsyncThunk<any, any, any>(
   `${sliceName}/refreshToken`,
   async (afterRefresh, { dispatch }) => {
+    console.log(afterRefresh, 'after');
     const res = await refreshFetchToken();
     setTokens(res);
-    dispatch(afterRefresh);
-    return res;
+    if (afterRefresh !== null) {
+      dispatch(afterRefresh);
+      return res;
+    } else {
+      return res;
+    }
   }
 );
 
