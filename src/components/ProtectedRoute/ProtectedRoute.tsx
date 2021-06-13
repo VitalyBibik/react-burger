@@ -15,11 +15,13 @@ export const ProtectedRoute = ({children, ...rest}:any) => {
   const hasToken = getRefreshToken();
   console.log('isTokenUpdated', isTokenUpdated);
   console.log('hasToken', hasToken);
+
   useEffect(() => {
     if (hasToken && !isTokenUpdated) {
       dispatch(refreshToken(null));
     }
-  }, [dispatch, hasToken, isTokenUpdated]);
+  }, [dispatch, hasToken]);
+
   if (hasToken && !isTokenUpdated) {
     return null;
   }

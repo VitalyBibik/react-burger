@@ -103,7 +103,7 @@ export const logoutFetchRequest = async (refreshToken: string) => {
   });
 };
 
-export const refreshFetchToken = async () => {
+export const getAccessToken = async () => {
   const res = await fetch(`${serverConfig.baseUrl}/auth/token`, {
     method: 'POST',
     headers: { ...serverConfig.headers },

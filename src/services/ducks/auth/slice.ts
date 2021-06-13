@@ -5,18 +5,17 @@ import {
   SerializedError,
 } from '@reduxjs/toolkit';
 import {
-  forgotFetchPassword,
-  getFetchUser,
-  logoutFetchRequest,
-  refreshFetchToken,
-  setFetchPassword,
-  setFetchUserData,
-  signInFetch,
-  signUpFetch,
+    forgotFetchPassword, getAccessToken,
+    getFetchUser,
+    logoutFetchRequest,
+    setFetchPassword,
+    setFetchUserData,
+    signInFetch,
+    signUpFetch,
 } from '../../../utils/api/api';
 import { push } from 'connected-react-router';
 import { ROUTES } from '../../../utils/routes/routes';
-import { clearStorage, setTokens } from '../../../utils/functions/tokens';
+import {clearStorage, getRefreshToken, setTokens} from '../../../utils/functions/tokens';
 
 export const sliceName = 'authReducer';
 
@@ -101,7 +100,10 @@ export const getUser = createAsyncThunk<any, any, any>(
       dispatch(setUserData(res));
     } catch (e) {
       if (e.message === 'jwt expired') {
-        await dispatch(refreshToken(getUser(null)));
+          // console.log(getRefreshToken(), 'REFRESHtOKEN')
+          // const res = dispatch(await getAccessToken());
+          //    setTokens(res)
+          dispatch(refreshToken(getUser(null))) // Перенаправляю экшен в обновление токена, если истек токен
       } else {
         dispatch(push(`${ROUTES.LOGIN}`));
         rejectWithValue(e);
@@ -121,13 +123,10 @@ export const setUserPassword = createAsyncThunk<any, any, any>(
 export const refreshToken = createAsyncThunk<any, any, any>(
   `${sliceName}/refreshToken`,
   async (afterRefresh, { dispatch }) => {
-    console.log(afterRefresh, 'after');
-    const res = await refreshFetchToken();
-    setTokens(res);
-    if (afterRefresh !== null) {
+    const res = await getAccessToken(); // Рефреш токен берется внутри запроса
+    setTokens(res); // Записываю новые токены
+    if (afterRefresh !== null) { // Если есть диспатч, то диспатчу это событе снова.
       dispatch(afterRefresh);
-      return res;
-    } else {
       return res;
     }
   }
