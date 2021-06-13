@@ -1,36 +1,42 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { Loader } from '../Loader';
-import { useSelector } from 'react-redux';
-
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshToken } from '../../services/ducks/auth';
 import {
-  getIsAuth,
-  getIsAuthChecking,
+  getIsTokenUpdated,
+  getTokenUpdateDate,
 } from '../../services/ducks/auth/selectors';
+import { Redirect, Route } from 'react-router-dom';
 
-type ProtectedRouteProps = {
-  path: string;
-  children: React.ReactNode;
-  exact: boolean;
-};
-
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  path,
-  children,
-  exact,
-}) => {
-  const isLoggedIn = useSelector(getIsAuth);
-  const isChecking = useSelector(getIsAuthChecking);
-
+export const ProtectedRoute = (children: any, ...rest: any) => {
+  const dispatch = useDispatch();
+  const isTokenUpdated = useSelector(getIsTokenUpdated);
+  const tokenUpdateDate = useSelector(getTokenUpdateDate);
+  const hasToken = !!localStorage.getItem('refreshToken');
+  console.log('isTokenUpdated', isTokenUpdated);
+  console.log('hasToken', hasToken);
+  useEffect(() => {
+    if (!isTokenUpdated && hasToken) {
+      dispatch(refreshToken(null));
+    }
+  }, []);
+  if (hasToken && !isTokenUpdated) {
+    return null;
+  }
   return (
-    <Route path={path} exact={exact}>
-      {isChecking ? (
-        <Loader />
-      ) : isLoggedIn ? (
-        children
-      ) : (
-        <Redirect to='/login' />
-      )}
-    </Route>
+    <Route
+      {...rest}
+      render={({ location }) =>
+        hasToken && tokenUpdateDate ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
   );
 };

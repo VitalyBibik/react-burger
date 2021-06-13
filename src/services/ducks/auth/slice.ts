@@ -22,7 +22,6 @@ export const sliceName = 'auth';
 
 interface AuthState {
   data: any | null;
-  authChecking: boolean;
   registerSending: boolean;
   registerError: SerializedError | null;
   loginSending: boolean;
@@ -35,10 +34,11 @@ interface AuthState {
   forgotUserPasswordError: SerializedError | null;
   deleteRefreshTokenSending: boolean;
   deleteRefreshTokenError: SerializedError | null;
+  tokenUpdated: boolean;
+  tokenUpdateDate: null | SerializedError;
 }
 const initialState: AuthState = {
   data: null,
-  authChecking: true,
   registerSending: false,
   registerError: null,
   loginSending: false,
@@ -51,6 +51,8 @@ const initialState: AuthState = {
   forgotUserPasswordError: null,
   deleteRefreshTokenSending: false,
   deleteRefreshTokenError: null,
+  tokenUpdated: false,
+  tokenUpdateDate: null,
 };
 
 export const registerUser = createAsyncThunk<any, any, any>(
@@ -86,7 +88,7 @@ export const patchUser = createAsyncThunk<any, any, any>(
       if (e.message === 'jwt expired') {
         await dispatch(refreshToken(setUserPassword(changeData)));
       } else {
-          rejectWithValue(e);
+        rejectWithValue(e);
       }
     }
   }
