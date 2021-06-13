@@ -1,7 +1,6 @@
 import { sliceName } from './slice';
 import { BUN, MAIN, SAUCE } from '../../../utils/constants/constants';
 import { createSelector } from '@reduxjs/toolkit';
-import { sendOrder } from '../order';
 
 // TODO: Сделать в интерфейс ингридиент
 type Ingredient = {
