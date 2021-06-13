@@ -55,7 +55,6 @@ export const BurgerItem = memo(
       findClosureCard(card);
     };
     const ingredientsWithCount = useSelector(getIngredientsWithCount);
-    const countRender = ingredientsWithCount[card._id];
 
     const [, dragOrderCard] = useDrag({
       type: ItemTypes.CARD,
@@ -66,7 +65,7 @@ export const BurgerItem = memo(
       <li className={style.container} onClick={findCard} ref={dragOrderCard}>
         <div className={style.container__image}>
           <img className={style.image} srcSet={image_large} alt='text' />
-          {countRender ? <Counter count={countRender} size='small' /> : null}
+          {ingredientsWithCount[card._id] ? <Counter count={ingredientsWithCount[card._id]} size='small' /> : null}
         </div>
         <div className={style.container__price}>
           <PriceItem price={price} />
