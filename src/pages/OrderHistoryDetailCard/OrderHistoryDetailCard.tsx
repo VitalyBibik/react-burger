@@ -6,7 +6,7 @@ import { PriceItem } from '../../components/PriceItem';
 import { data } from '../../fixtures';
 import { getSum } from '../../utils/functions/getSum';
 
-type OrderItemIngredient = {
+type OrderItemIngredientProps = {
   _id: string;
   name: string;
   type: string;

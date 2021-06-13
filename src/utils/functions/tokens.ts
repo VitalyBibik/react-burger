@@ -17,5 +17,3 @@ export const clearStorage = () => {
 export const getRefreshToken = () => {
   return localStorage.getItem(TOKEN);
 };
-
-

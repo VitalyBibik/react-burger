@@ -1,10 +1,10 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
 import { OrderDetails } from '../OrderDetails';
-import { BUN, ItemTypes } from '../../utils/constants/constants';
+import { ItemTypes } from '../../utils/constants/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from '../../services/ducks/order';
 import { add } from '../../services/ducks/constructor';
@@ -13,8 +13,13 @@ import { BurgerStart } from '../BurgerStart';
 import cn from 'classnames';
 import { push } from 'connected-react-router';
 import { ROUTES } from '../../utils/routes/routes';
-import { getUser } from '../../services/ducks/auth';
 import { getRefreshToken } from '../../utils/functions/tokens';
+import {
+  getBread,
+  getOrderData,
+  getPrice,
+  getProductArray,
+} from '../../services/ducks/constructor/selectors';
 
 type Ingredient = {
   _id: string;
@@ -38,24 +43,15 @@ type BurgerConstructorProps = {
 export const BurgerConstructor = memo(
   ({ setModal }: BurgerConstructorProps) => {
     const dispatch = useDispatch();
+    const hasToken = !!getRefreshToken();
 
-    const orderData = useSelector(
-      (store: any) => store.constructorReducer.constructor
-    );
-    const bread = useSelector((store: any) => store.constructorReducer.bun);
-    // const isUser = !!useSelector((store:any) => store.authReducer.data)
-    // const isUserLoading = useSelector((state:any) => state.authReducer.getUserSending )
-
-    const productArray = orderData.filter((el: Ingredient) => el.type !== BUN);
-    const price =
-      (bread ? bread.price * 2 : 0) +
-      orderData.reduce((s: any, v: any) => s + v.price, 0);
-
-    // useEffect(() => {
-    //   dispatch(getUser(null))
-    // }, [dispatch, isUser]);
+    const orderData = useSelector(getOrderData);
+    const bread = useSelector(getBread);
+    const productArray = useSelector(getProductArray);
+    const price = useSelector(getPrice);
 
     const finalOrder = async () => {
+      if (hasToken) {
         const array = [...orderData, bread];
         const res = await dispatch(sendOrder(array));
         const data = res as any;
@@ -63,7 +59,11 @@ export const BurgerConstructor = memo(
           isShow: true,
           content: <OrderDetails order={data.payload.order.number} />,
         });
+      } else {
+        dispatch(push(`${ROUTES.LOGIN}`));
+      }
     };
+
     const handleDrop = (e: any) => {
       e.preventDefault();
     };

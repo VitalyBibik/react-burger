@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerItem.module.scss';
@@ -6,6 +6,7 @@ import { PriceItem } from '../PriceItem';
 import { ItemTypes } from '../../utils/constants/constants';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
+import { getIngredientsWithCount } from '../../services/ducks/constructor/selectors';
 
 type IngredientProps = {
   name: string;
@@ -50,28 +51,11 @@ export const BurgerItem = memo(
       type,
       count,
     };
-    const data = useSelector((store: any) => store.constructorReducer.data);
-    const constructor = useSelector(
-      (store: any) => store.constructorReducer.constructor
-    );
-    const bunItem = useSelector((store: any) => store.constructorReducer.bun);
-
     const findCard = () => {
       findClosureCard(card);
     };
+    const ingredientsWithCount = useSelector(getIngredientsWithCount);
 
-    const ingredientsWithCount = useMemo(() => {
-      const counters: any = {};
-      data.forEach((ingredient: any) => {
-        counters[ingredient._id] = constructor.filter(
-          (item: any) => item._id === ingredient._id
-        ).length;
-        if (bunItem && bunItem._id === ingredient._id) {
-          counters[ingredient._id] += 2;
-        }
-      });
-      return counters;
-    }, [bunItem, constructor, data]);
     const [, dragOrderCard] = useDrag({
       type: ItemTypes.CARD,
       item: card,

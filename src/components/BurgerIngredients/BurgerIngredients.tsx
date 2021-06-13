@@ -1,17 +1,14 @@
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
 import style from './BurgerIngredients.module.scss';
 import { BurgerItem } from '../BurgerItem';
-import { BUN, MAIN, SAUCE } from '../../utils/constants/constants';
 import { useSelector } from 'react-redux';
+import {
+  getBreadArray,
+  getFillingArray,
+  getSauceArray,
+} from '../../services/ducks/constructor/selectors';
 
 type Ingredient = {
   _id: string;
@@ -94,23 +91,9 @@ export const BurgerIngredients = memo(
       document.querySelector(`#${current}`)?.scrollIntoView();
     }, [current]);
 
-    const dataArray = useSelector(
-      (store: any) => store.constructorReducer.data
-    );
-
-    const breadArray = useMemo(
-      () => dataArray.filter((el: Ingredient) => el.type === BUN),
-      [dataArray]
-    );
-    const fillingArray = useMemo(
-      () => dataArray.filter((el: Ingredient) => el.type === MAIN),
-      [dataArray]
-    );
-    const sauceArray = useMemo(
-      () => dataArray.filter((el: Ingredient) => el.type === SAUCE),
-      [dataArray]
-    );
-
+    const breadArray = useSelector(getBreadArray);
+    const fillingArray = useSelector(getFillingArray);
+    const sauceArray = useSelector(getSauceArray);
     return (
       <div className={style.container}>
         <h1 className={cn('text text_type_main-large', style.container__title)}>

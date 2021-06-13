@@ -47,6 +47,8 @@ const initialState: any = {
   bun: null,
 };
 
+export const sliceName = 'constructorReducer';
+
 export const loadIngredients = createAsyncThunk(
   'constructor/loadIngredients',
   async () => {
