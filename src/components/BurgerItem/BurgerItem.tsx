@@ -55,12 +55,13 @@ export const BurgerItem = memo(
       findClosureCard(card);
     };
     const ingredientsWithCount = useSelector(getIngredientsWithCount);
+    const countRender = ingredientsWithCount[card._id];
 
     const [, dragOrderCard] = useDrag({
       type: ItemTypes.CARD,
       item: card,
     });
-    const countRender = ingredientsWithCount[card._id];
+
     return (
       <li className={style.container} onClick={findCard} ref={dragOrderCard}>
         <div className={style.container__image}>

@@ -9,7 +9,7 @@ import { loadIngredients } from '../../services/ducks/constructor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { Loader } from '../../components/Loader';
-import {getIsLoading} from "../../services/ducks/constructor/selectors";
+import { getIsLoading } from '../../services/ducks/constructor/selectors';
 
 type CardProps = {
   image_large: string;

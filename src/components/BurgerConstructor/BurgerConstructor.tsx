@@ -15,10 +15,11 @@ import { push } from 'connected-react-router';
 import { ROUTES } from '../../utils/routes/routes';
 import { getRefreshToken } from '../../utils/functions/tokens';
 import {
-    getBread,
-    getOrderData,
-    getPrice,
-    getProductArray, getSendOrderArray,
+  getBread,
+  getOrderData,
+  getPrice,
+  getProductArray,
+  getSendOrderArray,
 } from '../../services/ducks/constructor/selectors';
 
 type Ingredient = {
@@ -50,7 +51,7 @@ export const BurgerConstructor = memo(
     const productArray = useSelector(getProductArray);
     const price = useSelector(getPrice);
 
-    const sendOrderArray = useSelector(getSendOrderArray)
+    const sendOrderArray = useSelector(getSendOrderArray);
 
     const finalOrder = async () => {
       if (hasToken) {
