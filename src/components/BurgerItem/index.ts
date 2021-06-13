@@ -1,1 +1,1 @@
-export * from './BurgerItem'
+export * from './BurgerItem';

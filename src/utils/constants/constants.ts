@@ -1,4 +1,3 @@
-
 export const BUN = 'bun';
 export const MAIN = 'main';
 export const SAUCE = 'sauce';
@@ -19,14 +18,13 @@ export const category = [
 export const serverConfig = {
   baseUrl: 'https://norma.nomoreparties.space/api',
   headers: {
-    'Content-Type': 'application/json'
-  }
-}
+    'Content-Type': 'application/json',
+  },
+};
 
 export const ItemTypes = {
   CARD: 'card',
-  SORT: 'sort'
-}
+  SORT: 'sort',
+};
 
-export const historyOrderLimit = 5
-
+export const historyOrderLimit = 5;

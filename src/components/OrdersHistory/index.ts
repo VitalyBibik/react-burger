@@ -1,1 +1,1 @@
-export * from './OrderHistory'
+export * from './OrderHistory';

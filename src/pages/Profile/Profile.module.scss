@@ -1,4 +1,3 @@
-
 .box {
   //grid-gap: 60px;
   max-width: 1280px;
@@ -25,17 +24,16 @@
     width: 12px;
   }
   &::-webkit-scrollbar-track {
-    background: #2F2F37;
+    background: #2f2f37;
   }
   &::-webkit-scrollbar-thumb {
-    background: #8585AD;
-    border: 3px solid #2F2F37;
+    background: #8585ad;
+    border: 3px solid #2f2f37;
     border-radius: 6px;
   }
 }
 .cards_margin {
   margin-top: 40px;
-
 }
 .cards_height {
   height: auto;
@@ -43,7 +41,7 @@
 
 .login {
   display: flex;
-  flex-flow: column ;
+  flex-flow: column;
   align-items: center;
   row-gap: 24px;
   align-self: baseline;
@@ -65,7 +63,7 @@
 
 .link {
   text-decoration: none;
-  color: #8585AD;
+  color: #8585ad;
 }
 .active {
   color: #fff;

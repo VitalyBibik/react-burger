@@ -1,7 +1,7 @@
-@import "../../utils/constants/variables";
+@import '../../utils/constants/variables';
 
 .header {
-  background-color: #1C1C21;
+  background-color: #1c1c21;
   padding-top: 40px;
 
   &__container {
@@ -19,9 +19,7 @@
   &__text-position {
     margin-left: 9px !important;
   }
-   // color: #8585AD !important;
-
-
+  // color: #8585AD !important;
 }
 
 .container {
@@ -36,5 +34,5 @@
   }
 }
 .test {
-  color:red
+  color: red;
 }

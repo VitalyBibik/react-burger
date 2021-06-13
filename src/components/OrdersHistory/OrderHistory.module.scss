@@ -1,15 +1,16 @@
-@import "../../utils/constants/variables";
+@import '../../utils/constants/variables';
 
 .container {
   width: 844px;
-  background: #1C1C21;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+  background: #1c1c21;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06),
+    0 0 1px rgba(0, 0, 0, 0.04);
   border-radius: 40px;
   list-style: none;
   margin-right: 8px;
 }
 .smallSize {
-  width:584px;
+  width: 584px;
 }
 .container_mini {
   display: flex;
@@ -24,11 +25,11 @@
   margin: 0;
 }
 .canceled {
-  color: #E52B1A;
+  color: #e52b1a;
 }
 .inProgress {
-  color: #00CCCC;
+  color: #00cccc;
 }
 .isDone {
-  color:#F2F2F3;
+  color: #f2f2f3;
 }
