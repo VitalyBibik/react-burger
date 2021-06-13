@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import style from './App.module.scss';
 import { AppHeader } from '../AppHeader';
 import { BurgerUnion } from '../../pages/BurgerUnion';
@@ -12,8 +12,13 @@ import { Profile } from '../../pages/Profile';
 import { Feed } from '../../pages/Feed';
 import { OrderHistoryDetailCard } from '../../pages/OrderHistoryDetailCard';
 import { ProtectedRoute } from '../ProtectedRoute';
+import {useSelector} from "react-redux";
+import {getTokenUpdateDate} from "../../services/ducks/auth/selectors";
+import {getRefreshToken} from "../../utils/functions/tokens";
 
 export function App() {
+  const tokenUpdateDate = useSelector(getTokenUpdateDate);
+  const hasToken = getRefreshToken();
   return (
     <div className={style.App}>
       <AppHeader />
@@ -22,15 +27,19 @@ export function App() {
           <BurgerUnion />
         </Route>
         <Route path={ROUTES.LOGIN} exact>
+          {hasToken && <Redirect to='/' />}
           <Login />
         </Route>
         <Route path={ROUTES.REGISTER} exact>
+          {hasToken &&  <Redirect to='/' />}
           <Register />
         </Route>
         <Route path={ROUTES.FORGOT_PASSWORD} exact>
+          {hasToken &&  <Redirect to='/' />}
           <ForgotPassword />
         </Route>
         <Route path={ROUTES.RESET_PASSWORD} exact>
+          {hasToken && <Redirect to='/' />}
           <ResetPassword />
         </Route>
         <ProtectedRoute path={ROUTES.PROFILE} exact={false}>

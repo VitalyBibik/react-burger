@@ -8,7 +8,7 @@ import {
 import { Redirect, Route } from 'react-router-dom';
 import { getRefreshToken } from '../../utils/functions/tokens';
 
-export const ProtectedRoute = (children: any, ...rest: any) => {
+export const ProtectedRoute = ({children, ...rest}:any) => {
   const dispatch = useDispatch();
   const isTokenUpdated = useSelector(getIsTokenUpdated);
   const tokenUpdateDate = useSelector(getTokenUpdateDate);

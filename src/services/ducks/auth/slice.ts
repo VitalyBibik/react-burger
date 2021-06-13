@@ -18,7 +18,7 @@ import { push } from 'connected-react-router';
 import { ROUTES } from '../../../utils/routes/routes';
 import { clearStorage, setTokens } from '../../../utils/functions/tokens';
 
-export const sliceName = 'auth';
+export const sliceName = 'authReducer';
 
 interface AuthState {
   data: any | null;
@@ -35,7 +35,7 @@ interface AuthState {
   deleteRefreshTokenSending: boolean;
   deleteRefreshTokenError: SerializedError | null;
   tokenUpdated: boolean;
-  tokenUpdateDate: null | SerializedError;
+  tokenUpdateDate: null | SerializedError | boolean;
 }
 const initialState: AuthState = {
   data: null,
@@ -255,17 +255,19 @@ const authSlice = createSlice({
       state.forgotUserPasswordSending = false;
       state.forgotUserPasswordError = action.error;
     });
-
-    // builder.addCase(checkAuth.pending, (state:AuthState) => {
-    //     state.authChecking = true;
-    // });
-    // builder.addCase(checkAuth.fulfilled, (state:AuthState, action:any) => {
-    //     state.authChecking = false;
-    //     state.data = action.payload;
-    // });
-    // builder.addCase(checkAuth.rejected, (state:AuthState) => {
-    //     state.authChecking = false;
-    // });
+    builder.addCase(refreshToken.pending, (state:AuthState) => {
+        state.tokenUpdated = true;
+    });
+    builder.addCase(refreshToken.fulfilled, (state:AuthState, action:any) => {
+        state.tokenUpdated = false;
+        state.tokenUpdateDate = true
+        state.data = action.payload;
+    });
+    builder.addCase(refreshToken.rejected, (state:AuthState, action) => {
+        console.log(action.error)
+        state.tokenUpdated = false;
+        state.tokenUpdateDate = false;
+    });
   },
 });
 
