@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import style from './IngredientModal.module.scss';
 import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useParams } from 'react-router-dom';
