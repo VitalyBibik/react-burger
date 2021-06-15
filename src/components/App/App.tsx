@@ -39,11 +39,11 @@ export function App() {
 
   const history = useHistory();
   let location = useLocation();
-  // @ts-ignore
+
   let background =
     (history.action === 'PUSH' || history.action === 'REPLACE') &&
-    location.state &&
-    location.state.background;
+      // @ts-ignore
+    location.state && location.state.background;
 
   return (
     <div className={style.App}>
