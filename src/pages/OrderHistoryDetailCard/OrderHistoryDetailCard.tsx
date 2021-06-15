@@ -1,29 +1,29 @@
 import React, { memo, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import style from './OrderHistoryDetailCard.module.scss';
 import cn from 'classnames';
 import { PriceItem } from '../../components/PriceItem';
 import { data } from '../../fixtures';
 import { getSum } from '../../utils/functions/getSum';
 
-type OrderItemIngredientProps = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v?: number;
-  constructorId: number;
-};
+// type OrderItemIngredientProps = { TODO:Interface
+//   _id: string;
+//   name: string;
+//   type: string;
+//   proteins: number;
+//   fat: number;
+//   carbohydrates: number;
+//   calories: number;
+//   price: number;
+//   image: string;
+//   image_mobile: string;
+//   image_large: string;
+//   __v?: number;
+//   constructorId: number;
+// };
 
 export const OrderHistoryDetailCard = memo(() => {
-  const { id } = useParams<any>();
+  // const { id } = useParams<any>(); TODO: Next sprint
   const colors = {
     canceled: style.canceled,
     inProgress: style.inProgress,

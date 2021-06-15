@@ -15,8 +15,6 @@ export const ProtectedRoute = ({ children, ...rest }: any) => {
   const isTokenUpdated = useSelector(getIsTokenUpdated);
   const tokenUpdateDate = useSelector(getTokenUpdateDate);
   const hasToken = !!getRefreshToken();
-  console.log('isTokenUpdated', isTokenUpdated);
-  console.log('hasToken', hasToken);
 
   useEffect(() => {
     if (hasToken && !isTokenUpdated) {

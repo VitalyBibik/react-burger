@@ -1,9 +1,7 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useEffect } from 'react';
 import { BurgerIngredients } from '../../components/BurgerIngredients';
 import { BurgerConstructor } from '../../components/BurgerConstructor';
 import style from './BurgerUnion.module.scss';
-import { Modal } from '../../components/Modal';
-import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadIngredients } from '../../services/ducks/constructor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -11,17 +9,17 @@ import { DndProvider } from 'react-dnd';
 import { Loader } from '../../components/Loader';
 import { getIsLoading } from '../../services/ducks/constructor/selectors';
 
-type CardProps = {
-  image_large: string;
-  name: string;
-  desc?: string;
-  calories: number;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  price?: number;
-  id?: number;
-};
+// type CardProps = { TODO:Interface
+//   image_large: string;
+//   name: string;
+//   desc?: string;
+//   calories: number;
+//   proteins: number;
+//   fat: number;
+//   carbohydrates: number;
+//   price?: number;
+//   id?: number;
+// };
 
 export const BurgerUnion = memo(() => {
   const dispatch = useDispatch();

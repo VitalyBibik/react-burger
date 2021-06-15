@@ -19,6 +19,8 @@ type Ingredient = {
 };
 
 export const getIsLoading = (store: any) => store[sliceName].isLoading;
+export const getCardsIsLoading = (store:any) => store[sliceName].data.length > 0
+
 
 export const getOrderData = (store: any) => store[sliceName].constructor;
 export const getBread = (store: any) => store[sliceName].bun;

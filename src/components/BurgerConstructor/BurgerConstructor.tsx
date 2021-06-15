@@ -3,7 +3,6 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerConstructor.module.scss';
 import { OrderItem } from '../OrderItem';
 import { PriceItem } from '../PriceItem';
-import { OrderDetails } from '../OrderDetails';
 import { ItemTypes } from '../../utils/constants/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from '../../services/ducks/order';
