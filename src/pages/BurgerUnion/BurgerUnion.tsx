@@ -23,13 +23,6 @@ type CardProps = {
   id?: number;
 };
 
-type TModalData = {
-  isShow: boolean;
-  title: string;
-  content: React.ReactNode | null;
-  order?: null;
-};
-
 export const BurgerUnion = memo(() => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
