@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 import style from './OrderHistory.module.scss';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { data } from '../../fixtures';
 import { OrderHistoryCard } from '../OrdersHistoryCard';
 import { PriceItem } from '../PriceItem';
@@ -53,7 +53,7 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
   );
   const arrayLength = testArray.length - 1;
   const sum = useMemo(() => getSum(testArray), [testArray]);
-  let location = useLocation()
+  let location = useLocation();
   return (
     <>
       <li
@@ -65,12 +65,15 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
           'mr-2, mb-6'
         )}
       >
-        <Link to={{
-          pathname:`${url}/${1}`,
-          state: {
-            background: location
-          }
-        }} className={style.activeLink}>
+        <Link
+          to={{
+            pathname: `${url}/${1}`,
+            state: {
+              background: location,
+            },
+          }}
+          className={style.activeLink}
+        >
           <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
             <p className={cn('text text_type_digits-default')}>#034535</p>
             <p
@@ -122,12 +125,15 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
           'mr-2, mb-6'
         )}
       >
-        <Link to={{
-          pathname:`${url}/${2}`,
-          state: {
-            background: location
-          }
-        }} className={style.activeLink}>
+        <Link
+          to={{
+            pathname: `${url}/${2}`,
+            state: {
+              background: location,
+            },
+          }}
+          className={style.activeLink}
+        >
           <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
             <p className={cn('text text_type_digits-default')}>#034535</p>
             <p
@@ -179,12 +185,15 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
           'mr-2, mb-6'
         )}
       >
-        <Link to={{
-          pathname:`${url}/${3}`,
-          state: {
-            background: location
-          }
-        }} className={style.activeLink}>
+        <Link
+          to={{
+            pathname: `${url}/${3}`,
+            state: {
+              background: location,
+            },
+          }}
+          className={style.activeLink}
+        >
           <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
             <p className={cn('text text_type_digits-default')}>#034535</p>
             <p
@@ -236,12 +245,15 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
           'mr-2 mb-6'
         )}
       >
-        <Link to={{
-          pathname:`${url}/${4}`,
-          state: {
-            background: location
-          }
-        }} className={style.activeLink}>
+        <Link
+          to={{
+            pathname: `${url}/${4}`,
+            state: {
+              background: location,
+            },
+          }}
+          className={style.activeLink}
+        >
           <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
             <p className={cn('text text_type_digits-default')}>#034535</p>
             <p

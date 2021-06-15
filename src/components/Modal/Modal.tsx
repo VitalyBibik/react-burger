@@ -4,7 +4,7 @@ import style from './Modal.module.scss';
 import { ModalOverlay } from '../ModalOverlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
-import {useHistory} from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 type ModalProps = {
   children: React.ReactNode;
@@ -13,42 +13,39 @@ type ModalProps = {
 
 const modalRoot = document.getElementById('modal') as HTMLElement;
 
-export const Modal = memo(
-  ({ title, children }: ModalProps) => {
-    const clear = (e: KeyboardEvent) => {
-      if (e.keyCode === 27)
-        history.goBack();
+export const Modal = memo(({ title, children }: ModalProps) => {
+  const clear = (e: KeyboardEvent) => {
+    if (e.keyCode === 27) history.goBack();
+  };
+  const history = useHistory();
+
+  const buttonClose = () => {
+    history.goBack();
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', clear);
+    return () => {
+      window.removeEventListener('keydown', clear);
     };
-    const history = useHistory();
-
-      const buttonClose = () => {
-          history.goBack();
-      };
-
-    useEffect(() => {
-      window.addEventListener('keydown', clear);
-      return () => {
-        window.removeEventListener('keydown', clear);
-      };
-    });
-    return ReactDOM.createPortal(
-      <>
-        <div className={cn(style.modal, 'p-10')}>
-          <div className={style.header}>
-            {title && (
-              <h3 className={cn('text text_type_main-medium', style.title)}>
-                {title}
-              </h3>
-            )}
-            <div className={style.iconClose} onClick={buttonClose}>
-              <CloseIcon type={'primary'} />
-            </div>
+  });
+  return ReactDOM.createPortal(
+    <>
+      <div className={cn(style.modal, 'p-10')}>
+        <div className={style.header}>
+          {title && (
+            <h3 className={cn('text text_type_main-medium', style.title)}>
+              {title}
+            </h3>
+          )}
+          <div className={style.iconClose} onClick={buttonClose}>
+            <CloseIcon type={'primary'} />
           </div>
-          <div className={style.body}>{children}</div>
         </div>
-        <ModalOverlay close={buttonClose} />
-      </>,
-      modalRoot
-    );
-  }
-);
+        <div className={style.body}>{children}</div>
+      </div>
+      <ModalOverlay close={buttonClose} />
+    </>,
+    modalRoot
+  );
+});

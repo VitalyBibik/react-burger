@@ -33,14 +33,14 @@ export const BurgerUnion = memo(() => {
 
   const render = () => {
     return (
-        <div className={style.container}>
-          <>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-          </>
-        </div>
+      <div className={style.container}>
+        <>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
+        </>
+      </div>
     );
   };
 

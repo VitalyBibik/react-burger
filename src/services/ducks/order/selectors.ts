@@ -1,4 +1,3 @@
-import { sliceName } from "./slice";
+import { sliceName } from './slice';
 
-
-export const getOrderId = (store: any) => store[sliceName].orderId
+export const getOrderId = (store: any) => store[sliceName].orderId;

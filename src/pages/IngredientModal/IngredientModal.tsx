@@ -4,7 +4,7 @@ import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useParams } from 'react-router-dom';
 import { getProductsFetch } from '../../utils/api/api';
 import cn from 'classnames';
-import {Loader} from "../../components/Loader";
+import { Loader } from '../../components/Loader';
 
 // TODO вынести в интерфейс
 type TModalData = {
@@ -12,11 +12,10 @@ type TModalData = {
   title: string;
   content: React.ReactNode | null;
   order?: null;
-  isLoading:boolean
+  isLoading: boolean;
 };
 
-export const IngredientModal = memo(
-        ({ fullScreen }: any) => {
+export const IngredientModal = memo(({ fullScreen }: any) => {
   const { id }: any = useParams();
 
   const [currentCard, setCurrentCard] = useState({
@@ -34,7 +33,7 @@ export const IngredientModal = memo(
       setModalData({
         isShow: true,
         title: currentCard.name,
-        isLoading:false,
+        isLoading: false,
         content: (
           <IngredientDetails
             image_large={currentCard.image_large}
@@ -64,30 +63,35 @@ export const IngredientModal = memo(
     isShow: false,
     title: 'Заголовок',
     content: null,
-    isLoading:true
+    isLoading: true,
   });
   return (
-    <div className={cn(style.container, {
-      [style.container_full]:!fullScreen
-    })}>
-      { modalData.isLoading ? <Loader/> :
+    <div
+      className={cn(style.container, {
+        [style.container_full]: !fullScreen,
+      })}
+    >
+      {modalData.isLoading ? (
+        <Loader />
+      ) : (
         modalData.isShow && (
-        <div className={style.box}>
-          <h2 className={cn(style.title, 'text text_type_main-large')}>
-            Детали ингридиента
-          </h2>
-          <IngredientDetails
-            image_large={currentCard.image_large}
-            name={currentCard.name}
-            desc={
-              'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'
-            }
-            calories={currentCard.calories}
-            proteins={currentCard.proteins}
-            fat={currentCard.fat}
-            carbohydrates={currentCard.carbohydrates}
-          />
-        </div>
+          <div className={style.box}>
+            <h2 className={cn(style.title, 'text text_type_main-large')}>
+              Детали ингридиента
+            </h2>
+            <IngredientDetails
+              image_large={currentCard.image_large}
+              name={currentCard.name}
+              desc={
+                'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'
+              }
+              calories={currentCard.calories}
+              proteins={currentCard.proteins}
+              fat={currentCard.fat}
+              carbohydrates={currentCard.carbohydrates}
+            />
+          </div>
+        )
       )}
     </div>
   );
