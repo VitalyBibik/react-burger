@@ -86,8 +86,8 @@ console.log(location,'location')
       </Switch>
       {background && (<>
           <Route path={`${ROUTES.INGREDIENTS}/:id`} children={<Modal children={<IngredientModal fullScreen={true} />}/>} />
-            <ProtectedRoute path='/profile/orders/:id' children={<Modal><OrderHistoryDetailCard /></Modal>} />
-            {/*<Route path='/feed/:id' children={<Modal><Order /></Modal>} />*/}
+            <ProtectedRoute path={`${ROUTES.ORDERS}/:id`} children={<Modal><OrderHistoryDetailCard /></Modal>} />
+            <Route path='/feed/:id' children={<Modal><OrderHistoryDetailCard /></Modal>} />
           <ProtectedRoute path={`${ROUTES.ORDER}`} children={<Modal><OrderDetails /></Modal>} />
           </>
       )}
