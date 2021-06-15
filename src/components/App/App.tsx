@@ -1,5 +1,12 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {
+  Switch,
+  Route,
+  Redirect,
+  useLocation,
+  useHistory,
+  useParams,
+} from 'react-router-dom';
 import style from './App.module.scss';
 import { AppHeader } from '../AppHeader';
 import { BurgerUnion } from '../../pages/BurgerUnion';
@@ -15,15 +22,33 @@ import { ProtectedRoute } from '../ProtectedRoute';
 import { useSelector } from 'react-redux';
 import { getRefreshToken } from '../../utils/functions/tokens';
 import { getIsEmailSent } from '../../services/ducks/auth/selectors';
+import { IngredientModal } from '../IngredientModal';
+import { Modal } from '../Modal';
+import { getProductsFetch } from '../../utils/api/api';
+import { IngredientDetails } from '../IngredientsDetails';
+type TModalData = {
+  isShow: boolean;
+  title: string;
+  content: React.ReactNode | null;
+  order?: null;
+};
 
 export function App() {
   const hasToken = !!getRefreshToken();
   const emailWasSent = useSelector(getIsEmailSent);
-  console.log('token = ', hasToken, 'email=', emailWasSent);
+
+  const history = useHistory();
+  let location = useLocation();
+  // @ts-ignore
+  let background =
+    (history.action === 'PUSH' || history.action === 'REPLACE') &&
+    location.state &&
+    location.state.background;
+
   return (
     <div className={style.App}>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path={ROUTES.MAIN} exact>
           <BurgerUnion />
         </Route>
@@ -54,6 +79,7 @@ export function App() {
         <Route path={`${ROUTES.FEED}/:id`} exact>
           <OrderHistoryDetailCard />
         </Route>
+        <Route path={`/ingredients/:id`} children={<IngredientModal />} />
         <Route>
           <div>
             <h1> 404 Здесь ничего нет</h1>

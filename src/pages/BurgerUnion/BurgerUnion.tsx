@@ -38,7 +38,6 @@ export const BurgerUnion = memo(() => {
     title: 'Заголовок',
     content: null,
   });
-
   const buttonClose = useCallback(() => {
     setModalData({
       isShow: false,
@@ -51,33 +50,13 @@ export const BurgerUnion = memo(() => {
     dispatch(loadIngredients());
   }, [dispatch]);
 
-  const renderModal = useCallback((card: CardProps) => {
-    setModalData({
-      isShow: true,
-      title: 'Детали ингредиента',
-      content: (
-        <IngredientDetails
-          image_large={card.image_large}
-          name={card.name}
-          desc={
-            'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'
-          }
-          calories={card.calories}
-          proteins={card.proteins}
-          fat={card.fat}
-          carbohydrates={card.carbohydrates}
-        />
-      ),
-    });
-  }, []);
-
   const render = () => {
     return (
       <>
         <div className={style.container}>
           <>
             <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients renderModal={renderModal} />
+              <BurgerIngredients />
               <BurgerConstructor setModal={setModalData} />
             </DndProvider>
           </>
