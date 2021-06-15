@@ -65,7 +65,6 @@ export const BurgerUnion = memo(() => {
           <Modal
             title={modalData.title && modalData.title}
             setModal={setModalData}
-            buttonClose={buttonClose}
           >
             {modalData.content}
           </Modal>

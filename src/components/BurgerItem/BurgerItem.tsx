@@ -56,7 +56,8 @@ export const BurgerItem = memo(
       type: ItemTypes.CARD,
       item: card,
     });
-    const location = useLocation();
+    let location = useLocation();
+
     return (
       <li className={style.container} ref={dragOrderCard}>
         <Link

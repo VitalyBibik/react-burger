@@ -4,26 +4,27 @@ import style from './Modal.module.scss';
 import { ModalOverlay } from '../ModalOverlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
+import {useHistory} from "react-router-dom";
 
 type ModalProps = {
-  setModal: any;
-  buttonClose: () => void;
+  setModal?: any;
   children: React.ReactNode;
-  title: string | null;
+  title?: string | null;
 };
 
 const modalRoot = document.getElementById('modal') as HTMLElement;
 
 export const Modal = memo(
-  ({ title, buttonClose, children, setModal }: ModalProps) => {
+  ({ title, children, setModal }: ModalProps) => {
     const clear = (e: KeyboardEvent) => {
       if (e.keyCode === 27)
-        setModal({
-          isShow: false,
-          title: null,
-          content: null,
-        });
+        history.goBack();
     };
+    const history = useHistory();
+
+      const buttonClose = () => {
+          history.goBack();
+      };
 
     useEffect(() => {
       window.addEventListener('keydown', clear);

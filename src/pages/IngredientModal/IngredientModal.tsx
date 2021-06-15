@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import style from './IngredientModal.module.scss';
-import { IngredientDetails } from '../IngredientsDetails';
+import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useParams } from 'react-router-dom';
 import { getProductsFetch } from '../../utils/api/api';
 import cn from 'classnames';
@@ -13,9 +13,11 @@ type TModalData = {
   order?: null;
 };
 
-export const IngredientModal = memo(() => {
+export const IngredientModal = memo(
+        ({ fullScreen }: any) => {
   const { id }: any = useParams();
   console.log('IdCard', id);
+  console.log('FullScrean', fullScreen)
   const [currentCard, setCurrentCard] = useState({
     image_large: '',
     name: '',
@@ -62,7 +64,9 @@ export const IngredientModal = memo(() => {
     content: null,
   });
   return (
-    <div className={style.container}>
+    <div className={cn(style.container, {
+      [style.container_full]:!fullScreen
+    })}>
       {modalData.isShow && (
         <div className={style.box}>
           <h2 className={cn(style.title, 'text text_type_main-large')}>

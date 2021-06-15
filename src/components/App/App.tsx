@@ -22,7 +22,7 @@ import { ProtectedRoute } from '../ProtectedRoute';
 import { useSelector } from 'react-redux';
 import { getRefreshToken } from '../../utils/functions/tokens';
 import { getIsEmailSent } from '../../services/ducks/auth/selectors';
-import { IngredientModal } from '../IngredientModal';
+import { IngredientModal } from '../../pages/IngredientModal';
 import { Modal } from '../Modal';
 import { getProductsFetch } from '../../utils/api/api';
 import { IngredientDetails } from '../IngredientsDetails';
@@ -44,6 +44,9 @@ export function App() {
     (history.action === 'PUSH' || history.action === 'REPLACE') &&
       // @ts-ignore
     location.state && location.state.background;
+console.log(location,'location')
+
+
 
   return (
     <div className={style.App}>
@@ -79,13 +82,17 @@ export function App() {
         <Route path={`${ROUTES.FEED}/:id`} exact>
           <OrderHistoryDetailCard />
         </Route>
-        <Route path={`/ingredients/:id`} children={<IngredientModal />} />
+        <Route path={`/ingredients/:id`} >
+          <IngredientModal fullScreen={false} />
+        </Route>
+
         <Route>
           <div>
             <h1> 404 Здесь ничего нет</h1>
           </div>
         </Route>
       </Switch>
+      {background && <Route path={`/ingredients/:id`} children={<Modal children={<IngredientModal fullScreen={true} />}/>} />}
     </div>
   );
 }
