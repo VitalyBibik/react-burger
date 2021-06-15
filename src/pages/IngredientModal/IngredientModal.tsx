@@ -4,6 +4,7 @@ import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useParams } from 'react-router-dom';
 import { getProductsFetch } from '../../utils/api/api';
 import cn from 'classnames';
+import {Loader} from "../../components/Loader";
 
 // TODO вынести в интерфейс
 type TModalData = {
@@ -11,13 +12,13 @@ type TModalData = {
   title: string;
   content: React.ReactNode | null;
   order?: null;
+  isLoading:boolean
 };
 
 export const IngredientModal = memo(
         ({ fullScreen }: any) => {
   const { id }: any = useParams();
-  console.log('IdCard', id);
-  console.log('FullScrean', fullScreen)
+
   const [currentCard, setCurrentCard] = useState({
     image_large: '',
     name: '',
@@ -33,6 +34,7 @@ export const IngredientModal = memo(
       setModalData({
         isShow: true,
         title: currentCard.name,
+        isLoading:false,
         content: (
           <IngredientDetails
             image_large={currentCard.image_large}
@@ -62,12 +64,14 @@ export const IngredientModal = memo(
     isShow: false,
     title: 'Заголовок',
     content: null,
+    isLoading:true
   });
   return (
     <div className={cn(style.container, {
       [style.container_full]:!fullScreen
     })}>
-      {modalData.isShow && (
+      { modalData.isLoading ? <Loader/> :
+        modalData.isShow && (
         <div className={style.box}>
           <h2 className={cn(style.title, 'text text_type_main-large')}>
             Детали ингридиента

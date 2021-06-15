@@ -24,14 +24,7 @@ import { getRefreshToken } from '../../utils/functions/tokens';
 import { getIsEmailSent } from '../../services/ducks/auth/selectors';
 import { IngredientModal } from '../../pages/IngredientModal';
 import { Modal } from '../Modal';
-import { getProductsFetch } from '../../utils/api/api';
-import { IngredientDetails } from '../IngredientsDetails';
-type TModalData = {
-  isShow: boolean;
-  title: string;
-  content: React.ReactNode | null;
-  order?: null;
-};
+import {OrderDetails} from "../OrderDetails";
 
 export function App() {
   const hasToken = !!getRefreshToken();
@@ -82,17 +75,20 @@ console.log(location,'location')
         <Route path={`${ROUTES.FEED}/:id`} exact>
           <OrderHistoryDetailCard />
         </Route>
-        <Route path={`/ingredients/:id`} >
+        <Route path={`${ROUTES.INGREDIENTS}/:id`} >
           <IngredientModal fullScreen={false} />
         </Route>
-
         <Route>
           <div>
             <h1> 404 Здесь ничего нет</h1>
           </div>
         </Route>
       </Switch>
-      {background && <Route path={`/ingredients/:id`} children={<Modal children={<IngredientModal fullScreen={true} />}/>} />}
+      {background && (<>
+          <Route path={`${ROUTES.INGREDIENTS}/:id`} children={<Modal children={<IngredientModal fullScreen={true} />}/>} />
+          <ProtectedRoute path={`${ROUTES.ORDER}`} children={<Modal><OrderDetails /></Modal>} />
+          </>
+      )}
     </div>
   );
 }

@@ -21,6 +21,7 @@ import {
   getProductArray,
   getSendOrderArray,
 } from '../../services/ducks/constructor/selectors';
+import {useHistory, useLocation} from "react-router-dom";
 
 type Ingredient = {
   _id: string;
@@ -37,12 +38,10 @@ type Ingredient = {
   __v?: number;
 };
 
-type BurgerConstructorProps = {
-  setModal: any;
-};
+
 
 export const BurgerConstructor = memo(
-  ({ setModal }: BurgerConstructorProps) => {
+  () => {
     const dispatch = useDispatch();
     const hasToken = !!getRefreshToken();
 
@@ -52,15 +51,18 @@ export const BurgerConstructor = memo(
     const price = useSelector(getPrice);
 
     const sendOrderArray = useSelector(getSendOrderArray);
+    const history = useHistory()
+    let location = useLocation()
 
     const finalOrder = async () => {
       if (hasToken) {
-        const res = await dispatch(sendOrder(sendOrderArray));
-        const data = res as any;
-        setModal({
-          isShow: true,
-          content: <OrderDetails order={data.payload.order.number} />,
-        });
+        await dispatch(sendOrder(sendOrderArray));
+          history.push({
+              pathname: `${ROUTES.ORDER}`,
+              state: {
+                  background: location
+              }
+          });
       } else {
         dispatch(push(`${ROUTES.LOGIN}`));
       }

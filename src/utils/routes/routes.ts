@@ -8,4 +8,6 @@ export const ROUTES = {
   RESET_PASSWORD: '/reset-password',
   ORDERS: '/orders',
   FEED: '/feed',
+  ORDER: '/order',
+  INGREDIENTS: '/ingredients'
 };

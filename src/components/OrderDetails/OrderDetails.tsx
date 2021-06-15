@@ -3,16 +3,14 @@ import style from './OrderDetails.module.scss';
 import React, { memo } from 'react';
 import cn from 'classnames';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { push } from 'connected-react-router';
 import { ROUTES } from '../../utils/routes/routes';
 
-type OrderDetailsProps = {
-  order: number;
-};
 
-export const OrderDetails = memo(({ order }: OrderDetailsProps) => {
+export const OrderDetails = memo(() => {
   const dispatch = useDispatch();
+  const orderId = useSelector((state:any) => state.orderReducer.orderId)
   const goToOrderList = () => {
     dispatch(push(`${ROUTES.FEED}`));
   };
@@ -20,7 +18,7 @@ export const OrderDetails = memo(({ order }: OrderDetailsProps) => {
   return (
     <div className={style.order}>
       <p className={cn('text text_type_digits-medium mb-4', style.shadow)}>
-        {order}
+        {orderId}
       </p>
       <p className='text text_type_main-default mb-4'>идентификатор заказа</p>
       <img src={isDone} className='mb-4' alt='done' />

@@ -33,18 +33,6 @@ type TModalData = {
 export const BurgerUnion = memo(() => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
-  const [modalData, setModalData] = useState<TModalData>({
-    isShow: false,
-    title: 'Заголовок',
-    content: null,
-  });
-  const buttonClose = useCallback(() => {
-    setModalData({
-      isShow: false,
-      title: 'Заголовок',
-      content: null,
-    });
-  }, []);
 
   useEffect(() => {
     dispatch(loadIngredients());
@@ -52,24 +40,14 @@ export const BurgerUnion = memo(() => {
 
   const render = () => {
     return (
-      <>
         <div className={style.container}>
           <>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients />
-              <BurgerConstructor setModal={setModalData} />
+              <BurgerConstructor />
             </DndProvider>
           </>
         </div>
-        {modalData.isShow && (
-          <Modal
-            title={modalData.title && modalData.title}
-            setModal={setModalData}
-          >
-            {modalData.content}
-          </Modal>
-        )}
-      </>
     );
   };
 

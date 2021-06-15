@@ -7,7 +7,6 @@ import cn from 'classnames';
 import {useHistory} from "react-router-dom";
 
 type ModalProps = {
-  setModal?: any;
   children: React.ReactNode;
   title?: string | null;
 };
@@ -15,7 +14,7 @@ type ModalProps = {
 const modalRoot = document.getElementById('modal') as HTMLElement;
 
 export const Modal = memo(
-  ({ title, children, setModal }: ModalProps) => {
+  ({ title, children }: ModalProps) => {
     const clear = (e: KeyboardEvent) => {
       if (e.keyCode === 27)
         history.goBack();
