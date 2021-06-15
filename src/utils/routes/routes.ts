@@ -10,5 +10,5 @@ export const ROUTES = {
   FEED: '/feed',
   ORDER: '/order',
   INGREDIENTS: '/ingredients',
-  PROFILE_ORDERS:'/profile/orders'
+  PROFILE_ORDERS: '/profile/orders',
 };

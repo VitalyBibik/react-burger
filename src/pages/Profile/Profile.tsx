@@ -14,7 +14,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, patchUser, signOut } from '../../services/ducks/auth';
 import { Loader } from '../../components/Loader';
 import { getRefreshToken } from '../../utils/functions/tokens';
-import {getProfileData, getUserSending} from "../../services/ducks/auth/selectors";
+import {
+  getProfileData,
+  getUserSending,
+} from '../../services/ducks/auth/selectors';
 
 export const Profile = memo(() => {
   const { path, url } = useRouteMatch();
@@ -30,7 +33,7 @@ export const Profile = memo(() => {
   });
   const dispatch = useDispatch();
   const isLoading = useSelector(getUserSending);
-  const profileData = useSelector(getProfileData)
+  const profileData = useSelector(getProfileData);
 
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;

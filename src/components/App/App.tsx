@@ -23,7 +23,7 @@ import { getRefreshToken } from '../../utils/functions/tokens';
 import { getIsEmailSent } from '../../services/ducks/auth/selectors';
 import { IngredientModal } from '../../pages/IngredientModal';
 import { Modal } from '../Modal';
-import {OrderDetails} from "../OrderDetails";
+import { OrderDetails } from '../OrderDetails';
 
 export function App() {
   const hasToken = !!getRefreshToken();
@@ -34,9 +34,9 @@ export function App() {
 
   let background =
     (history.action === 'PUSH' || history.action === 'REPLACE') &&
-      // @ts-ignore
-    location.state && location.state.background;
-
+    // @ts-ignore
+    location.state &&
+    location.state.background;
 
   return (
     <div className={style.App}>
@@ -72,7 +72,7 @@ export function App() {
         <Route path={`${ROUTES.FEED}/:id`} exact>
           <OrderHistoryDetailCard />
         </Route>
-        <Route path={`${ROUTES.INGREDIENTS}/:id`} >
+        <Route path={`${ROUTES.INGREDIENTS}/:id`}>
           <IngredientModal fullScreen={false} />
         </Route>
         <Route>
@@ -81,12 +81,39 @@ export function App() {
           </div>
         </Route>
       </Switch>
-      {background && (<>
-          <Route path={`${ROUTES.INGREDIENTS}/:id`} children={<Modal children={<IngredientModal fullScreen={true} />}/>} />
-            <ProtectedRoute path={`${ROUTES.PROFILE_ORDERS}/:id`} children={<Modal><OrderHistoryDetailCard /></Modal>} />
-            <Route path={`${ROUTES.FEED}/:id`} children={<Modal><OrderHistoryDetailCard /></Modal>} />
-          <ProtectedRoute path={`${ROUTES.ORDER}`} children={<Modal><OrderDetails /></Modal>} />
-          </>
+      {background && (
+        <>
+          <Route
+            path={`${ROUTES.INGREDIENTS}/:id`}
+            children={
+              <Modal children={<IngredientModal fullScreen={true} />} />
+            }
+          />
+          <ProtectedRoute
+            path={`${ROUTES.PROFILE_ORDERS}/:id`}
+            children={
+              <Modal>
+                <OrderHistoryDetailCard />
+              </Modal>
+            }
+          />
+          <Route
+            path={`${ROUTES.FEED}/:id`}
+            children={
+              <Modal>
+                <OrderHistoryDetailCard />
+              </Modal>
+            }
+          />
+          <ProtectedRoute
+            path={`${ROUTES.ORDER}`}
+            children={
+              <Modal>
+                <OrderDetails />
+              </Modal>
+            }
+          />
+        </>
       )}
     </div>
   );
