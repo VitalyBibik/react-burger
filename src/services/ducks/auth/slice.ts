@@ -100,7 +100,6 @@ export const getUser = createAsyncThunk<any, any, any>(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const res = await getFetchUser();
-      console.log('getUser', res);
       return res;
     } catch (e) {
       if (e.message === 'jwt expired') {

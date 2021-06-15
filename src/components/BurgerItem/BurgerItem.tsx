@@ -7,6 +7,7 @@ import { ItemTypes } from '../../utils/constants/constants';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { getIngredientsWithCount } from '../../services/ducks/constructor/selectors';
+import { Link, useLocation } from 'react-router-dom';
 
 type IngredientProps = {
   name: string;
@@ -19,7 +20,6 @@ type IngredientProps = {
   fat: number;
   carbohydrates: number;
   type: string;
-  findClosureCard: any;
   count?: number;
 };
 
@@ -29,7 +29,6 @@ export const BurgerItem = memo(
     name,
     price,
     _id,
-    findClosureCard,
     calories,
     proteins,
     fat,
@@ -51,33 +50,41 @@ export const BurgerItem = memo(
       type,
       count,
     };
-    const findCard = () => {
-      findClosureCard(card);
-    };
     const ingredientsWithCount = useSelector(getIngredientsWithCount);
 
     const [, dragOrderCard] = useDrag({
       type: ItemTypes.CARD,
       item: card,
     });
+    let location = useLocation();
 
     return (
-      <li className={style.container} onClick={findCard} ref={dragOrderCard}>
-        <div className={style.container__image}>
-          <img className={style.image} srcSet={image_large} alt='text' />
-          {ingredientsWithCount[card._id] ? <Counter count={ingredientsWithCount[card._id]} size='small' /> : null}
-        </div>
-        <div className={style.container__price}>
-          <PriceItem price={price} />
-        </div>
-        <p
-          className={cn(
-            'text text_type_main-default',
-            style.container__description
-          )}
+      <li className={style.container} ref={dragOrderCard}>
+        <Link
+          className={style.link}
+          to={{
+            pathname: `/ingredients/${_id}`,
+            state: { background: location },
+          }}
         >
-          {name}
-        </p>
+          <div className={style.container__image}>
+            <img className={style.image} srcSet={image_large} alt='text' />
+            {ingredientsWithCount[card._id] ? (
+              <Counter count={ingredientsWithCount[card._id]} size='small' />
+            ) : null}
+          </div>
+          <div className={style.container__price}>
+            <PriceItem price={price} />
+          </div>
+          <p
+            className={cn(
+              'text text_type_main-default',
+              style.container__description
+            )}
+          >
+            {name}
+          </p>
+        </Link>
       </li>
     );
   }

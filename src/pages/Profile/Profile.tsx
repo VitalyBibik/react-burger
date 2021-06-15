@@ -14,6 +14,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, patchUser, signOut } from '../../services/ducks/auth';
 import { Loader } from '../../components/Loader';
 import { getRefreshToken } from '../../utils/functions/tokens';
+import {
+  getProfileData,
+  getUserSending,
+} from '../../services/ducks/auth/selectors';
 
 export const Profile = memo(() => {
   const { path, url } = useRouteMatch();
@@ -28,10 +32,9 @@ export const Profile = memo(() => {
     passwordIsDisabled: true,
   });
   const dispatch = useDispatch();
-  const isLoading = useSelector(
-    (store: any) => store.authReducer.getUserSending
-  );
-  const profileData = useSelector((store: any) => store.authReducer.data);
+  const isLoading = useSelector(getUserSending);
+  const profileData = useSelector(getProfileData);
+
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;
     const value = target.value;
@@ -62,7 +65,6 @@ export const Profile = memo(() => {
       state.password.length !== 0
         ? { ...data, password: state.password }
         : data;
-    console.log({ ...data });
     dispatch(patchUser({ ...data }));
   };
 

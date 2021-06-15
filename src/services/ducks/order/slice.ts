@@ -15,6 +15,8 @@ const initialState: TModalData = {
   sendError: null,
 };
 
+export const sliceName = 'orderReducer';
+
 export const sendOrder = createAsyncThunk<any, any, any>(
   'order/sendOrder',
   async (data) => {
