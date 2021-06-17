@@ -30,7 +30,7 @@ export function App() {
   const emailWasSent = useSelector(getIsEmailSent);
 
   const history = useHistory();
-  let location = useLocation<any>();
+  const location = useLocation<any>();
 
   let background =
     (history.action === 'PUSH' || history.action === 'REPLACE') &&

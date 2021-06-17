@@ -48,7 +48,7 @@ export const BurgerConstructor = memo(() => {
 
   const sendOrderArray = useSelector(getSendOrderArray);
   const history = useHistory();
-  let location = useLocation();
+  const location = useLocation();
 
   const finalOrder = async () => {
     if (hasToken) {
