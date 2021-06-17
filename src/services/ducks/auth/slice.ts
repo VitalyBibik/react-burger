@@ -90,7 +90,7 @@ export const patchUser = createAsyncThunk<any, any, any>(
       if (e.message === 'jwt expired') {
         await dispatch(refreshToken(setUserPassword(changeData)));
       } else {
-        rejectWithValue(e);
+       return rejectWithValue(e);
       }
     }
   }

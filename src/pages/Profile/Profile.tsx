@@ -18,6 +18,7 @@ import {
   getProfileData,
   getUserSending,
 } from '../../services/ducks/auth/selectors';
+import { isRejectedWithValue } from '@reduxjs/toolkit';
 
 export const Profile = memo(() => {
   const { path, url } = useRouteMatch();
@@ -65,7 +66,7 @@ export const Profile = memo(() => {
       state.password.length !== 0
         ? { ...data, password: state.password }
         : data;
-    dispatch(patchUser({ ...data }));
+    dispatch(patchUser({ ...data })); // TODO: https://redux-toolkit.js.org/api/createAsyncThunk Последний пример
   };
 
   const onIconClickName = () => {
