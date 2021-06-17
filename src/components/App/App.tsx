@@ -54,13 +54,14 @@ export function App() {
           <Register />
         </Route>
         <Route path={ROUTES.FORGOT_PASSWORD} exact>
-          {!hasToken && <Redirect to={ROUTES.MAIN} />}
+          {hasToken && <Redirect to={ROUTES.MAIN} />}
           <ForgotPassword />
         </Route>
         <Route path={ROUTES.RESET_PASSWORD} exact>
-          {!hasToken && emailWasSent === false && (
+          {!hasToken && !emailWasSent && (
             <Redirect to={`${ROUTES.FORGOT_PASSWORD}`} />
           )}
+          {hasToken && <Redirect to={`${ROUTES.MAIN}`} />}
           <ResetPassword />
         </Route>
         <ProtectedRoute path={ROUTES.PROFILE} exact={false}>

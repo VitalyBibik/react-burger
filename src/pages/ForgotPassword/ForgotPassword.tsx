@@ -1,5 +1,5 @@
 import style from './ForgotPassword.module.scss';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -7,12 +7,19 @@ import {
 import cn from 'classnames';
 import { ROUTES } from '../../utils/routes/routes';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { forgotUserPassword } from '../../services/ducks/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { forgotUserPassword, resetError } from '../../services/ducks/auth';
+import { getForgotPasswordError } from '../../services/ducks/auth/selectors';
+import { Error } from '../../components/Error';
 
 export const ForgotPassword = memo(() => {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
+  const errorUser = useSelector(getForgotPasswordError);
+
+  useEffect(() => {
+    dispatch(resetError());
+  }, [dispatch]);
 
   const submit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -37,6 +44,7 @@ export const ForgotPassword = memo(() => {
         <Button type='primary' size='medium'>
           Восстановить
         </Button>
+        {errorUser !== null ? <Error msg={errorUser.message} /> : null}
         <span
           className={cn(
             'text text_type_main-default text_color_inactive',

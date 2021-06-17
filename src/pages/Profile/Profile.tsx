@@ -18,7 +18,6 @@ import {
   getProfileData,
   getUserSending,
 } from '../../services/ducks/auth/selectors';
-import { isRejectedWithValue } from '@reduxjs/toolkit';
 
 export const Profile = memo(() => {
   const { path, url } = useRouteMatch();
@@ -93,8 +92,21 @@ export const Profile = memo(() => {
   const logout = () => {
     dispatch(signOut(getRefreshToken()));
   };
+  const handleClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      name: profileData.name,
+      email: profileData.email,
+      password: '',
+      nameIsDisabled: true,
+      emailIsDisabled: true,
+      passwordIsDisabled: true,
+    });
+  };
+
   useEffect(() => {
-    getRefreshToken() && dispatch(getUser(null));
+    dispatch(getUser(null));
     setState((prevState) => {
       return { ...prevState, email: prevState.email, name: prevState.name };
     });
@@ -237,9 +249,16 @@ export const Profile = memo(() => {
                     state.password.length === 0
                   ) ? (
                     <div className={style.buttons}>
-                      <Button type='secondary' size='medium'>
-                        Отмена
-                      </Button>
+                      {
+                        // @ts-ignore
+                        <Button
+                          type='secondary'
+                          size='medium'
+                          onClick={(e: SyntheticEvent) => handleClick(e)}
+                        >
+                          Отмена
+                        </Button>
+                      }
                       <Button type='primary' size='medium'>
                         Cохранить
                       </Button>

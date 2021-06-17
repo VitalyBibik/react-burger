@@ -1,5 +1,5 @@
 import style from './Login.module.scss';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -8,8 +8,10 @@ import {
 import cn from 'classnames';
 import { ROUTES } from '../../utils/routes/routes';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { loginUser } from '../../services/ducks/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, resetError } from '../../services/ducks/auth';
+import { Error } from '../../components/Error';
+import { getLoginError } from '../../services/ducks/auth/selectors';
 
 export const Login = memo(() => {
   const [state, setState] = useState({
@@ -17,6 +19,7 @@ export const Login = memo(() => {
     password: '',
   });
   const dispatch = useDispatch();
+  const errorUser = useSelector(getLoginError);
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;
     const value = target.value;
@@ -32,8 +35,12 @@ export const Login = memo(() => {
   };
   const submit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(loginUser(state));
+    await dispatch(loginUser(state));
   };
+  useEffect(() => {
+    dispatch(resetError());
+  }, [dispatch]);
+
   return (
     <div className={style.container}>
       <form className={style.login} onSubmit={submit}>
@@ -57,6 +64,7 @@ export const Login = memo(() => {
         <Button type='primary' size='medium'>
           Войти
         </Button>
+        {errorUser !== null ? <Error msg={errorUser.message} /> : null}
         <span
           className={cn(
             'text text_type_main-default text_color_inactive',
@@ -70,7 +78,7 @@ export const Login = memo(() => {
         </span>
         <span className='text text_type_main-default text_color_inactive'>
           Забыли пароль?{' '}
-          <Link to={ROUTES.RESET_PASSWORD} className={style.move}>
+          <Link to={ROUTES.FORGOT_PASSWORD} className={style.move}>
             Восстановить пароль
           </Link>
         </span>

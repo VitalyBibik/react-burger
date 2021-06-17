@@ -1,5 +1,5 @@
 import style from './ResetPassword.module.scss';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -8,14 +8,17 @@ import {
 import cn from 'classnames';
 import { ROUTES } from '../../utils/routes/routes';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUserPassword } from '../../services/ducks/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetError, setUserPassword } from '../../services/ducks/auth';
+import { getSetUserPasswordError } from '../../services/ducks/auth/selectors';
+import { Error } from '../../components/Error';
 
 export const ResetPassword = memo(() => {
   const [state, setState] = useState({
     password: '',
     token: '',
   });
+
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;
     const value = target.value;
@@ -25,7 +28,11 @@ export const ResetPassword = memo(() => {
       [name]: value,
     });
   };
+  const errorUser = useSelector(getSetUserPasswordError);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(resetError());
+  }, [dispatch]);
 
   const submit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -55,6 +62,7 @@ export const ResetPassword = memo(() => {
         <Button type='primary' size='medium'>
           Сохранить
         </Button>
+        {errorUser !== null ? <Error msg={errorUser.message} /> : null}
         <span
           className={cn(
             'text text_type_main-default text_color_inactive',

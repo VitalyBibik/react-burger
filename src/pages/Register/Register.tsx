@@ -1,5 +1,5 @@
 import style from './Register.module.scss';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -8,8 +8,10 @@ import {
 import cn from 'classnames';
 import { ROUTES } from '../../utils/routes/routes';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { registerUser } from '../../services/ducks/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, resetError } from '../../services/ducks/auth';
+import { getRegisterError } from '../../services/ducks/auth/selectors';
+import { Error } from '../../components/Error';
 
 export const Register = memo(() => {
   const [state, setState] = useState({
@@ -18,6 +20,7 @@ export const Register = memo(() => {
     password: '',
   });
   const dispatch = useDispatch();
+  const errorUser = useSelector(getRegisterError);
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;
     const value = target.value;
@@ -27,7 +30,9 @@ export const Register = memo(() => {
       [name]: value,
     });
   };
-
+  useEffect(() => {
+    dispatch(resetError());
+  }, [dispatch]);
   const submit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(registerUser(state));
@@ -66,6 +71,7 @@ export const Register = memo(() => {
         <Button type='primary' size='medium'>
           Зарегистрироваться
         </Button>
+        {errorUser !== null ? <Error msg={errorUser.message} /> : null}
         <span
           className={cn(
             'text text_type_main-default text_color_inactive',

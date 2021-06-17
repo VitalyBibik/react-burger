@@ -90,8 +90,20 @@ export const patchUser = createAsyncThunk<any, any, any>(
       if (e.message === 'jwt expired') {
         await dispatch(refreshToken(setUserPassword(changeData)));
       } else {
-       return rejectWithValue(e);
+        return rejectWithValue(e);
       }
+    }
+  }
+);
+
+export const refreshToken = createAsyncThunk<any, any, any>(
+  `${sliceName}/refreshToken`,
+  async (afterRefresh, { dispatch }) => {
+    const res = await getAccessToken(); // Рефреш токен берется внутри запроса
+    setTokens(res);
+    if (afterRefresh !== null) {
+      dispatch(afterRefresh);
+      return res;
     }
   }
 );
@@ -99,8 +111,7 @@ export const getUser = createAsyncThunk<any, any, any>(
   `${sliceName}/getUser`,
   async (_, { dispatch, rejectWithValue }) => {
     try {
-      const res = await getFetchUser();
-      return res;
+      return await getFetchUser();
     } catch (e) {
       if (e.message === 'jwt expired') {
         dispatch(refreshToken(getUser(null))); // Перенаправляю экшен в обновление токена, если истек токен
@@ -118,18 +129,6 @@ export const setUserPassword = createAsyncThunk<any, any, any>(
     const res = await setFetchPassword(changeData);
     dispatch(push(`${ROUTES.LOGIN}`));
     return res;
-  }
-);
-export const refreshToken = createAsyncThunk<any, any, any>(
-  `${sliceName}/refreshToken`,
-  async (afterRefresh, { dispatch }) => {
-    const res = await getAccessToken(); // Рефреш токен берется внутри запроса
-    setTokens(res); // Записываю новые токены
-    if (afterRefresh !== null) {
-      // Если есть диспатч, то диспатчу это событе снова.
-      dispatch(afterRefresh);
-      return res;
-    }
   }
 );
 
@@ -159,6 +158,14 @@ const authSlice = createSlice({
   reducers: {
     setUserData(state: AuthState, action: PayloadAction<any>) {
       state.data = action.payload;
+    },
+    resetError(state: AuthState) {
+      state.registerError = null;
+      state.loginError = null;
+      state.getUserError = null;
+      state.setUserPasswordError = null;
+      state.forgotUserPasswordError = null;
+      state.deleteRefreshTokenError = null;
     },
   },
   extraReducers: (builder) => {
@@ -234,6 +241,7 @@ const authSlice = createSlice({
       (state: AuthState, action: any) => {
         state.forgotUserPasswordSending = false;
         state.forgotUserPasswordError = action.error;
+        console.log(action);
       }
     );
     builder.addCase(signOut.pending, (state: AuthState) => {
@@ -252,17 +260,21 @@ const authSlice = createSlice({
     builder.addCase(refreshToken.pending, (state: AuthState) => {
       state.tokenUpdated = false;
     });
-    builder.addCase(refreshToken.fulfilled, (state: AuthState, action: any) => {
-      state.tokenUpdated = true;
-      state.tokenUpdateDate = true;
-      state.data = action.payload;
-    });
-    builder.addCase(refreshToken.rejected, (state: AuthState) => {
+    builder.addCase(
+      refreshToken.fulfilled,
+      (state: AuthState, action: PayloadAction<any>) => {
+        state.tokenUpdated = true;
+        state.tokenUpdateDate = true;
+        state.data = action.payload;
+      }
+    );
+    builder.addCase(refreshToken.rejected, (state: AuthState, action: any) => {
       state.tokenUpdated = true;
       state.tokenUpdateDate = false;
+      console.log(action);
     });
   },
 });
 
-export const { setUserData } = authSlice.actions;
+export const { setUserData, resetError } = authSlice.actions;
 export const authReducer = authSlice.reducer;
