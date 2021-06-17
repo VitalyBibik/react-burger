@@ -83,36 +83,27 @@ export function App() {
       </Switch>
       {background && (
         <>
-          <Route
-            path={`${ROUTES.INGREDIENTS}/:id`}
-            children={
-              <Modal children={<IngredientModal fullScreen={true} />} />
-            }
-          />
-          <ProtectedRoute
-            path={`${ROUTES.PROFILE_ORDERS}/:id`}
-            children={
-              <Modal>
-                <OrderHistoryDetailCard />
-              </Modal>
-            }
-          />
-          <Route
-            path={`${ROUTES.FEED}/:id`}
-            children={
-              <Modal>
-                <OrderHistoryDetailCard />
-              </Modal>
-            }
-          />
-          <ProtectedRoute
-            path={`${ROUTES.ORDER}`}
-            children={
-              <Modal>
-                <OrderDetails />
-              </Modal>
-            }
-          />
+          <Route path={`${ROUTES.INGREDIENTS}/:id`}>
+            <Modal>
+              <IngredientModal fullScreen={true} />
+            </Modal>
+          </Route>
+          <ProtectedRoute path={`${ROUTES.PROFILE_ORDERS}/:id`}>
+            <Modal>
+              <OrderHistoryDetailCard />
+            </Modal>
+          </ProtectedRoute>
+          <Route path={`${ROUTES.FEED}/:id`}>
+            <Modal>
+              <OrderHistoryDetailCard />
+            </Modal>
+          </Route>
+
+          <ProtectedRoute path={`${ROUTES.ORDER}`}>
+            <Modal>
+              <OrderDetails />
+            </Modal>
+          </ProtectedRoute>
         </>
       )}
     </div>
