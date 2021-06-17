@@ -250,10 +250,10 @@ export const Profile = memo(() => {
                   ) ? (
                     <div className={style.buttons}>
                       {
-                        // @ts-ignore
                         <Button
                           type='secondary'
                           size='medium'
+                            // @ts-ignore
                           onClick={(e: SyntheticEvent) => handleClick(e)}
                         >
                           Отмена
