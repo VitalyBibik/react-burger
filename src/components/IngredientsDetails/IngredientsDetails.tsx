@@ -5,7 +5,7 @@ import { memo } from 'react';
 type IngredientDetailsProps = {
   name: string;
   price?: number;
-  image_large: string;
+  imageLarge: string;
   _id?: string;
   calories: number;
   proteins: number;
@@ -16,7 +16,7 @@ type IngredientDetailsProps = {
 
 export const IngredientDetails = memo(
   ({
-    image_large,
+    imageLarge,
     desc,
     calories,
     proteins,
@@ -26,7 +26,7 @@ export const IngredientDetails = memo(
   }: IngredientDetailsProps) => {
     return (
       <div className={style.order}>
-        <img src={image_large} alt={desc} />
+        <img src={imageLarge} alt={desc} />
         <h3 className={style.title}>{name}</h3>
         <p className={cn(style.desc, 'text text_type_main-default')}>{desc}</p>
         <div className={style.info}>

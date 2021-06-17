@@ -45,7 +45,7 @@ export const IngredientModal = memo(({ fullScreen }: any) => {
             Детали ингридиента
           </h2>
           <IngredientDetails
-            image_large={currentCard.image_large}
+            imageLarge={currentCard.image_large}
             name={currentCard.name}
             desc={
               'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'
