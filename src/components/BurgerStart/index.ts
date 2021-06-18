@@ -1,1 +1,1 @@
-export * from './BurgerStart'
+export * from './BurgerStart';

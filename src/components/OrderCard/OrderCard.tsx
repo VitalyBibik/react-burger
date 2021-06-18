@@ -1,13 +1,13 @@
-import React, { memo, useRef } from 'react'
+import React, { memo, useRef } from 'react';
 import {
   ConstructorElement,
-  DragIcon
+  DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './OrderCard.module.scss';
 import { useDispatch } from 'react-redux';
 import { remove } from '../../services/ducks/constructor';
 import { useDrag, useDrop } from 'react-dnd';
-import {ItemTypes} from "../../utils/constants";
+import { ItemTypes } from '../../utils/constants/constants';
 
 type OrderItemIngredient = {
   _id: string;
@@ -22,24 +22,23 @@ type OrderItemIngredient = {
   image_mobile: string;
   image_large: string;
   __v?: number;
-  constructorId:number;
+  constructorId: number;
 };
 type PropsOrderCard = {
-  card: OrderItemIngredient,
-  moveCard: (dragIndex:number, hoverIndex:number) => void,
-  index: number
-}
-
+  card: OrderItemIngredient;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
+  index: number;
+};
 
 export const OrderCard = memo(({ card, moveCard, index }: PropsOrderCard) => {
-  const dispatch = useDispatch()
-  const ref = useRef<HTMLLIElement>(null )
+  const dispatch = useDispatch();
+  const ref = useRef<HTMLLIElement>(null);
   const handleClose = () => {
-    dispatch(remove(card))
-  }
+    dispatch(remove(card));
+  };
   const [, drop] = useDrop({
     accept: ItemTypes.SORT,
-    hover(item:any, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -49,7 +48,8 @@ export const OrderCard = memo(({ card, moveCard, index }: PropsOrderCard) => {
         return;
       }
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -73,18 +73,18 @@ export const OrderCard = memo(({ card, moveCard, index }: PropsOrderCard) => {
     }),
   });
   const opacity = isDragging ? 0 : 1;
-  drag(drop(ref))
+  drag(drop(ref));
   return (
-          <li className={style.container} ref={ref} style={{opacity}}>
-            <div className={style['container__icon']}><DragIcon type="primary" /></div>
-            <ConstructorElement
-              text={card.name}
-              price={card.price}
-              thumbnail={card['image_mobile']}
-              handleClose={handleClose}
-            />
-          </li>
-        );
+    <li className={style.container} ref={ref} style={{ opacity }}>
+      <div className={style['container__icon']}>
+        <DragIcon type='primary' />
+      </div>
+      <ConstructorElement
+        text={card.name}
+        price={card.price}
+        thumbnail={card['image_mobile']}
+        handleClose={handleClose}
+      />
+    </li>
+  );
 });
-
-

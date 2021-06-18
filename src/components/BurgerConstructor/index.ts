@@ -1,1 +1,1 @@
-export * from './BurgerConstructor'
+export * from './BurgerConstructor';

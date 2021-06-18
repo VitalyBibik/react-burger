@@ -1,55 +1,51 @@
 import ReactDOM from 'react-dom';
 import React, { memo, useEffect } from 'react';
-import style from './Modal.module.scss'
-import { ModalOverlay } from '../ModalOverlay'
+import style from './Modal.module.scss';
+import { ModalOverlay } from '../ModalOverlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import cn from 'classnames';
+import { useHistory } from 'react-router-dom';
 
 type ModalProps = {
-  setModal: any,
-  buttonClose:() => void,
-  children: React.ReactNode,
-  title:string | null,
-
-}
+  children: React.ReactNode;
+  title?: string | null;
+};
 
 const modalRoot = document.getElementById('modal') as HTMLElement;
 
-export const Modal = memo(({ title, buttonClose, children, setModal }: ModalProps) => {
+export const Modal = memo(({ title, children }: ModalProps) => {
+  const clear = (e: KeyboardEvent) => {
+    if (e.keyCode === 27) history.goBack();
+  };
+  const history = useHistory();
 
-  const clear = (e:KeyboardEvent) => {
-      if (e.keyCode === 27)
-        setModal({
-          isShow: false,
-          title: null,
-          content: null,
-        })
-    };
+  const buttonClose = () => {
+    history.goBack();
+  };
 
   useEffect(() => {
-    window.addEventListener('keydown', clear)
+    window.addEventListener('keydown', clear);
     return () => {
-      window.removeEventListener('keydown', clear)
-    }
-  })
+      window.removeEventListener('keydown', clear);
+    };
+  });
   return ReactDOM.createPortal(
-    (
-      <>
-        <div className={cn(style.modal, 'p-10')}>
-          <div className={style.header}>
-            {   title &&
-            <h3 className={cn('text text_type_main-medium', style.title)}>{title}</h3>
-            }
-            <div className={style.iconClose} onClick={buttonClose}><CloseIcon type={'primary'}/></div>
-          </div>
-          <div className={style.body}>
-            {children}
+    <>
+      <div className={cn(style.modal, 'p-10')}>
+        <div className={style.header}>
+          {title && (
+            <h3 className={cn('text text_type_main-medium', style.title)}>
+              {title}
+            </h3>
+          )}
+          <div className={style.iconClose} onClick={buttonClose}>
+            <CloseIcon type={'primary'} />
           </div>
         </div>
-        <ModalOverlay close={buttonClose}/>
-      </>
-    ),
+        <div className={style.body}>{children}</div>
+      </div>
+      <ModalOverlay close={buttonClose} />
+    </>,
     modalRoot
-  )
-})
-
+  );
+});

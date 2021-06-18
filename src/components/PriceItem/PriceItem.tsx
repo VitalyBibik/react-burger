@@ -9,22 +9,20 @@ type PriceItemProps = {
   margin?: boolean;
 };
 
-export const PriceItem = memo(({
-  price,
-  size = 'default',
-  margin = false,
-}: PriceItemProps) => {
-  const auto = margin === false ? null : style.position_autoMargin;
-  return (
-    <div className={style.box}>
-      <span
-        className={cn(`text text_type_digits-${size}`, style.position, auto)}
-      >
-        {price}
-      </span>
-      <span className={style['position-icon']}>
-        <CurrencyIcon type="primary" />
-      </span>
-    </div>
-  );
-});
+export const PriceItem = memo(
+  ({ price, size = 'default', margin = false }: PriceItemProps) => {
+    const auto = margin === false ? null : style.position_autoMargin;
+    return (
+      <div className={style.box}>
+        <span
+          className={cn(`text text_type_digits-${size}`, style.position, auto)}
+        >
+          {price}
+        </span>
+        <span className={style['position-icon']}>
+          <CurrencyIcon type='primary' />
+        </span>
+      </div>
+    );
+  }
+);

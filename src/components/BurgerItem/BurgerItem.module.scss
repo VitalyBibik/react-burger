@@ -19,8 +19,13 @@
     display: flex;
     justify-content: center;
   }
-
 }
 .image {
   width: 100%;
+}
+.link {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-decoration: none;
 }

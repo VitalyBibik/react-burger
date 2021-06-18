@@ -1,13 +1,12 @@
 @import-normalize; /* bring in normalize.css styles */
 
-
 /* Костыль до апдейта TODO */
 .constructor-element {
-    width: 100% !important;
+  width: 100% !important;
 }
 .constructor-element__price {
-    margin-left: auto !important;
+  margin-left: auto !important;
 }
 .input_size_default {
-    width: 480px;
+  width: 480px;
 }

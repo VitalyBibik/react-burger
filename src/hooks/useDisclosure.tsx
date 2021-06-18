@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-export const useDisclosure = (initialState = false, { onOpen, onClose }:any) => {
+export const useDisclosure = (
+  initialState = false,
+  { onOpen, onClose }: any
+) => {
   const [isOpen, setIsOpen] = useState(initialState);
 
   useEffect(() => {
@@ -11,14 +14,14 @@ export const useDisclosure = (initialState = false, { onOpen, onClose }:any) => 
 
   const open = () => {
     setIsOpen(true);
-    if (typeof onOpen === "function") {
+    if (typeof onOpen === 'function') {
       onOpen();
     }
   };
 
   const close = () => {
     setIsOpen(false);
-    if (typeof onClose === "function") {
+    if (typeof onClose === 'function') {
       onClose();
     }
   };
