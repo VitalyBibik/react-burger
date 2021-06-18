@@ -27,8 +27,6 @@ interface AuthState {
   setUserPasswordError: SerializedError | null;
   forgotUserPasswordSending: boolean;
   forgotUserPasswordError: SerializedError | null;
-  deleteRefreshTokenSending: boolean;
-  deleteRefreshTokenError: SerializedError | null;
   tokenUpdated: boolean;
   tokenUpdateDate: null | SerializedError | boolean;
   emailSent: boolean;
@@ -47,8 +45,6 @@ const initialState: AuthState = {
   setUserPasswordError: null,
   forgotUserPasswordSending: false,
   forgotUserPasswordError: null,
-  deleteRefreshTokenSending: false,
-  deleteRefreshTokenError: null,
   tokenUpdated: false,
   tokenUpdateDate: null,
   emailSent: false,
@@ -160,7 +156,6 @@ const authSlice = createSlice({
       state.getUserError = null;
       state.setUserPasswordError = null;
       state.forgotUserPasswordError = null;
-      state.deleteRefreshTokenError = null;
     },
   },
   extraReducers: (builder) => {
@@ -266,6 +261,7 @@ const authSlice = createSlice({
       state.tokenUpdated = true;
       state.tokenUpdateDate = false;
       console.log(action);
+      // clearStorage()
     });
     builder.addCase(patchUser.pending, (state: AuthState) => {
       state.patchUserSending = true;
