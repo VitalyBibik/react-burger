@@ -96,6 +96,7 @@ export const refreshToken = createAsyncThunk<any, any, any>(
       dispatch(await afterRefresh);
       return res;
     }
+    return res
   }
 );
 export const getUser = createAsyncThunk<any, any, any>(
@@ -261,7 +262,7 @@ const authSlice = createSlice({
       state.tokenUpdated = true;
       state.tokenUpdateDate = false;
       console.log(action);
-      // clearStorage()
+      clearStorage()
     });
     builder.addCase(patchUser.pending, (state: AuthState) => {
       state.patchUserSending = true;
