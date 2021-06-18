@@ -83,7 +83,7 @@ export const patchUser = createAsyncThunk<any, any, any>(
       return await setFetchUserData(changeData);
     } catch (e) {
       if (e.message === 'jwt expired') {
-        await dispatch(refreshToken(setUserPassword(changeData)));
+        await dispatch(await refreshToken(setUserPassword(changeData)));
       }
         return rejectWithValue(e);
 
@@ -97,7 +97,7 @@ export const refreshToken = createAsyncThunk<any, any, any>(
     const res = await getAccessToken(); // Рефреш токен берется внутри запроса
     setTokens(res);
     if (afterRefresh !== null) {
-      dispatch(afterRefresh);
+      dispatch(await afterRefresh);
       return res;
     }
   }
@@ -110,7 +110,7 @@ export const getUser = createAsyncThunk<any, any, any>(
     } catch (e) {
       rejectWithValue(e);
       if (e.message === 'jwt expired') {
-        dispatch(refreshToken(getUser(null))); // Перенаправляю экшен в обновление токена, если истек токен
+        dispatch( await refreshToken(getUser(null))); // Перенаправляю экшен в обновление токена, если истек токен
       } else {
         dispatch(push(`${ROUTES.LOGIN}`));
       }
