@@ -27,11 +27,7 @@ export const sendOrder = createAsyncThunk<any, any, any>(
 const orderSlice = createSlice({
   name: 'order',
   initialState,
-  reducers: {
-    setOrder: (state: TModalData, action: PayloadAction<any>) => {
-      state.data = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(sendOrder.pending, (state: TModalData) => {
       state.isSending = true;
@@ -53,5 +49,4 @@ const orderSlice = createSlice({
   },
 });
 
-export const { setOrder } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;
