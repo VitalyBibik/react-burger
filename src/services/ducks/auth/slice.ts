@@ -1,9 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-  SerializedError,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import {
   forgotFetchPassword,
   getAccessToken,
@@ -12,7 +7,7 @@ import {
   setFetchPassword,
   setFetchUserData,
   signInFetch,
-  signUpFetch,
+  signUpFetch
 } from '../../../utils/api/api';
 import { push } from 'connected-react-router';
 import { ROUTES } from '../../../utils/routes/routes';
@@ -37,6 +32,8 @@ interface AuthState {
   tokenUpdated: boolean;
   tokenUpdateDate: null | SerializedError | boolean;
   emailSent: boolean;
+  patchUserSending: boolean,
+  patchUserError: null | SerializedError,
 }
 const initialState: AuthState = {
   data: null,
@@ -55,6 +52,8 @@ const initialState: AuthState = {
   tokenUpdated: false,
   tokenUpdateDate: null,
   emailSent: false,
+  patchUserSending: false,
+  patchUserError: null,
 };
 
 export const registerUser = createAsyncThunk<any, any, any>(
@@ -62,9 +61,8 @@ export const registerUser = createAsyncThunk<any, any, any>(
   async (registerData, { dispatch }) => {
     const res = await signUpFetch(registerData);
     setTokens(res);
-    dispatch(setUserData(res));
     dispatch(push(`${ROUTES.MAIN}`));
-    return registerData;
+    return res;
   }
 );
 
@@ -73,9 +71,8 @@ export const loginUser = createAsyncThunk<any, any, any>(
   async (loginData, { dispatch }) => {
     const res = await signInFetch(loginData);
     setTokens(res);
-    dispatch(setUserData(res));
     dispatch(push(`${ROUTES.MAIN}`));
-    return loginData;
+    return res;
   }
 );
 
@@ -83,9 +80,7 @@ export const patchUser = createAsyncThunk<any, any, any>(
   `${sliceName}/patchUser`,
   async (changeData, { dispatch, rejectWithValue }) => {
     try {
-      const res = await setFetchUserData(changeData);
-      dispatch(setUserData(res));
-      return changeData;
+      return await setFetchUserData(changeData);
     } catch (e) {
       if (e.message === 'jwt expired') {
         await dispatch(refreshToken(setUserPassword(changeData)));
@@ -241,7 +236,6 @@ const authSlice = createSlice({
       (state: AuthState, action: any) => {
         state.forgotUserPasswordSending = false;
         state.forgotUserPasswordError = action.error;
-        console.log(action);
       }
     );
     builder.addCase(signOut.pending, (state: AuthState) => {
@@ -272,6 +266,20 @@ const authSlice = createSlice({
       state.tokenUpdated = true;
       state.tokenUpdateDate = false;
       console.log(action);
+    });
+    builder.addCase(patchUser.pending, (state: AuthState) => {
+      state.patchUserSending = true;
+    });
+    builder.addCase(
+      patchUser.fulfilled,
+      (state: AuthState, action: PayloadAction<any>) => {
+        state.patchUserSending = false;
+        state.data = action.payload;
+      }
+    );
+    builder.addCase(patchUser.rejected, (state: AuthState, action: any) => {
+      state.patchUserSending = false;
+      state.patchUserError = action.error;
     });
   },
 });
