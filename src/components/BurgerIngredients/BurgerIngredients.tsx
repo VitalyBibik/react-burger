@@ -60,9 +60,9 @@ export const BurgerIngredients = memo(() => {
   };
 
   useEffect(() => {
-    if (current === 'bun')  bunRef?.current?.scrollIntoView();
-    if (current === 'sauce')  sauceRef?.current?.scrollIntoView();
-    if (current === 'main')  mainRef?.current?.scrollIntoView();
+    if (current === 'bun') bunRef?.current?.scrollIntoView();
+    if (current === 'sauce') sauceRef?.current?.scrollIntoView();
+    if (current === 'main') mainRef?.current?.scrollIntoView();
   }, [current]);
 
   const breadArray = useSelector(getBreadArray);
