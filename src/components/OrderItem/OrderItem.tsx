@@ -4,8 +4,7 @@ import cn from 'classnames';
 import style from './OrderItem.module.scss';
 import { OrderCard } from '../OrderCard';
 import { useDispatch } from 'react-redux';
-import {ConstructorIng, sort} from '../../services/ducks/constructor';
-
+import { ConstructorIng, sort } from '../../services/ducks/constructor';
 
 type OrderItemProps = {
   bread?: ConstructorIng;

@@ -5,10 +5,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './OrderCard.module.scss';
 import { useDispatch } from 'react-redux';
-import {ConstructorIng, remove} from '../../services/ducks/constructor';
+import { ConstructorIng, remove } from '../../services/ducks/constructor';
 import { useDrag, useDrop } from 'react-dnd';
 import { ItemTypes } from '../../utils/constants/constants';
-
 
 type PropsOrderCard = {
   card: ConstructorIng;
