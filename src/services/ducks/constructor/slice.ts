@@ -24,8 +24,8 @@ interface Ingredient {
   desc?: string;
   id?: number;
 }
-interface ConstructorIng extends Ingredient {
-  constructorId: string;
+export interface ConstructorIng extends Ingredient {
+  constructorId?: string;
 }
 type sortType = {
   dragIndex: number;
