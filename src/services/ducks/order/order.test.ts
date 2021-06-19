@@ -1,5 +1,6 @@
 import { sliceName } from '../constructor';
 import { orderReducer, sendOrder, TModalData } from './slice';
+import { authReducer } from '../auth';
 
 const initialState: TModalData = {
   orderId: null,
@@ -46,5 +47,10 @@ describe(`${sliceName} extraReducers`, () => {
         sendError: 'Fetch request is failed',
       })
     );
+  });
+});
+describe(`${sliceName} Reducers`, () => {
+  it('should return the initial state', () => {
+    expect(orderReducer(undefined, { type: undefined })).toEqual(initialState);
   });
 });

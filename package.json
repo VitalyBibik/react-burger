@@ -17,6 +17,7 @@
     "@ya.praktikum/react-developer-burger-ui-components": "^1.5.0",
     "classnames": "^2.3.1",
     "connected-react-router": "^6.9.1",
+    "history": "4.7.2",
     "immer": "^9.0.2",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
@@ -32,11 +33,13 @@
     "redux-thunk": "^2.3.0",
     "typescript": "^4.1.2",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1",
-    "history": "4.7.2"
+    "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^1.6.0",
+    "cypress": "^7.5.0",
     "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-prettier": "^3.3.1",
     "prettier": "^2.2.1",
     "prop-types": "^15.7.2"
@@ -46,7 +49,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "cyp:open": "./node_modules/.bin/cypress open"
   },
   "eslintConfig": {
     "extends": [

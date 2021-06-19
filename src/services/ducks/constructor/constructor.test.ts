@@ -9,6 +9,7 @@ import {
 } from './slice';
 import { data } from '../../../fixtures';
 import { v4 as uuid } from 'uuid';
+import { authReducer } from '../auth';
 
 const initialState: burgerState = {
   isLoading: false,
@@ -123,6 +124,11 @@ describe(`${sliceName} Reducers`, () => {
       expect.objectContaining({
         constructor: [card, card2],
       })
+    );
+  });
+  it('should return the initial state', () => {
+    expect(constructorReducer(undefined, { type: undefined })).toEqual(
+      initialState
     );
   });
 });

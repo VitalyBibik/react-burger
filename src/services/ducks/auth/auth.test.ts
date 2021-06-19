@@ -37,9 +37,6 @@ const initialState: AuthState = {
 };
 
 describe(`${sliceName} extraReducers`, () => {
-  it('should return the initial state', () => {
-    expect(authReducer(undefined, { type: undefined })).toEqual(initialState);
-  });
   it('should handle Login Request pending', () => {
     expect(authReducer(initialState, { type: loginUser.pending })).toEqual(
       expect.objectContaining({
@@ -366,5 +363,8 @@ describe(`${sliceName} Reducers`, () => {
         tokenUpdateError: null,
       })
     );
+  });
+  it('should return the initial state', () => {
+    expect(authReducer(undefined, { type: undefined })).toEqual(initialState);
   });
 });
