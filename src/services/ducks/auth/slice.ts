@@ -20,7 +20,7 @@ import { clearStorage, setTokens } from '../../../utils/functions/tokens';
 
 export const sliceName = 'authReducer';
 
-interface AuthState {
+export interface AuthState {
   data: any | null;
   registerSending: boolean;
   registerError: SerializedError | null;

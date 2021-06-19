@@ -1,5 +1,6 @@
 import {
   authReducer,
+  AuthState,
   forgotUserPassword,
   getUser,
   loginUser,
@@ -10,9 +11,10 @@ import {
   setUserData,
   setUserPassword,
   signOut,
+  sliceName,
 } from './slice';
 
-const initialState = {
+const initialState: AuthState = {
   data: null,
   registerSending: false,
   registerError: null,
@@ -34,7 +36,7 @@ const initialState = {
   signOutError: null,
 };
 
-describe('Auth reducer extraReducers', () => {
+describe(`${sliceName} extraReducers`, () => {
   it('should return the initial state', () => {
     expect(authReducer(undefined, { type: undefined })).toEqual(initialState);
   });
@@ -336,7 +338,7 @@ describe('Auth reducer extraReducers', () => {
     );
   });
 });
-describe('Auth Reducer Reducers', () => {
+describe(`${sliceName} Reducers`, () => {
   it('should setUser null', () => {
     expect(
       authReducer(initialState, {

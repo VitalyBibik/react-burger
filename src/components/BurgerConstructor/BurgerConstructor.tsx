@@ -21,6 +21,7 @@ import {
   getSendOrderArray,
 } from '../../services/ducks/constructor/selectors';
 import { useHistory, useLocation } from 'react-router-dom';
+import {v4 as uuid} from "uuid";
 
 type Ingredient = {
   _id: string;
@@ -70,7 +71,11 @@ export const BurgerConstructor = memo(() => {
   const [{ backgroundColor }, dropTarget] = useDrop({
     accept: ItemTypes.CARD,
     drop(card: Ingredient) {
-      dispatch(add(card));
+      const newCard = {
+        ...card,
+        constructorId: uuid()
+      }
+      dispatch(add(newCard));
     },
     collect: (monitor) => ({
       backgroundColor: monitor.isOver() ? 'grey' : 'transparent',

@@ -2,7 +2,7 @@ import type { PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchOrder } from '../../../utils/api/api';
 
-type TModalData = {
+export type TModalData = {
   orderId: number | null;
   data: any;
   isSending: boolean;
