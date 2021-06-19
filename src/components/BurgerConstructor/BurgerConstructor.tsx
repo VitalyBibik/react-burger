@@ -97,7 +97,7 @@ export const BurgerConstructor = memo(() => {
         {marginTopAutoOn ? (
           <>
             <OrderItem bread={bread} top={true} />
-            <ul className={style.container__item}>
+            <ul className={style.container__item} data-productContainer={'1'}>
               <OrderItem productArray={productArray} />
             </ul>
             <OrderItem bread={bread} top={false} />
