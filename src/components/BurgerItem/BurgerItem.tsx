@@ -59,7 +59,7 @@ export const BurgerItem = memo(
     const location = useLocation();
 
     return (
-      <li className={style.container} ref={dragOrderCard}>
+      <li className={style.container} ref={dragOrderCard} data-item={`${_id}`}>
         <Link
           className={style.link}
           to={{

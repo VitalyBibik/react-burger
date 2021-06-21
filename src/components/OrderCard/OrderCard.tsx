@@ -5,27 +5,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './OrderCard.module.scss';
 import { useDispatch } from 'react-redux';
-import { remove } from '../../services/ducks/constructor';
+import { ConstructorIng, remove } from '../../services/ducks/constructor';
 import { useDrag, useDrop } from 'react-dnd';
 import { ItemTypes } from '../../utils/constants/constants';
 
-type OrderItemIngredient = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v?: number;
-  constructorId: number;
-};
 type PropsOrderCard = {
-  card: OrderItemIngredient;
+  card: ConstructorIng;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
   index: number;
 };

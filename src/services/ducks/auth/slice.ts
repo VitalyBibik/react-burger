@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from '@reduxjs/toolkit';
 import {
   forgotFetchPassword,
   getAccessToken,
@@ -7,7 +12,7 @@ import {
   setFetchPassword,
   setFetchUserData,
   signInFetch,
-  signUpFetch
+  signUpFetch,
 } from '../../../utils/api/api';
 import { push } from 'connected-react-router';
 import { ROUTES } from '../../../utils/routes/routes';
@@ -15,7 +20,7 @@ import { clearStorage, setTokens } from '../../../utils/functions/tokens';
 
 export const sliceName = 'authReducer';
 
-interface AuthState {
+export interface AuthState {
   data: any | null;
   registerSending: boolean;
   registerError: SerializedError | null;
@@ -29,10 +34,12 @@ interface AuthState {
   forgotUserPasswordError: SerializedError | null;
   tokenUpdated: boolean;
   tokenUpdateDate: null | SerializedError | boolean;
-  tokenUpdateError:null | SerializedError
+  tokenUpdateError: null | SerializedError;
   emailSent: boolean;
-  patchUserSending: boolean,
-  patchUserError: null | SerializedError,
+  patchUserSending: boolean;
+  patchUserError: null | SerializedError;
+  signOutSending: boolean;
+  signOutError: null | SerializedError;
 }
 const initialState: AuthState = {
   data: null,
@@ -52,6 +59,8 @@ const initialState: AuthState = {
   emailSent: false,
   patchUserSending: false,
   patchUserError: null,
+  signOutSending: false,
+  signOutError: null,
 };
 
 export const registerUser = createAsyncThunk<any, any, any>(
@@ -83,8 +92,7 @@ export const patchUser = createAsyncThunk<any, any, any>(
       if (e.message === 'jwt expired') {
         await dispatch(await refreshToken(setUserPassword(changeData)));
       }
-        return rejectWithValue(e);
-
+      return rejectWithValue(e);
     }
   }
 );
@@ -98,7 +106,7 @@ export const refreshToken = createAsyncThunk<any, any, any>(
       dispatch(await afterRefresh);
       return res;
     }
-    return res
+    return res;
   }
 );
 export const getUser = createAsyncThunk<any, any, any>(
@@ -109,7 +117,7 @@ export const getUser = createAsyncThunk<any, any, any>(
     } catch (e) {
       rejectWithValue(e);
       if (e.message === 'jwt expired') {
-        dispatch( await refreshToken(getUser(null))); // Перенаправляю экшен в обновление токена, если истек токен
+        dispatch(await refreshToken(getUser(null))); // Перенаправляю экшен в обновление токена, если истек токен
       } else {
         dispatch(push(`${ROUTES.LOGIN}`));
       }
@@ -238,17 +246,17 @@ const authSlice = createSlice({
       }
     );
     builder.addCase(signOut.pending, (state: AuthState) => {
-      state.forgotUserPasswordSending = true;
+      state.signOutSending = true;
     });
     builder.addCase(signOut.fulfilled, (state: AuthState) => {
-      state.forgotUserPasswordSending = false;
-      state.forgotUserPasswordError = null;
+      state.signOutSending = false;
+      state.signOutError = null;
       state.tokenUpdated = false;
       state.tokenUpdateDate = null;
     });
     builder.addCase(signOut.rejected, (state: AuthState, action: any) => {
-      state.forgotUserPasswordSending = false;
-      state.forgotUserPasswordError = action.error;
+      state.signOutSending = false;
+      state.signOutError = action.error;
     });
     builder.addCase(refreshToken.pending, (state: AuthState) => {
       state.tokenUpdated = false;
@@ -265,7 +273,7 @@ const authSlice = createSlice({
       state.tokenUpdated = true;
       state.tokenUpdateDate = false;
       state.tokenUpdateError = action.error;
-      clearStorage()
+      clearStorage();
     });
     builder.addCase(patchUser.pending, (state: AuthState) => {
       state.patchUserSending = true;

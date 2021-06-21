@@ -24,8 +24,8 @@ interface Ingredient {
   desc?: string;
   id?: number;
 }
-interface ConstructorIng extends Ingredient {
-  constructorId: string;
+export interface ConstructorIng extends Ingredient {
+  constructorId?: string;
 }
 type sortType = {
   dragIndex: number;
@@ -39,7 +39,7 @@ export type burgerState = {
   constructor: Array<ConstructorIng>;
   bun: Ingredient | null;
 };
-const initialState: any = {
+const initialState: burgerState = {
   isLoading: false,
   hasError: null,
   data: [],
@@ -60,19 +60,16 @@ const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    add: (state: burgerState, action: PayloadAction<Ingredient>) => {
+    add: (state: burgerState, action: PayloadAction<ConstructorIng>) => {
       const card = action.payload;
-      const newCard = {
-        ...card,
-        constructorId: uuid(),
-      };
-      if (newCard.type === BUN) {
-        return { ...state, bun: newCard };
+
+      if (card.type === BUN) {
+        return { ...state, bun: card };
       } else {
-        state.constructor.push(newCard);
+        state.constructor.push(card);
       }
     },
-    remove: (state: burgerState, action: PayloadAction<Ingredient>) => {
+    remove: (state: burgerState, action: PayloadAction<ConstructorIng>) => {
       const index = state.constructor.findIndex(
         (el: { _id: string }) => el._id === action.payload._id
       );

@@ -21,6 +21,7 @@ import {
   getSendOrderArray,
 } from '../../services/ducks/constructor/selectors';
 import { useHistory, useLocation } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 
 type Ingredient = {
   _id: string;
@@ -70,7 +71,11 @@ export const BurgerConstructor = memo(() => {
   const [{ backgroundColor }, dropTarget] = useDrop({
     accept: ItemTypes.CARD,
     drop(card: Ingredient) {
-      dispatch(add(card));
+      const newCard = {
+        ...card,
+        constructorId: uuid(),
+      };
+      dispatch(add(newCard));
     },
     collect: (monitor) => ({
       backgroundColor: monitor.isOver() ? 'grey' : 'transparent',
@@ -81,6 +86,7 @@ export const BurgerConstructor = memo(() => {
   return (
     <>
       <div
+        data-dropContainer={'main'}
         className={cn(style.container, {
           [style.container_auto]: marginTopAutoOn,
         })}
@@ -91,7 +97,7 @@ export const BurgerConstructor = memo(() => {
         {marginTopAutoOn ? (
           <>
             <OrderItem bread={bread} top={true} />
-            <ul className={style.container__item}>
+            <ul className={style.container__item} data-productContainer={'1'}>
               <OrderItem productArray={productArray} />
             </ul>
             <OrderItem bread={bread} top={false} />

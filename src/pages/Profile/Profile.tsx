@@ -253,7 +253,7 @@ export const Profile = memo(() => {
                         <Button
                           type='secondary'
                           size='medium'
-                            // @ts-ignore
+                          // @ts-ignore
                           onClick={(e: SyntheticEvent) => handleClick(e)}
                         >
                           Отмена

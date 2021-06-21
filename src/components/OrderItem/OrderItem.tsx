@@ -4,26 +4,11 @@ import cn from 'classnames';
 import style from './OrderItem.module.scss';
 import { OrderCard } from '../OrderCard';
 import { useDispatch } from 'react-redux';
-import { sort } from '../../services/ducks/constructor';
+import { ConstructorIng, sort } from '../../services/ducks/constructor';
 
-type OrderItemIngredient = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v?: number;
-  constructorId: number;
-};
 type OrderItemProps = {
-  bread?: OrderItemIngredient;
-  productArray?: Array<OrderItemIngredient>;
+  bread?: ConstructorIng;
+  productArray?: Array<ConstructorIng>;
   top?: boolean;
 };
 
@@ -41,7 +26,10 @@ export const OrderItem = memo(
     return (
       <>
         {bread && top === true && (
-          <div className={cn(style.container, style['container_special'])}>
+          <div
+            className={cn(style.container, style['container_special'])}
+            data-bunContainer={'1'}
+          >
             <ConstructorElement
               type='top'
               isLocked={true}
@@ -53,7 +41,7 @@ export const OrderItem = memo(
         )}
 
         {productArray &&
-          productArray.map((card: OrderItemIngredient, index) => {
+          productArray.map((card: ConstructorIng, index) => {
             return (
               <OrderCard
                 key={card.constructorId ? card.constructorId : card._id}
@@ -65,7 +53,10 @@ export const OrderItem = memo(
           })}
 
         {bread && top === false && (
-          <div className={cn(style.container, style['container_special'])}>
+          <div
+            className={cn(style.container, style['container_special'])}
+            data-bunContainer={'2'}
+          >
             <ConstructorElement
               type='bottom'
               isLocked={true}
