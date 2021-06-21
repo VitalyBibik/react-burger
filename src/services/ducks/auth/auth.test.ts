@@ -13,6 +13,12 @@ import {
   signOut,
   sliceName,
 } from './slice';
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import fetchMock from 'fetch-mock'
+import * as tokenFunc from '../../../utils/functions/tokens';
+const middlewares = [thunk]
+const mockStore = configureMockStore(middlewares)
 
 const initialState: AuthState = {
   data: null,
@@ -367,4 +373,43 @@ describe(`${sliceName} Reducers`, () => {
   it('should return the initial state', () => {
     expect(authReducer(undefined, { type: undefined })).toEqual(initialState);
   });
+});
+
+
+const responseData = {
+    "success":true,
+    "accessToken":"Bearer test",
+    "refreshToken":"test",
+    "user":{"email":"review@mail.com","name":"Review"}
+}
+describe('login action', () => {
+    afterEach(() => {
+        fetchMock.restore();
+    });
+    it('should handle success login', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+    // @ts-ignore
+        tokenFunc.setTokens = jest.fn();
+    fetchMock.post('https://norma.nomoreparties.space/api/auth/login', {
+        body: responseData,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const answer = [
+        { type: "authReducer/loginUser/pending"},
+        { type: "@@router/CALL_HISTORY_METHOD" },
+        { type: "authReducer/loginUser/fulfilled", payload: responseData }
+    ];
+    // @ts-ignore
+        return store.dispatch(loginUser({login: "name", password: "password"})).then(() => {
+        const actions = store.getActions()
+        expect(actions[0]).toEqual( expect.objectContaining(answer[0]));
+        expect(actions[1]).toEqual( expect.objectContaining(answer[1]));
+        expect(actions[2]).toEqual( expect.objectContaining(answer[2]));
+        expect(tokenFunc.setTokens).toHaveBeenCalledTimes(1);
+        expect(tokenFunc.setTokens).toHaveBeenCalledWith(responseData)
+    });
+    });
 });
