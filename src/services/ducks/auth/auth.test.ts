@@ -385,6 +385,7 @@ const responseData = {
 describe('login action', () => {
     afterEach(() => {
         fetchMock.restore();
+        tokenFunc.setTokens.mockRestore();
     });
     it('should handle success login', () => {
         const initialState = {};
