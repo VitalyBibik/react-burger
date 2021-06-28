@@ -4,7 +4,6 @@ import {
   createSlice,
   SerializedError,
 } from '@reduxjs/toolkit';
-import { v4 as uuid } from 'uuid';
 import { BUN } from '../../../utils/constants/constants';
 import { loadFetchIngredients } from '../../../utils/api/api';
 

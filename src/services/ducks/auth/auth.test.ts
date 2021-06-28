@@ -375,7 +375,6 @@ describe(`${sliceName} Reducers`, () => {
   });
 });
 
-
 // const responseData = {
 //     "success":true,
 //     "accessToken":"Bearer test",

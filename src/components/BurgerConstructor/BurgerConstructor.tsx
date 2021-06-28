@@ -86,7 +86,7 @@ export const BurgerConstructor = memo(() => {
   return (
     <>
       <div
-        data-dropContainer={'main'}
+        data-dropcontainer={'main'}
         className={cn(style.container, {
           [style.container_auto]: marginTopAutoOn,
         })}

@@ -61,7 +61,6 @@ export const OrderHistoryDetailCard = memo(() => {
       ),
     [testArray]
   );
-  console.log(ingredients);
 
   const sum = useMemo(() => getSum(testArray), [testArray]);
   return (

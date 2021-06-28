@@ -1,9 +1,17 @@
 import style from './Feed.module.scss';
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { OrderHistory } from '../../components/OrdersHistory';
 import cn from 'classnames';
+import { useDispatch } from 'react-redux';
+import { wsInit } from '../../services/ducks/sockets/slice';
 
 export const Feed = memo(() => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(wsInit());
+  }, [dispatch]);
+
   return (
     <div className={style.container}>
       <h2 className={cn('text text_type_main-large', style.title)}>
