@@ -3,9 +3,9 @@ describe('service is available', function () {
     cy.visit('http://localhost:3000');
   });
   it('should be Drag Bun and Ingredient', function () {
-    cy.get('[data-item="60cb6564fce49c00269d4018"]').trigger('dragstart');
+    cy.get('[data-item="60d09b3a142e2a00262fd59a"]').trigger('dragstart');
     cy.get('[data-dropContainer="main"]').trigger('drop', { force: true });
-    cy.get('[data-item="60cb6564fce49c00269d401e"]').trigger('dragstart');
+    cy.get('[data-item="60d09b3a142e2a00262fd5a1"]').trigger('dragstart');
     cy.get('[data-dropContainer="main"]').trigger('drop', { force: true });
   });
   it('should be elements bun and ingredient in containers', function () {
