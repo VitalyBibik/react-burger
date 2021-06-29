@@ -41,8 +41,12 @@
   position: relative;
 }
 .control {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   padding-left: 0;
   margin: 0;
+  max-height:330px;
 }
 .list {
   list-style: none;

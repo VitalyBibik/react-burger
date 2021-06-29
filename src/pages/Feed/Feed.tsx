@@ -2,24 +2,37 @@ import style from './Feed.module.scss';
 import React, { memo, useEffect } from 'react';
 import { OrderHistory } from '../../components/OrdersHistory';
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { wsInit } from '../../services/ducks/sockets/slice';
+import {Loader} from "../../components/Loader";
+import {getIsLoading, getOrders, getTotal, getTotalToday} from "../../services/ducks/sockets/selectors";
+import {loadIngredients} from "../../services/ducks/constructor";
+import {getData} from "../../services/ducks/constructor/selectors";
 
 export const Feed = memo(() => {
   const dispatch = useDispatch();
+  const orders = useSelector(getOrders)
+  const total = useSelector(getTotal)
+  const totalToday = useSelector(getTotalToday)
+  const isLoading = useSelector(getIsLoading)
+  const data = useSelector(getData)
 
   useEffect(() => {
     dispatch(wsInit());
-  }, [dispatch]);
+    data.length === 0 && dispatch(loadIngredients())
+  }, [data.length, dispatch]);
 
-  return (
-    <div className={style.container}>
+  const done = orders.filter((el:any) => el.status === 'done')
+  const inProgress = orders.filter((el:any) => el.status !== 'done')
+
+  const render = () => {
+    return (<div className={style.container}>
       <h2 className={cn('text text_type_main-large', style.title)}>
         Лента заказов
       </h2>
       <div className={style.main}>
         <div className={style.left}>
-          <OrderHistory smallSize={true} />
+          {orders.map((el:any, index:number) => <OrderHistory smallSize={true} order={el} key={index} />)}
         </div>
         <div className={style.right}>
           <div className={cn(style.info, 'mb-15')}>
@@ -28,51 +41,17 @@ export const Feed = memo(() => {
                 Готовы:
               </h2>
               <ul className={style.control}>
-                <li
-                  className={cn(
-                    style.list,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
-                <li
-                  className={cn(
-                    style.list,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
-                <li
-                  className={cn(
-                    style.list,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
-                <li
-                  className={cn(
-                    style.list,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
-                <li
-                  className={cn(
-                    style.list,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
+                {
+                  done.map((el:any, index:number) =>    <li
+                      className={cn(
+                          style.list,
+                          'text text_type_digits-default',
+                          'mb-2'
+                      )} key={el._id}
+                  >
+                    {el.number}
+                  </li>)
+                }
               </ul>
             </div>
             <div className={style.box_mini}>
@@ -80,36 +59,18 @@ export const Feed = memo(() => {
                 В работе:
               </h2>
               <ul className={style.control}>
-                <li
-                  className={cn(
-                    style.list,
-                    style.list_white,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
-                <li
-                  className={cn(
-                    style.list,
-                    style.list_white,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
-                <li
-                  className={cn(
-                    style.list,
-                    style.list_white,
-                    'text text_type_digits-default',
-                    'mb-2'
-                  )}
-                >
-                  034533
-                </li>
+                {
+                  inProgress.map((el:any, index:number) =>    <li
+                      className={cn(
+                          style.list,
+                          style.list_white,
+                          'text text_type_digits-default',
+                          'mb-2'
+                      )} key={el._id}
+                  >
+                    {el.number}
+                  </li>)
+                }
               </ul>
             </div>
           </div>
@@ -118,7 +79,7 @@ export const Feed = memo(() => {
               Выполнено за все время:
             </h2>
             <span className={cn('text_type_digits-large', style.shadow)}>
-              28 752
+              {total}
             </span>
           </div>
           <div className={style.task}>
@@ -126,11 +87,16 @@ export const Feed = memo(() => {
               Выполнено за сегодня:
             </h2>
             <span className={cn('text_type_digits-large', style.shadow)}>
-              138
+              {totalToday}
             </span>
           </div>
         </div>
       </div>
-    </div>
+    </div>)
+  }
+
+
+  return (
+      isLoading ? render() : <Loader />
   );
 });

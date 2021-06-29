@@ -7,18 +7,23 @@ export const wsSendAuthMessage = createAction(
 
 export type Sockets = {
   wsConnected: boolean;
-  data: Array<any>;
+  orders: Array<any>;
+  total:number|null;
+  totalToday: number|null;
 };
 const initialState: Sockets = {
   wsConnected: false,
-  data: [],
+  orders: [],
+  total:null,
+  totalToday:null,
+
+
 };
 
 export const sliceName = 'socketReducer';
 
 export const socketAllOrders = 'wss://norma.nomoreparties.space/orders/all';
-const getSpecialUserOrders =
-  "wss://norma.nomoreparties.space/orders/?token='kldfjgkjgk'"; // Нужен accessToken
+const getSpecialUserOrders = `wss://norma.nomoreparties.space/orders?token=${123}`; // Нужен accessToken
 
 export const wsInit = createAction('socket/wsInit');
 export const wsAuthInit = createAction('socket/wsAuthInit');
@@ -35,14 +40,16 @@ const socketSlice = createSlice({
       state.wsConnected = true;
     },
     wsConnectedError: (state: Sockets, action: any) => {
-      console.log(action);
       state.wsConnected = false;
     },
     wsConnectedClosed: (state: Sockets, action: PayloadAction<any>) => {
       state.wsConnected = false;
     },
     wsGetMessage: (state: Sockets, action: PayloadAction<any>) => {
-      state.data.push(action.payload);
+      const { total, totalToday, orders } = action.payload
+      state.total = total
+      state.totalToday = totalToday
+      state.orders = orders
     },
   },
 });

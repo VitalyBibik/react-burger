@@ -15,7 +15,6 @@ export const socketMiddleware = (wsUrl: string, wsActions: any, auth: any) => {
           socket = token
             ? new WebSocket(`${wsUrl}?token=${token}`)
             : new WebSocket(`${wsUrl}`);
-          console.log(socket, 's');
         }
         if (socket) {
           socket.onopen = () => {
