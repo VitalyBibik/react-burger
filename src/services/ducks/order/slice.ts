@@ -37,6 +37,7 @@ const orderSlice = createSlice({
     builder.addCase(
       sendOrder.fulfilled,
       (state: TModalData, action: PayloadAction<any>) => {
+        console.log(action.payload,'ORDER ZAKAZ')
         state.orderId = action.payload.order.number;
         state.isSending = false;
       }

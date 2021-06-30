@@ -3,9 +3,9 @@ import React, { memo, useEffect } from 'react';
 import { OrderHistory } from '../../components/OrdersHistory';
 import cn from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
-import { wsInit } from '../../services/ducks/sockets/slice';
+import {wsActions, wsInit} from '../../services/ducks/orders/slice';
 import {Loader} from "../../components/Loader";
-import {getIsLoading, getOrders, getTotal, getTotalToday} from "../../services/ducks/sockets/selectors";
+import {getIsLoading, getOrders, getTotal, getTotalToday} from "../../services/ducks/orders/selectors";
 import {loadIngredients} from "../../services/ducks/constructor";
 import {getData} from "../../services/ducks/constructor/selectors";
 
@@ -20,6 +20,9 @@ export const Feed = memo(() => {
   useEffect(() => {
     dispatch(wsInit());
     data.length === 0 && dispatch(loadIngredients())
+    return () => {
+      dispatch(wsActions.onClose)
+    }
   }, [data.length, dispatch]);
 
   const done = orders.filter((el:any) => el.status === 'done')

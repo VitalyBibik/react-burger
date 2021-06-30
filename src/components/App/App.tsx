@@ -32,7 +32,7 @@ export function App() {
   const history = useHistory();
   const location = useLocation<any>();
 
-  let background =
+  const background =
     (history.action === 'PUSH' || history.action === 'REPLACE') &&
     // @ts-ignore
     location.state &&

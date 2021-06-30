@@ -10,7 +10,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: any, auth: any) => {
         const { type, payload } = action;
         const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =
           wsActions;
-        const token = auth ? getCookie : null;
+        const token = auth ? getCookie('token') : null;
         if (type === wsInit.toString()) {
           socket = token
             ? new WebSocket(`${wsUrl}?token=${token}`)
