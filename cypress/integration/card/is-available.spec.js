@@ -9,17 +9,17 @@ describe('service is available', function () {
     cy.get('[data-dropcontainer="main"]').trigger('drop', { force: true });
   });
   it('should be elements bun and ingredient in containers', function () {
-    cy.get('[data-bunContainer="1"')
+    cy.get('[data-buncontainer="1"')
       .children()
       .should(($children) => {
         expect($children).to.have.length(1);
       });
-    cy.get('[data-bunContainer="2"')
+    cy.get('[data-buncontainer="2"')
       .children()
       .should(($children) => {
         expect($children).to.have.length(1);
       });
-    cy.get('[data-productContainer="1"]')
+    cy.get('[data-productcontainer="1"]')
       .children()
       .should(($children) => {
         expect($children).to.have.length(1);

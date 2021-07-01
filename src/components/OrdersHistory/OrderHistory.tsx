@@ -7,10 +7,9 @@ import { PriceItem } from '../PriceItem';
 import { historyOrderLimit } from '../../utils/constants/constants';
 import { useRouteMatch } from 'react-router-dom';
 import { getSum } from '../../utils/functions/getSum';
-import {getDateInCard} from "../../utils/functions/dates";
-import {useSelector} from "react-redux";
-import {getData} from "../../services/ducks/constructor/selectors";
-
+import { getDateInCard } from '../../utils/functions/dates';
+import { useSelector } from 'react-redux';
+import { getData } from '../../services/ducks/constructor/selectors';
 
 type Burger = {
   _id: string;
@@ -29,36 +28,46 @@ type Burger = {
 };
 type OrderHistoryProps = {
   smallSize?: boolean;
-  order?:any
+  order?: any;
 };
 
-export const OrderHistory = ({ smallSize = false, order }: OrderHistoryProps) => {
+export const OrderHistory = ({
+  smallSize = false,
+  order,
+}: OrderHistoryProps) => {
   const colors = {
     created: style.created,
     pending: style.pending,
     done: style.done,
   };
-    let zIndex = 6
-    const status = order.status
-    const cardStatus =
-        status === 'done'
-            ? { text: 'Выполнен', colors:colors.done }
-            : status === 'pending'
-            ? { text: 'Готовится', colors:colors.pending }
-            : { text: 'Создан', colors:colors.created };
-
+  let zIndex = 6;
+  const status = order.status;
+  const cardStatus =
+    status === 'done'
+      ? { text: 'Выполнен', colors: colors.done }
+      : status === 'pending'
+      ? { text: 'Готовится', colors: colors.pending }
+      : { text: 'Создан', colors: colors.created };
 
   const { url } = useRouteMatch();
-  const productIngredients = useSelector(getData)
+  const productIngredients = useSelector(getData);
 
-  const orderIngredientsArray = order.ingredients.map((el:any) => productIngredients.find((item:any) => item._id === el) )
+  const orderIngredientsArray = order.ingredients.map((el: any) =>
+    productIngredients.find((item: any) => item._id === el)
+  );
 
-  const ingredientsCardArray = orderIngredientsArray.slice(0, historyOrderLimit)
+  const ingredientsCardArray = orderIngredientsArray.slice(
+    0,
+    historyOrderLimit
+  );
 
-    const cardCount = orderIngredientsArray.length
-    const isHover = cardCount > 6
+  const cardCount = orderIngredientsArray.length;
+  const isHover = cardCount > 6;
 
-  const sum = useMemo(() => getSum(orderIngredientsArray), [orderIngredientsArray]);
+  const sum = useMemo(
+    () => getSum(orderIngredientsArray),
+    [orderIngredientsArray]
+  );
   const location = useLocation();
   return (
     <>
@@ -81,40 +90,48 @@ export const OrderHistory = ({ smallSize = false, order }: OrderHistoryProps) =>
           className={style.activeLink}
         >
           <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
-            <p className={cn('text text_type_digits-default')}>{`#${order.number}`}</p>
+            <p
+              className={cn('text text_type_digits-default')}
+            >{`#${order.number}`}</p>
             <p
               className={cn('text text_type_main-default text_color_inactive')}
             >
-                {getDateInCard(order.createdAt)}
+              {getDateInCard(order.createdAt)}
             </p>
           </div>
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 mb-2')}>
-            <h3 className={cn('text text_type_main-medium')}>
-                {order.name}
-            </h3>
+            <h3 className={cn('text text_type_main-medium')}>{order.name}</h3>
           </div>
           <div className={cn(style.container_mini, 'mr-6 ml-6 mt-2')}>
             <p className={cn('text text_type_main-small', cardStatus.colors)}>
-                {cardStatus.text}
+              {cardStatus.text}
             </p>
           </div>
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
             <ul className={cn(style.burgerList)}>
-              {
-                  ingredientsCardArray.map((el: Burger, index:number) => {
-                  return (
-                    <OrderHistoryCard key={index} card={el} index={zIndex -= 1} />
-                  );
+              {ingredientsCardArray.map((el: Burger, index: number) => {
+                return (
+                  <OrderHistoryCard
+                    key={index}
+                    card={el}
+                    index={(zIndex -= 1)}
+                  />
+                );
               })}
-                {
-                    isHover ? <OrderHistoryCard key={orderIngredientsArray[0]._id} card={orderIngredientsArray[0]} index={zIndex -= 1} last={true} length={cardCount - historyOrderLimit} /> : null
-                }
+              {isHover ? (
+                <OrderHistoryCard
+                  key={orderIngredientsArray[0]._id}
+                  card={orderIngredientsArray[0]}
+                  index={(zIndex -= 1)}
+                  last={true}
+                  length={cardCount - historyOrderLimit}
+                />
+              ) : null}
             </ul>
             <PriceItem price={sum} />
           </div>
         </Link>
       </li>
-
     </>
   );
 };

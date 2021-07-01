@@ -4,7 +4,12 @@ import { routerMiddleware, connectRouter } from 'connected-react-router';
 import { rootReducer } from './rootReducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { socketMiddleware } from '../ducks/orders/middleware';
-import {getSpecialUserOrders, socketAllOrders, wsActions, wsActionsAuth} from '../ducks/orders/slice';
+import {
+  getSpecialUserOrders,
+  socketAllOrders,
+  wsActions,
+  wsActionsAuth,
+} from '../ducks/orders/slice';
 
 export const history = createBrowserHistory();
 

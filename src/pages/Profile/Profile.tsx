@@ -18,13 +18,12 @@ import {
   getProfileData,
   getUserSending,
 } from '../../services/ducks/auth/selectors';
-import { wsActionsAuth, wsAuthInit} from "../../services/ducks/orders/slice";
-import {data} from "../../fixtures";
-import {loadIngredients} from "../../services/ducks/constructor";
-import {getUserOrders} from "../../services/ducks/orders/selectors";
+import { wsActionsAuth, wsAuthInit } from '../../services/ducks/orders/slice';
+import { data } from '../../fixtures';
+import { loadIngredients } from '../../services/ducks/constructor';
+import { getUserOrders } from '../../services/ducks/orders/selectors';
 
 export const Profile = memo(() => {
-
   const { path, url } = useRouteMatch();
   const isCard = !!useRouteMatch(`${path}${ROUTES.ORDERS}`);
   const isOrderId = !!useRouteMatch(`${path}${ROUTES.ORDERS}/:id`);
@@ -38,11 +37,10 @@ export const Profile = memo(() => {
   });
   const dispatch = useDispatch();
 
-
   const isLoading = useSelector(getUserSending);
   const profileData = useSelector(getProfileData);
-  const orders = useSelector(getUserOrders)
-  console.log('ordersAuth', orders)
+  const orders = useSelector(getUserOrders);
+  console.log('ordersAuth', orders);
 
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;
@@ -133,10 +131,10 @@ export const Profile = memo(() => {
   }, [profileData]);
   useEffect(() => {
     dispatch(wsAuthInit());
-    data.length === 0 && dispatch(loadIngredients())
+    data.length === 0 && dispatch(loadIngredients());
     return () => {
-      dispatch(wsActionsAuth.onClose)
-    }
+      dispatch(wsActionsAuth.onClose);
+    };
   }, [dispatch]);
 
   const render = () => {
@@ -285,7 +283,9 @@ export const Profile = memo(() => {
               </form>
             </Route>
             <Route path={`${path}${ROUTES.ORDERS}`} exact>
-              {orders.map((el:any, index:number) => <OrderHistory order={el} key={index} />)}
+              {orders.map((el: any, index: number) => (
+                <OrderHistory order={el} key={index} />
+              ))}
             </Route>
           </Switch>
         </ul>

@@ -1,24 +1,21 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 
-
 export type Sockets = {
   wsConnected: boolean;
   wsConnectedAuth: boolean;
   orders: Array<any>;
   ordersAuth: Array<any>;
-  total:number|null;
-  totalToday: number|null;
-
+  total: number | null;
+  totalToday: number | null;
 };
 const initialState: Sockets = {
   wsConnected: false,
   orders: [],
   ordersAuth: [],
-  total:null,
-  totalToday:null,
+  total: null,
+  totalToday: null,
   wsConnectedAuth: false,
-
 };
 
 export const sliceName = 'ordersReducer';
@@ -33,8 +30,8 @@ export const wsSendMessage = createAction(
   (message) => ({ payload: message })
 );
 export const wsSendAuthMessage = createAction(
-    'orders/wsSendAuthMessage',
-    (message) => ({ payload: message })
+  'orders/wsSendAuthMessage',
+  (message) => ({ payload: message })
 );
 
 const ordersSlice = createSlice({
@@ -51,10 +48,10 @@ const ordersSlice = createSlice({
       state.wsConnected = false;
     },
     wsGetMessage: (state: Sockets, action: PayloadAction<any>) => {
-      const { total, totalToday, orders } = action.payload
-      state.total = total
-      state.totalToday = totalToday
-      state.orders = orders
+      const { total, totalToday, orders } = action.payload;
+      state.total = total;
+      state.totalToday = totalToday;
+      state.orders = orders;
     },
     wsConnectedSuccessAuth: (state: Sockets, action: PayloadAction<any>) => {
       state.wsConnectedAuth = true;
@@ -66,11 +63,10 @@ const ordersSlice = createSlice({
       state.wsConnectedAuth = false;
     },
     wsGetMessageAuth: (state: Sockets, action: PayloadAction<any>) => {
-      console.log(action.payload)
-      const { orders } = action.payload
-      state.ordersAuth = orders
+      console.log(action.payload);
+      const { orders } = action.payload;
+      state.ordersAuth = orders;
     },
-
   },
 });
 
@@ -83,8 +79,7 @@ const {
   wsConnectedSuccessAuth,
   wsConnectedClosedAuth,
   wsConnectedErrorAuth,
-  wsGetMessageAuth
-
+  wsGetMessageAuth,
 } = ordersSlice.actions;
 
 export const wsActions = {
@@ -97,7 +92,7 @@ export const wsActions = {
 };
 export const wsActionsAuth = {
   wsInit: wsAuthInit,
-  wsSendMessage:wsSendAuthMessage,
+  wsSendMessage: wsSendAuthMessage,
   onOpen: wsConnectedSuccessAuth,
   onClose: wsConnectedClosedAuth,
   onError: wsConnectedErrorAuth,
