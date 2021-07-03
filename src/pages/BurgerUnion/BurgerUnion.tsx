@@ -22,13 +22,7 @@ import { getIsLoading } from '../../services/ducks/constructor/selectors';
 // };
 
 export const BurgerUnion = memo(() => {
-  const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
-
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, [dispatch]);
-
   const render = () => {
     return (
       <div className={style.container}>

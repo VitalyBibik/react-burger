@@ -22,17 +22,12 @@ import {
 
 export const IngredientModal = memo(({ fullScreen }: any) => {
   const { id }: any = useParams();
-  const dispatch = useDispatch();
   const cardsArray = useSelector(getData);
   const isLoading = useSelector(getCardsIsLoading);
 
   const currentCard = cardsArray.find((el: any) => el._id === id);
 
   console.log(cardsArray, 'cardsModal', isLoading);
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, [dispatch, id]);
-
   const render = () => {
     return (
       <div

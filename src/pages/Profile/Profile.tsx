@@ -19,8 +19,7 @@ import {
   getUserSending,
 } from '../../services/ducks/auth/selectors';
 import { wsActionsAuth, wsAuthInit } from '../../services/ducks/orders/slice';
-import { data } from '../../fixtures';
-import { loadIngredients } from '../../services/ducks/constructor';
+
 import { getUserOrders } from '../../services/ducks/orders/selectors';
 
 export const Profile = memo(() => {
@@ -131,7 +130,6 @@ export const Profile = memo(() => {
   }, [profileData]);
   useEffect(() => {
     dispatch(wsAuthInit());
-    data.length === 0 && dispatch(loadIngredients());
     return () => {
       dispatch(wsActionsAuth.onClose);
     };

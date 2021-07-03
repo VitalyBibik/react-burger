@@ -22,7 +22,6 @@ import { getDateInCard } from '../../utils/functions/dates';
 import { getData } from '../../services/ducks/constructor/selectors';
 import { Loader } from '../../components/Loader';
 import { ROUTES } from '../../utils/routes/routes';
-import { loadIngredients } from '../../services/ducks/constructor';
 
 // type OrderItemIngredientProps = { TODO:Interface
 //   _id: string;
@@ -55,7 +54,6 @@ export const OrderHistoryDetailCard = memo(() => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(isAuth ? wsAuthInit() : wsInit());
-    dispatch(loadIngredients());
     return () => {
       dispatch(isAuth ? wsActionsAuth.onClose : wsActions.onClose);
     };
