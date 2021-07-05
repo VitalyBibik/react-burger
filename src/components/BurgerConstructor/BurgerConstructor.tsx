@@ -84,7 +84,7 @@ export const BurgerConstructor = memo(() => {
       backgroundColor: monitor.isOver() ? 'grey' : 'transparent',
     }),
   });
-  const marginTopAutoOn = orderData.length > 0 && bread;
+  const marginTopAutoOn = bread;
 
   return (
     <>

@@ -7,9 +7,6 @@ export const BurgerStart = memo(({ bread, items }: any) => {
   if (bread === null && items === false) {
     text = 'Начинай сбор сочного бургера';
   }
-  if (bread !== null && items === false) {
-    text = 'Выбери ингредиенты';
-  }
   if (bread === null && items) {
     text = 'Выбери булку';
   }
