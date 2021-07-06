@@ -273,7 +273,7 @@ describe(`${sliceName} extraReducers`, () => {
     ).toEqual(
       expect.objectContaining({
         tokenUpdated: false,
-        tokenUpdating: true
+        tokenUpdating: true,
       })
     );
   });

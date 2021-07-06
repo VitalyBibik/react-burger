@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshToken } from '../../services/ducks/auth';
 import {
-    getIsTokenUpdated, getIsTokenUpdating,
-    getTokenUpdateDate,
+  getIsTokenUpdated,
+  getIsTokenUpdating,
+  getTokenUpdateDate,
 } from '../../services/ducks/auth/selectors';
 import { Redirect, Route } from 'react-router-dom';
 import { getRefreshToken } from '../../utils/functions/tokens';
@@ -17,11 +18,11 @@ export const ProtectedRoute = ({ children, ...rest }: any) => {
   const tokenUpdating = useSelector(getIsTokenUpdating);
   const hasToken = !!getRefreshToken();
 
-    useEffect(() => {
-        if (hasToken && !isTokenUpdated && !tokenUpdating) {
-            dispatch(refreshToken(null));
-        }
-    }, [dispatch, hasToken, isTokenUpdated, tokenUpdating]);
+  useEffect(() => {
+    if (hasToken && !isTokenUpdated && !tokenUpdating) {
+      dispatch(refreshToken(null));
+    }
+  }, [dispatch, hasToken, isTokenUpdated, tokenUpdating]);
 
   if (hasToken && !isTokenUpdated) {
     return Loader();

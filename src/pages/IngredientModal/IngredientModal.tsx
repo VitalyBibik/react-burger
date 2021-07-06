@@ -1,11 +1,10 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import style from './IngredientModal.module.scss';
 import { IngredientDetails } from '../../components/IngredientsDetails';
 import { useParams } from 'react-router-dom';
 import cn from 'classnames';
 import { Loader } from '../../components/Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadIngredients } from '../../services/ducks/constructor';
+import { useSelector } from 'react-redux';
 import {
   getCardsIsLoading,
   getData,

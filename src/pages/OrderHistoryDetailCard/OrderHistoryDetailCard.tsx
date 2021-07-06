@@ -1,10 +1,9 @@
-import React, { memo, useEffect, useMemo } from 'react';
-// import { useParams } from 'react-router-dom';
+import React, { memo, useEffect } from 'react';
 import style from './OrderHistoryDetailCard.module.scss';
 import cn from 'classnames';
 import { PriceItem } from '../../components/PriceItem';
 import { getSum } from '../../utils/functions/getSum';
-import { useLocation, useParams, useRouteMatch } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import {
   wsActions,
   wsActionsAuth,

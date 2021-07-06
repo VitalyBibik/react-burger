@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -18,13 +18,13 @@ import { Profile } from '../../pages/Profile';
 import { Feed } from '../../pages/Feed';
 import { OrderHistoryDetailCard } from '../../pages/OrderHistoryDetailCard';
 import { ProtectedRoute } from '../ProtectedRoute';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getRefreshToken } from '../../utils/functions/tokens';
 import { getIsEmailSent } from '../../services/ducks/auth/selectors';
 import { IngredientModal } from '../../pages/IngredientModal';
 import { Modal } from '../Modal';
 import { OrderDetails } from '../OrderDetails';
-import {loadIngredients} from "../../services/ducks/constructor";
+import { loadIngredients } from '../../services/ducks/constructor';
 
 export function App() {
   const hasToken = !!getRefreshToken();
@@ -40,8 +40,8 @@ export function App() {
     location.state.background;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadIngredients())
-  })
+    dispatch(loadIngredients());
+  }, [dispatch]);
 
   return (
     <div className={style.App}>

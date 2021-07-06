@@ -34,7 +34,7 @@ export interface AuthState {
   forgotUserPasswordError: SerializedError | null;
   tokenUpdated: boolean;
   tokenUpdateDate: null | SerializedError | boolean;
-  tokenUpdating:boolean;
+  tokenUpdating: boolean;
   tokenUpdateError: null | SerializedError;
   emailSent: boolean;
   patchUserSending: boolean;

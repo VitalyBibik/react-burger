@@ -1,7 +1,8 @@
 import { sliceName } from './slice';
 
 export const getIsTokenUpdated = (store: any) => store[sliceName].tokenUpdated;
-export const getIsTokenUpdating = (store:any) => store[sliceName].tokenUpdating;
+export const getIsTokenUpdating = (store: any) =>
+  store[sliceName].tokenUpdating;
 export const getTokenUpdateDate = (store: any) =>
   store[sliceName].tokenUpdateDate;
 export const getIsEmailSent = (store: any) => store[sliceName].emailSent;
