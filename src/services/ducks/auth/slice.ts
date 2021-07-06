@@ -34,6 +34,7 @@ export interface AuthState {
   forgotUserPasswordError: SerializedError | null;
   tokenUpdated: boolean;
   tokenUpdateDate: null | SerializedError | boolean;
+  tokenUpdating:boolean;
   tokenUpdateError: null | SerializedError;
   emailSent: boolean;
   patchUserSending: boolean;
@@ -54,6 +55,7 @@ const initialState: AuthState = {
   forgotUserPasswordSending: false,
   forgotUserPasswordError: null,
   tokenUpdated: false,
+  tokenUpdating: false,
   tokenUpdateDate: null,
   tokenUpdateError: null,
   emailSent: false,
@@ -180,6 +182,8 @@ const authSlice = createSlice({
         state.registerSending = false;
         state.registerError = null;
         state.data = action.payload.user;
+        state.tokenUpdated = true;
+        state.tokenUpdateDate = true;
       }
     );
     builder.addCase(registerUser.rejected, (state: AuthState, action: any) => {
@@ -195,6 +199,8 @@ const authSlice = createSlice({
         state.loginSending = false;
         state.loginError = null;
         state.data = action.payload.user;
+        state.tokenUpdated = true;
+        state.tokenUpdateDate = true;
       }
     );
     builder.addCase(loginUser.rejected, (state: AuthState, action: any) => {
@@ -260,12 +266,14 @@ const authSlice = createSlice({
     });
     builder.addCase(refreshToken.pending, (state: AuthState) => {
       state.tokenUpdated = false;
+      state.tokenUpdating = true;
     });
     builder.addCase(
       refreshToken.fulfilled,
       (state: AuthState, action: PayloadAction<any>) => {
         state.tokenUpdated = true;
         state.tokenUpdateDate = true;
+        state.tokenUpdating = false;
         state.data = action.payload;
       }
     );
