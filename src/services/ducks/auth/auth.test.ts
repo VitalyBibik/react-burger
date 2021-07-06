@@ -33,6 +33,7 @@ const initialState: AuthState = {
   forgotUserPasswordSending: false,
   forgotUserPasswordError: null,
   tokenUpdated: false,
+  tokenUpdating: false,
   tokenUpdateDate: null,
   tokenUpdateError: null,
   emailSent: false,
