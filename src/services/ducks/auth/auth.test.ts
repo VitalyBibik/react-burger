@@ -273,6 +273,7 @@ describe(`${sliceName} extraReducers`, () => {
     ).toEqual(
       expect.objectContaining({
         tokenUpdated: false,
+        tokenUpdating: true
       })
     );
   });
@@ -285,6 +286,7 @@ describe(`${sliceName} extraReducers`, () => {
     ).toEqual(
       expect.objectContaining({
         tokenUpdated: true,
+        tokenUpdating: false,
         tokenUpdateDate: true,
         data: { token: '124125156125156156156156156156156' },
       })
