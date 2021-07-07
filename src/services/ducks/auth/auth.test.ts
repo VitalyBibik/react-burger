@@ -33,6 +33,7 @@ const initialState: AuthState = {
   forgotUserPasswordSending: false,
   forgotUserPasswordError: null,
   tokenUpdated: false,
+  tokenUpdating: false,
   tokenUpdateDate: null,
   tokenUpdateError: null,
   emailSent: false,
@@ -272,6 +273,7 @@ describe(`${sliceName} extraReducers`, () => {
     ).toEqual(
       expect.objectContaining({
         tokenUpdated: false,
+        tokenUpdating: true,
       })
     );
   });
@@ -284,6 +286,7 @@ describe(`${sliceName} extraReducers`, () => {
     ).toEqual(
       expect.objectContaining({
         tokenUpdated: true,
+        tokenUpdating: false,
         tokenUpdateDate: true,
         data: { token: '124125156125156156156156156156156' },
       })
@@ -374,7 +377,6 @@ describe(`${sliceName} Reducers`, () => {
     expect(authReducer(undefined, { type: undefined })).toEqual(initialState);
   });
 });
-
 
 // const responseData = {
 //     "success":true,

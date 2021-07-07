@@ -1,9 +1,8 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { BurgerIngredients } from '../../components/BurgerIngredients';
 import { BurgerConstructor } from '../../components/BurgerConstructor';
 import style from './BurgerUnion.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadIngredients } from '../../services/ducks/constructor';
+import { useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { Loader } from '../../components/Loader';
@@ -22,13 +21,7 @@ import { getIsLoading } from '../../services/ducks/constructor/selectors';
 // };
 
 export const BurgerUnion = memo(() => {
-  const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
-
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, [dispatch]);
-
   const render = () => {
     return (
       <div className={style.container}>

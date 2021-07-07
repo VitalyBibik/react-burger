@@ -24,12 +24,12 @@
   display: flex;
   margin: 0;
 }
-.canceled {
-  color: #e52b1a;
-}
-.inProgress {
-  color: #00cccc;
-}
-.isDone {
+.created {
   color: #f2f2f3;
+}
+.pending {
+  color: #f1cb57;
+}
+.done {
+  color: #00cccc;
 }

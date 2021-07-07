@@ -18,6 +18,9 @@ import {
   getProfileData,
   getUserSending,
 } from '../../services/ducks/auth/selectors';
+import { wsActionsAuth, wsAuthInit } from '../../services/ducks/orders/slice';
+
+import { getUserOrders } from '../../services/ducks/orders/selectors';
 
 export const Profile = memo(() => {
   const { path, url } = useRouteMatch();
@@ -32,8 +35,11 @@ export const Profile = memo(() => {
     passwordIsDisabled: true,
   });
   const dispatch = useDispatch();
+
   const isLoading = useSelector(getUserSending);
   const profileData = useSelector(getProfileData);
+  const orders = useSelector(getUserOrders);
+  console.log('ordersAuth', orders);
 
   const handleInputChange = (event: { target: any }) => {
     const target = event.target;
@@ -65,7 +71,7 @@ export const Profile = memo(() => {
       state.password.length !== 0
         ? { ...data, password: state.password }
         : data;
-    dispatch(patchUser({ ...data })); // TODO: https://redux-toolkit.js.org/api/createAsyncThunk Последний пример
+    dispatch(patchUser({ ...data }));
   };
 
   const onIconClickName = () => {
@@ -122,6 +128,13 @@ export const Profile = memo(() => {
       });
     }
   }, [profileData]);
+  useEffect(() => {
+    dispatch(wsAuthInit());
+    return () => {
+      dispatch(wsActionsAuth.onClose);
+    };
+  }, [dispatch]);
+
   const render = () => {
     return (
       <div className={style.box}>
@@ -268,7 +281,9 @@ export const Profile = memo(() => {
               </form>
             </Route>
             <Route path={`${path}${ROUTES.ORDERS}`} exact>
-              <OrderHistory />
+              {orders.map((el: any, index: number) => (
+                <OrderHistory order={el} key={index} />
+              ))}
             </Route>
           </Switch>
         </ul>

@@ -28,7 +28,7 @@ export const OrderItem = memo(
         {bread && top === true && (
           <div
             className={cn(style.container, style['container_special'])}
-            data-bunContainer={'1'}
+            data-buncontainer={'1'}
           >
             <ConstructorElement
               type='top'
@@ -55,7 +55,7 @@ export const OrderItem = memo(
         {bread && top === false && (
           <div
             className={cn(style.container, style['container_special'])}
-            data-bunContainer={'2'}
+            data-buncontainer={'2'}
           >
             <ConstructorElement
               type='bottom'

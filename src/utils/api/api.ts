@@ -117,7 +117,10 @@ export const getAccessToken = async () => {
 export const fetchOrder = async (data: any) => {
   const res = await fetch(`${serverConfig.baseUrl}/orders`, {
     method: 'POST',
-    headers: { ...serverConfig.headers },
+    headers: {
+      ...serverConfig.headers,
+      Authorization: 'Bearer ' + getCookie('token'),
+    },
     body: JSON.stringify({
       ingredients: data,
     }),

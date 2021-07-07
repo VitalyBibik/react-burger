@@ -2,13 +2,14 @@ import React, { useMemo } from 'react';
 import cn from 'classnames';
 import style from './OrderHistory.module.scss';
 import { Link, useLocation } from 'react-router-dom';
-import { data } from '../../fixtures';
 import { OrderHistoryCard } from '../OrdersHistoryCard';
 import { PriceItem } from '../PriceItem';
-import { v4 as uuid } from 'uuid';
 import { historyOrderLimit } from '../../utils/constants/constants';
 import { useRouteMatch } from 'react-router-dom';
 import { getSum } from '../../utils/functions/getSum';
+import { getDateInCard } from '../../utils/functions/dates';
+import { useSelector } from 'react-redux';
+import { getData } from '../../services/ducks/constructor/selectors';
 
 type Burger = {
   _id: string;
@@ -27,33 +28,47 @@ type Burger = {
 };
 type OrderHistoryProps = {
   smallSize?: boolean;
+  order?: any;
 };
 
-export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
+export const OrderHistory = ({
+  smallSize = false,
+  order,
+}: OrderHistoryProps) => {
   const colors = {
-    canceled: style.canceled,
-    inProgress: style.inProgress,
-    isDone: style.isDone,
+    created: style.created,
+    pending: style.pending,
+    done: style.done,
   };
+  let zIndex = 6;
+  const status = order.status;
+  const cardStatus =
+    status === 'done'
+      ? { text: 'Выполнен', colors: colors.done }
+      : status === 'pending'
+      ? { text: 'Готовится', colors: colors.pending }
+      : { text: 'Создан', colors: colors.created };
+
   const { url } = useRouteMatch();
-  const testArray = useMemo(
-    () => [
-      data[0],
-      data[2],
-      data[3],
-      data[4],
-      data[5],
-      data[6],
-      data[7],
-      data[8],
-      data[9],
-      data[11],
-    ],
-    []
+  const productIngredients = useSelector(getData);
+
+  const orderIngredientsArray = order.ingredients.map((el: any) =>
+    productIngredients.find((item: any) => item._id === el)
   );
-  const arrayLength = testArray.length - 1;
-  const sum = useMemo(() => getSum(testArray), [testArray]);
-  let location = useLocation();
+
+  const ingredientsCardArray = orderIngredientsArray.slice(
+    0,
+    historyOrderLimit
+  );
+
+  const cardCount = orderIngredientsArray.length;
+  const isHover = cardCount > 6;
+
+  const sum = useMemo(
+    () => getSum(orderIngredientsArray),
+    [orderIngredientsArray]
+  );
+  const location = useLocation();
   return (
     <>
       <li
@@ -67,7 +82,7 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
       >
         <Link
           to={{
-            pathname: `${url}/${1}`,
+            pathname: `${url}/${order.number}`,
             state: {
               background: location,
             },
@@ -75,222 +90,43 @@ export const OrderHistory = ({ smallSize = false }: OrderHistoryProps) => {
           className={style.activeLink}
         >
           <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
-            <p className={cn('text text_type_digits-default')}>#034535</p>
+            <p
+              className={cn('text text_type_digits-default')}
+            >{`#${order.number}`}</p>
             <p
               className={cn('text text_type_main-default text_color_inactive')}
             >
-              Сегодня, 16:20 i-GMT+3
+              {getDateInCard(order.createdAt)}
             </p>
           </div>
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 mb-2')}>
-            <h3 className={cn('text text_type_main-medium')}>
-              Death Star Starship Main бургер
-            </h3>
+            <h3 className={cn('text text_type_main-medium')}>{order.name}</h3>
           </div>
           <div className={cn(style.container_mini, 'mr-6 ml-6 mt-2')}>
-            <p className={cn('text text_type_main-small', colors.isDone)}>
-              Отменен
+            <p className={cn('text text_type_main-small', cardStatus.colors)}>
+              {cardStatus.text}
             </p>
           </div>
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
             <ul className={cn(style.burgerList)}>
-              {testArray.map((el: Burger, index) => {
-                if (index < historyOrderLimit)
-                  return (
-                    <OrderHistoryCard key={el._id} card={el} index={index} />
-                  );
-                if (index === arrayLength)
-                  return (
-                    <OrderHistoryCard
-                      key={el._id}
-                      card={el}
-                      last={true}
-                      length={arrayLength - historyOrderLimit}
-                      index={index}
-                    />
-                  );
-                return null;
+              {ingredientsCardArray.map((el: Burger, index: number) => {
+                return (
+                  <OrderHistoryCard
+                    key={index}
+                    card={el}
+                    index={(zIndex -= 1)}
+                  />
+                );
               })}
-            </ul>
-            <PriceItem price={sum} />
-          </div>
-        </Link>
-      </li>
-      <li
-        className={cn(
-          style.container,
-          {
-            [style.smallSize]: smallSize,
-          },
-          'mr-2, mb-6'
-        )}
-      >
-        <Link
-          to={{
-            pathname: `${url}/${2}`,
-            state: {
-              background: location,
-            },
-          }}
-          className={style.activeLink}
-        >
-          <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
-            <p className={cn('text text_type_digits-default')}>#034535</p>
-            <p
-              className={cn('text text_type_main-default text_color_inactive')}
-            >
-              Сегодня, 16:20 i-GMT+3
-            </p>
-          </div>
-          <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 mb-2')}>
-            <h3 className={cn('text text_type_main-medium')}>
-              Death Star Starship Main бургер
-            </h3>
-          </div>
-          <div className={cn(style.container_mini, 'mr-6 ml-6 mt-2')}>
-            <p className={cn('text text_type_main-small', colors.inProgress)}>
-              Готовится
-            </p>
-          </div>
-          <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
-            <ul className={cn(style.burgerList)}>
-              {testArray.map((el: Burger, index) => {
-                if (index < historyOrderLimit)
-                  return (
-                    <OrderHistoryCard key={uuid()} card={el} index={index} />
-                  );
-                if (index === arrayLength)
-                  return (
-                    <OrderHistoryCard
-                      key={uuid()}
-                      card={el}
-                      last={true}
-                      length={arrayLength - historyOrderLimit}
-                      index={index}
-                    />
-                  );
-                return null;
-              })}
-            </ul>
-            <PriceItem price={sum} />
-          </div>
-        </Link>
-      </li>
-      <li
-        className={cn(
-          style.container,
-          {
-            [style.smallSize]: smallSize,
-          },
-          'mr-2, mb-6'
-        )}
-      >
-        <Link
-          to={{
-            pathname: `${url}/${3}`,
-            state: {
-              background: location,
-            },
-          }}
-          className={style.activeLink}
-        >
-          <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
-            <p className={cn('text text_type_digits-default')}>#034535</p>
-            <p
-              className={cn('text text_type_main-default text_color_inactive')}
-            >
-              Сегодня, 16:20 i-GMT+3
-            </p>
-          </div>
-          <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 mb-2')}>
-            <h3 className={cn('text text_type_main-medium')}>
-              Death Star Starship Main бургер
-            </h3>
-          </div>
-          <div className={cn(style.container_mini, 'mr-6 ml-6 mt-2')}>
-            <p className={cn('text text_type_main-small', colors.canceled)}>
-              Выполнен
-            </p>
-          </div>
-          <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
-            <ul className={cn(style.burgerList)}>
-              {testArray.map((el: Burger, index) => {
-                if (index < historyOrderLimit)
-                  return (
-                    <OrderHistoryCard key={uuid()} card={el} index={index} />
-                  );
-                if (index === arrayLength)
-                  return (
-                    <OrderHistoryCard
-                      key={uuid()}
-                      card={el}
-                      last={true}
-                      length={arrayLength - historyOrderLimit}
-                      index={index}
-                    />
-                  );
-                return null;
-              })}
-            </ul>
-            <PriceItem price={sum} />
-          </div>
-        </Link>
-      </li>
-      <li
-        className={cn(
-          style.container,
-          {
-            [style.smallSize]: smallSize,
-          },
-          'mr-2 mb-6'
-        )}
-      >
-        <Link
-          to={{
-            pathname: `${url}/${4}`,
-            state: {
-              background: location,
-            },
-          }}
-          className={style.activeLink}
-        >
-          <div className={cn(style.container_mini, 'pt-6 mr-6 ml-6')}>
-            <p className={cn('text text_type_digits-default')}>#034535</p>
-            <p
-              className={cn('text text_type_main-default text_color_inactive')}
-            >
-              Сегодня, 16:20 i-GMT+3
-            </p>
-          </div>
-          <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 mb-2')}>
-            <h3 className={cn('text text_type_main-medium')}>
-              Death Star Starship Main бургер
-            </h3>
-          </div>
-          <div className={cn(style.container_mini, 'mr-6 ml-6 mt-2')}>
-            <p className={cn('text text_type_main-small', colors.canceled)}>
-              Отменен
-            </p>
-          </div>
-          <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
-            <ul className={cn(style.burgerList)}>
-              {testArray.map((el: Burger, index) => {
-                if (index < historyOrderLimit)
-                  return (
-                    <OrderHistoryCard key={uuid()} card={el} index={index} />
-                  );
-                if (index === arrayLength)
-                  return (
-                    <OrderHistoryCard
-                      key={uuid()}
-                      card={el}
-                      last={true}
-                      length={arrayLength - historyOrderLimit}
-                      index={index}
-                    />
-                  );
-                return null;
-              })}
+              {isHover ? (
+                <OrderHistoryCard
+                  key={orderIngredientsArray[0]._id}
+                  card={orderIngredientsArray[0]}
+                  index={(zIndex -= 1)}
+                  last={true}
+                  length={cardCount - historyOrderLimit}
+                />
+              ) : null}
             </ul>
             <PriceItem price={sum} />
           </div>
