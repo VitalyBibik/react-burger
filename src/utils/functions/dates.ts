@@ -1,4 +1,5 @@
-const getDateForCard = (days: number) => (days === 0 ? 'Сегодня' : days === 1 ? 'Вчера' : days > 1 ? `${days} дня(-ей) назад` : 'Что-то пошло не так:(')
+const getDateForCard = (days: number) =>
+  days === 0 ? 'Сегодня' : days === 1 ? 'Вчера' : days > 1 ? `${days} дня(-ей) назад` : 'Что-то пошло не так:('
 
 export const getDateInCard = (date: string) => {
   const dayCreated: any = new Date(date)

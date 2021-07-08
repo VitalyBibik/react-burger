@@ -8,10 +8,9 @@ import { useSelector } from 'react-redux'
 import { getCardsIsLoading, getData } from '../../services/ducks/constructor/selectors'
 import { IBurger } from '../../types'
 
-
 type TModalDataProps = {
-  fullScreen:boolean
-};
+  fullScreen: boolean
+}
 
 export const IngredientModal = memo(({ fullScreen }: TModalDataProps) => {
   const { id }: any = useParams()

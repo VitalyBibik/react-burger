@@ -1,3 +1,3 @@
-import {IBurger} from "../../types";
+import { IBurger } from '../../types'
 
-export const getSum = (arr: any) => arr.reduce((acc: any, el: IBurger) => acc + el.price, 0)
+export const getSum = (arr: Array<IBurger>) => arr.reduce((acc, el: IBurger) => acc + el.price, 0)

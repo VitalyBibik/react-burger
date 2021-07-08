@@ -18,8 +18,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 import { getOrderIsSending } from '../../services/ducks/order/selectors'
 import { Loader } from '../Loader'
-import {IBurger} from "../../types";
-
+import { IBurger } from '../../types'
 
 export const BurgerConstructor = memo(() => {
   const dispatch = useDispatch()
