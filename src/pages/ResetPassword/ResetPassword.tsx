@@ -52,7 +52,7 @@ export const ResetPassword = memo(() => {
         <Button type="primary" size="medium">
           Сохранить
         </Button>
-        {errorUser !== null ? <Error msg={errorUser.message} /> : null}
+        {errorUser !== null ? <Error msg={errorUser} /> : null}
         <span className={cn('text text_type_main-default text_color_inactive', 'mt-20')}>
           Вспомнили пароль?{' '}
           <Link to={ROUTES.LOGIN} className={style.move}>

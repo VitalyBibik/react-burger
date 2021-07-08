@@ -56,9 +56,9 @@ export const Login = memo(() => {
         <Button type="primary" size="medium">
           Войти
         </Button>
-        {errorUser !== null ? <Error msg={errorUser.message} /> : null}
+        {errorUser !== null ? <Error msg={errorUser} /> : null}
         <span className={cn('text text_type_main-default text_color_inactive', 'mt-20')}>
-          Вы — новый пользователь?{' '}
+          Вы — новый пользователь?
           <Link to={ROUTES.REGISTER} className={style.move}>
             Зарегистрироваться
           </Link>
