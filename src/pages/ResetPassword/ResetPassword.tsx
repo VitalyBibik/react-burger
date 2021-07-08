@@ -1,54 +1,44 @@
-import style from './ResetPassword.module.scss';
-import { memo, useEffect, useState } from 'react';
-import {
-  Button,
-  Input,
-  PasswordInput,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import cn from 'classnames';
-import { ROUTES } from '../../utils/routes/routes';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetError, setUserPassword } from '../../services/ducks/auth';
-import { getSetUserPasswordError } from '../../services/ducks/auth/selectors';
-import { Error } from '../../components/Error';
+import style from './ResetPassword.module.scss'
+import { memo, useEffect, useState } from 'react'
+import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
+import cn from 'classnames'
+import { ROUTES } from '../../utils/routes/routes'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetError, setUserPassword } from '../../services/ducks/auth'
+import { getSetUserPasswordError } from '../../services/ducks/auth/selectors'
+import { Error } from '../../components/Error'
 
 export const ResetPassword = memo(() => {
   const [state, setState] = useState({
     password: '',
     token: '',
-  });
+  })
 
   const handleInputChange = (event: { target: any }) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    const target = event.target
+    const value = target.value
+    const name = target.name
     setState({
       ...state,
       [name]: value,
-    });
-  };
-  const errorUser = useSelector(getSetUserPasswordError);
-  const dispatch = useDispatch();
+    })
+  }
+  const errorUser = useSelector(getSetUserPasswordError)
+  const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(resetError());
-  }, [dispatch]);
+    dispatch(resetError())
+  }, [dispatch])
 
   const submit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    dispatch(setUserPassword(state));
-  };
+    e.preventDefault()
+    dispatch(setUserPassword(state))
+  }
   return (
     <div className={style.container}>
       <form className={style.login} onSubmit={submit}>
-        <h2 className={cn('text text_type_main-medium', style.title)}>
-          Восстановление пароля
-        </h2>
-        <PasswordInput
-          onChange={handleInputChange}
-          value={state.password}
-          name={'password'}
-        />
+        <h2 className={cn('text text_type_main-medium', style.title)}>Восстановление пароля</h2>
+        <PasswordInput onChange={handleInputChange} value={state.password} name={'password'} />
         <Input
           onChange={handleInputChange}
           type={'text'}
@@ -59,16 +49,11 @@ export const ResetPassword = memo(() => {
           errorText={'Ошибка'}
           size={'default'}
         />
-        <Button type='primary' size='medium'>
+        <Button type="primary" size="medium">
           Сохранить
         </Button>
         {errorUser !== null ? <Error msg={errorUser.message} /> : null}
-        <span
-          className={cn(
-            'text text_type_main-default text_color_inactive',
-            'mt-20'
-          )}
-        >
+        <span className={cn('text text_type_main-default text_color_inactive', 'mt-20')}>
           Вспомнили пароль?{' '}
           <Link to={ROUTES.LOGIN} className={style.move}>
             Войти
@@ -76,5 +61,5 @@ export const ResetPassword = memo(() => {
         </span>
       </form>
     </div>
-  );
-});
+  )
+})

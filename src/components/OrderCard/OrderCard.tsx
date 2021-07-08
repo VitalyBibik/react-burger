@@ -1,75 +1,67 @@
-import React, { memo, useRef } from 'react';
-import {
-  ConstructorElement,
-  DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import style from './OrderCard.module.scss';
-import { useDispatch } from 'react-redux';
-import { ConstructorIng, remove } from '../../services/ducks/constructor';
-import { useDrag, useDrop } from 'react-dnd';
-import { ItemTypes } from '../../utils/constants/constants';
+import React, { memo, useRef } from 'react'
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import style from './OrderCard.module.scss'
+import { useDispatch } from 'react-redux'
+import { ConstructorIng, remove } from '../../services/ducks/constructor'
+import { useDrag, useDrop } from 'react-dnd'
+import { ItemTypes } from '../../utils/constants/constants'
 
-type PropsOrderCard = {
-  card: ConstructorIng;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-  index: number;
-};
+type TPropsOrderCard = {
+  card: ConstructorIng
+  moveCard: (dragIndex: number, hoverIndex: number) => void
+  index: number
+}
 
-export const OrderCard = memo(({ card, moveCard, index }: PropsOrderCard) => {
-  const dispatch = useDispatch();
-  const ref = useRef<HTMLLIElement>(null);
+export const OrderCard = memo(({ card, moveCard, index }: TPropsOrderCard) => {
+  const dispatch = useDispatch()
+  const ref = useRef<HTMLLIElement>(null)
   const handleClose = () => {
-    dispatch(remove(card));
-  };
+    dispatch(remove(card))
+  }
   const [, drop] = useDrop({
     accept: ItemTypes.SORT,
     hover(item: any, monitor) {
       if (!ref.current) {
-        return;
+        return
       }
-      const dragIndex = item.index;
-      const hoverIndex = index;
+      const dragIndex = item.index
+      const hoverIndex = index
       if (dragIndex === hoverIndex) {
-        return;
+        return
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
+      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const clientOffset = monitor.getClientOffset()
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
+        return
       }
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
+        return
       }
-      moveCard(dragIndex, hoverIndex);
-      item.index = hoverIndex;
+      moveCard(dragIndex, hoverIndex)
+      item.index = hoverIndex
     },
-  });
+  })
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.SORT,
     item: () => {
-      return { index };
+      return { index }
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
-  });
-  const opacity = isDragging ? 0 : 1;
-  drag(drop(ref));
+  })
+  const opacity = isDragging ? 0 : 1
+  drag(drop(ref))
   return (
     <li className={style.container} ref={ref} style={{ opacity }}>
       <div className={style['container__icon']}>
-        <DragIcon type='primary' />
+        <DragIcon type="primary" />
       </div>
-      <ConstructorElement
-        text={card.name}
-        price={card.price}
-        thumbnail={card['image_mobile']}
-        handleClose={handleClose}
-      />
+      <ConstructorElement text={card.name} price={card.price} thumbnail={card['image_mobile']} handleClose={handleClose} />
     </li>
-  );
-});
+  )
+})
+OrderCard.displayName = 'OrderCard'

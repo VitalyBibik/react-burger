@@ -1,11 +1,9 @@
-import React from 'react';
-import style from './Error.module.scss';
-import cn from 'classnames';
+import React, { FC } from 'react'
+import style from './Error.module.scss'
+import cn from 'classnames'
 
-type ErrorProps = {
-  msg: string;
-};
+type TErrorProps = {
+  msg: string
+}
 
-export const Error = ({ msg }: ErrorProps) => (
-  <span className={cn('text text_type_main-default', style.error)}>{msg}</span>
-);
+export const Error: FC<TErrorProps> = ({ msg }) => <span className={cn('text text_type_main-default', style.error)}>{msg}</span>

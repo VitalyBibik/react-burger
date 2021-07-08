@@ -11,4 +11,4 @@ export const ROUTES = {
   ORDER: '/order',
   INGREDIENTS: '/ingredients',
   PROFILE_ORDERS: '/profile/orders',
-};
+}

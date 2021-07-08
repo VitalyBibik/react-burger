@@ -1,17 +1,12 @@
-import thunk from 'redux-thunk';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware, connectRouter } from 'connected-react-router';
-import { rootReducer } from './rootReducer';
-import { configureStore } from '@reduxjs/toolkit';
-import { socketMiddleware } from '../ducks/orders/middleware';
-import {
-  getSpecialUserOrders,
-  socketAllOrders,
-  wsActions,
-  wsActionsAuth,
-} from '../ducks/orders/slice';
+import thunk from 'redux-thunk'
+import { createBrowserHistory } from 'history'
+import { routerMiddleware, connectRouter } from 'connected-react-router'
+import { rootReducer } from './rootReducer'
+import { configureStore } from '@reduxjs/toolkit'
+import { socketMiddleware } from '../ducks/orders/middleware'
+import { getSpecialUserOrders, socketAllOrders, wsActions, wsActionsAuth } from '../ducks/orders/slice'
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory()
 
 export const store = configureStore({
   reducer: {
@@ -24,4 +19,4 @@ export const store = configureStore({
     socketMiddleware(socketAllOrders, wsActions, false),
     socketMiddleware(getSpecialUserOrders, wsActionsAuth, true),
   ],
-});
+})

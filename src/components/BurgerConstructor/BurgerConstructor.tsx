@@ -1,90 +1,85 @@
-import React, { memo } from 'react';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import style from './BurgerConstructor.module.scss';
-import { OrderItem } from '../OrderItem';
-import { PriceItem } from '../PriceItem';
-import { ItemTypes } from '../../utils/constants/constants';
-import { useSelector, useDispatch } from 'react-redux';
-import { sendOrder } from '../../services/ducks/order';
-import { add } from '../../services/ducks/constructor';
-import { useDrop } from 'react-dnd';
-import { BurgerStart } from '../BurgerStart';
-import cn from 'classnames';
-import { push } from 'connected-react-router';
-import { ROUTES } from '../../utils/routes/routes';
-import { getRefreshToken } from '../../utils/functions/tokens';
-import {
-  getBread,
-  getOrderData,
-  getPrice,
-  getProductArray,
-  getSendOrderArray,
-} from '../../services/ducks/constructor/selectors';
-import { useHistory, useLocation } from 'react-router-dom';
-import { v4 as uuid } from 'uuid';
-import { getOrderIsSending } from '../../services/ducks/order/selectors';
-import { Loader } from '../Loader';
+import React, { FC, memo, SyntheticEvent } from 'react'
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import style from './BurgerConstructor.module.scss'
+import { OrderItem } from '../OrderItem'
+import { PriceItem } from '../PriceItem'
+import { ItemTypes } from '../../utils/constants/constants'
+import { useSelector, useDispatch } from 'react-redux'
+import { sendOrder } from '../../services/ducks/order'
+import { add } from '../../services/ducks/constructor'
+import { useDrop } from 'react-dnd'
+import { BurgerStart } from '../BurgerStart'
+import cn from 'classnames'
+import { push } from 'connected-react-router'
+import { ROUTES } from '../../utils/routes/routes'
+import { getRefreshToken } from '../../utils/functions/tokens'
+import { getBread, getOrderData, getPrice, getProductArray, getSendOrderArray } from '../../services/ducks/constructor/selectors'
+import { useHistory, useLocation } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
+import { getOrderIsSending } from '../../services/ducks/order/selectors'
+import { Loader } from '../Loader'
+import { AppHeader } from '../AppHeader'
 
-type Ingredient = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v?: number;
-};
+type TIngredient = {
+  _id: string
+  name: string
+  type: string
+  proteins: number
+  fat: number
+  carbohydrates: number
+  calories: number
+  price: number
+  image: string
+  image_mobile: string
+  image_large: string
+  __v?: number
+}
 
 export const BurgerConstructor = memo(() => {
-  const dispatch = useDispatch();
-  const hasToken = !!getRefreshToken();
+  const dispatch = useDispatch()
+  const hasToken = !!getRefreshToken()
 
-  const orderData = useSelector(getOrderData);
-  const bread = useSelector(getBread);
-  const productArray = useSelector(getProductArray);
-  const price = useSelector(getPrice);
+  const orderData = useSelector(getOrderData)
+  const bread = useSelector(getBread)
+  const productArray = useSelector(getProductArray)
+  const price = useSelector(getPrice)
 
-  const sendOrderArray = useSelector(getSendOrderArray);
-  const orderIsSending = useSelector(getOrderIsSending);
-  const history = useHistory();
-  const location = useLocation();
+  const sendOrderArray = useSelector(getSendOrderArray)
+  const orderIsSending = useSelector(getOrderIsSending)
+  const history = useHistory()
+  const location = useLocation()
 
   const finalOrder = async () => {
     if (hasToken) {
-      await dispatch(sendOrder(sendOrderArray));
+      await dispatch(sendOrder(sendOrderArray))
       history.push({
         pathname: `${ROUTES.ORDER}`,
         state: {
           background: location,
         },
-      });
+      })
     } else {
-      dispatch(push(`${ROUTES.LOGIN}`));
+      dispatch(push(`${ROUTES.LOGIN}`))
     }
-  };
+  }
 
-  const handleDrop = (e: any) => {
-    e.preventDefault();
-  };
+  const handleDrop = (e: SyntheticEvent) => {
+    e.preventDefault()
+  }
   const [{ backgroundColor }, dropTarget] = useDrop({
     accept: ItemTypes.CARD,
-    drop(card: Ingredient) {
+    drop(card: TIngredient) {
       const newCard = {
         ...card,
         constructorId: uuid(),
-      };
-      dispatch(add(newCard));
+      }
+      dispatch(add(newCard))
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       backgroundColor: monitor.isOver() ? 'grey' : 'transparent',
     }),
-  });
-  const marginTopAutoOn = bread;
+  })
+  const marginTopAutoOn = bread
 
   return (
     <>
@@ -94,23 +89,21 @@ export const BurgerConstructor = memo(() => {
           [style.container_auto]: marginTopAutoOn,
         })}
         ref={dropTarget}
-        onDrop={(e) => handleDrop(e)}
+        onDrop={e => handleDrop(e)}
         style={{ backgroundColor }}
       >
         {marginTopAutoOn ? (
           <>
-            <div className={style.loader}>
-              {orderIsSending ? <Loader /> : null}
-            </div>
+            <div className={style.loader}>{orderIsSending ? <Loader /> : null}</div>
             <OrderItem bread={bread} top={true} />
             <ul className={style.container__item} data-productcontainer={'1'}>
               <OrderItem productArray={productArray} />
             </ul>
             <OrderItem bread={bread} top={false} />
             <div className={style.container__button}>
-              <PriceItem size='medium' price={price} />
+              <PriceItem size="medium" price={price} />
               {bread && (
-                <Button type='primary' size='medium' onClick={finalOrder}>
+                <Button type="primary" size="medium" onClick={finalOrder}>
                   Оформить заказ
                 </Button>
               )}
@@ -121,5 +114,6 @@ export const BurgerConstructor = memo(() => {
         )}
       </div>
     </>
-  );
-});
+  )
+})
+BurgerConstructor.displayName = 'BurgerConstructor'
