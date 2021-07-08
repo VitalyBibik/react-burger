@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit
 import { BUN } from '../../../utils/constants/constants'
 import { loadFetchIngredients } from '../../../utils/api/api'
 
-interface Ingredient {
+export interface Ingredient {
   _id: string
   name: string
   type: string

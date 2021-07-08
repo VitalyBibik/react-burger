@@ -4,7 +4,7 @@ import style from './OrderHistoryCard.module.scss'
 import { IBurger } from '../../types'
 
 type TOrderHistoryCardProps = {
-  card: IBurger
+  card: any
   last?: boolean
   length?: number
   index: number

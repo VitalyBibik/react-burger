@@ -1,5 +1,5 @@
 import { sliceName } from './slice'
-import {RootState} from "../../store/store";
+import { RootState } from '../../store/store'
 
 export const getIsTokenUpdated = (store: RootState) => store[sliceName].tokenUpdated
 export const getIsTokenUpdating = (store: RootState) => store[sliceName].tokenUpdating

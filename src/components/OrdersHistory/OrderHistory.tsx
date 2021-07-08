@@ -43,7 +43,7 @@ export const OrderHistory: FC<TOrderHistoryProps> = ({ smallSize = false, order 
   const { url } = useRouteMatch()
   const productIngredients = useSelector(getData)
 
-  const orderIngredientsArray = order.ingredients.map((el: string) => productIngredients.find((item: IBurger) => item._id === el))
+  const orderIngredientsArray = order.ingredients.map(el => productIngredients.find(item => item._id === el))
 
   const ingredientsCardArray = orderIngredientsArray.slice(0, historyOrderLimit)
 
@@ -84,12 +84,12 @@ export const OrderHistory: FC<TOrderHistoryProps> = ({ smallSize = false, order 
           </div>
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
             <ul className={cn(style.burgerList)}>
-              {ingredientsCardArray.map((el: IBurger, index: number) => {
+              {ingredientsCardArray.map((el, index: number) => {
                 return <OrderHistoryCard key={index} card={el} index={(zIndex -= 1)} />
               })}
               {isHover ? (
                 <OrderHistoryCard
-                  key={orderIngredientsArray[0]._id}
+                  key={orderIngredientsArray[0]!._id}
                   card={orderIngredientsArray[0]}
                   index={(zIndex -= 1)}
                   last={true}

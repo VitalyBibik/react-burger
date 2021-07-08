@@ -12,6 +12,8 @@ export interface IBurger {
   image_large: string
   __v?: number
   constructorId?: number
+  desc?: string
+  id?: number
 }
 export interface IBurgerItem extends IBurger {
   count?: number

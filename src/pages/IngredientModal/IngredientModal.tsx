@@ -17,7 +17,7 @@ export const IngredientModal = memo(({ fullScreen }: TModalDataProps) => {
   const cardsArray = useSelector(getData)
   const isLoading = useSelector(getCardsIsLoading)
 
-  const currentCard = cardsArray.find((el: IBurger) => el._id === id)
+  const currentCard = cardsArray.find(el => el._id === id)
 
   const render = () => {
     return (
@@ -29,13 +29,13 @@ export const IngredientModal = memo(({ fullScreen }: TModalDataProps) => {
         <div className={style.box}>
           <h2 className={cn(style.title, 'text text_type_main-large')}>Детали ингридиента</h2>
           <IngredientDetails
-            imageLarge={currentCard.image_large}
-            name={currentCard.name}
+            imageLarge={currentCard!.image_large}
+            name={currentCard!.name}
             desc={'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'}
-            calories={currentCard.calories}
-            proteins={currentCard.proteins}
-            fat={currentCard.fat}
-            carbohydrates={currentCard.carbohydrates}
+            calories={currentCard!.calories}
+            proteins={currentCard!.proteins}
+            fat={currentCard!.fat}
+            carbohydrates={currentCard!.carbohydrates}
           />
         </div>
       </div>

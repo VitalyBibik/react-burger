@@ -5,7 +5,6 @@ import style from './BurgerIngredients.module.scss'
 import { BurgerItem } from '../BurgerItem'
 import { useSelector } from 'react-redux'
 import { getBreadArray, getFillingArray, getSauceArray } from '../../services/ducks/constructor/selectors'
-import { IBurger } from '../../types'
 
 export const BurgerIngredients = memo(() => {
   const [current, setCurrent] = useState<string>('bun')
@@ -54,24 +53,24 @@ export const BurgerIngredients = memo(() => {
           Булки
         </h2>
         <ul className={style.grid}>
-          {breadArray.map((el: IBurger) => (
-            <BurgerItem key={el._id} {...el} />
+          {breadArray.map(el => (
+            <BurgerItem key={el._id} card={el} />
           ))}
         </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)} id="sauce" ref={sauceRef}>
           Соусы
         </h2>
         <ul className={style.grid}>
-          {sauceArray.map((el: IBurger) => (
-            <BurgerItem key={el._id} {...el} />
+          {sauceArray.map(el => (
+            <BurgerItem key={el._id} card={el} />
           ))}
         </ul>
         <h2 className={cn('text text_type_main-large', style.container__title)} id="main" ref={mainRef}>
           Начинки
         </h2>
         <ul className={style.grid}>
-          {fillingArray.map((el: IBurger) => (
-            <BurgerItem key={el._id} {...el} />
+          {fillingArray.map(el => (
+            <BurgerItem key={el._id} card={el} />
           ))}
         </ul>
       </div>
