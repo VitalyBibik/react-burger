@@ -6,7 +6,6 @@ import cn from 'classnames'
 import { Loader } from '../../components/Loader'
 import { useSelector } from 'react-redux'
 import { getCardsIsLoading, getData } from '../../services/ducks/constructor/selectors'
-import { IBurger } from '../../types'
 
 type TModalDataProps = {
   fullScreen: boolean

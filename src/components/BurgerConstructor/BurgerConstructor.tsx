@@ -6,7 +6,7 @@ import { PriceItem } from '../PriceItem'
 import { ItemTypes } from '../../utils/constants/constants'
 import { useSelector, useDispatch } from 'react-redux'
 import { sendOrder } from '../../services/ducks/order'
-import { add } from '../../services/ducks/constructor'
+import {add, Ingredient} from '../../services/ducks/constructor'
 import { useDrop } from 'react-dnd'
 import { BurgerStart } from '../BurgerStart'
 import cn from 'classnames'
@@ -18,7 +18,6 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 import { getOrderIsSending } from '../../services/ducks/order/selectors'
 import { Loader } from '../Loader'
-import { IBurger } from '../../types'
 
 export const BurgerConstructor = memo(() => {
   const dispatch = useDispatch()
@@ -53,7 +52,7 @@ export const BurgerConstructor = memo(() => {
   }
   const [{ backgroundColor }, dropTarget] = useDrop({
     accept: ItemTypes.CARD,
-    drop(card: IBurger) {
+    drop(card:Ingredient) {
       const newCard = {
         ...card,
         constructorId: uuid(),

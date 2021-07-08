@@ -10,7 +10,6 @@ import { getSum } from '../../utils/functions/getSum'
 import { getDateInCard } from '../../utils/functions/dates'
 import { useSelector } from 'react-redux'
 import { getData } from '../../services/ducks/constructor/selectors'
-import { IBurger } from '../../types'
 
 type TorderItem = {
   status: string

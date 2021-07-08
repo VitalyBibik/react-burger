@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
 import cn from 'classnames'
 import style from './BurgerStart.module.scss'
-import { IBurger } from '../../types'
+import {Ingredient} from "../../services/ducks/constructor";
 
 type TBurgerStartProps = {
-  bread: IBurger
+  bread: Ingredient
   items: boolean
 }
 

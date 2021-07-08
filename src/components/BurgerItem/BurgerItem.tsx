@@ -8,9 +8,14 @@ import { useSelector } from 'react-redux'
 import { useDrag } from 'react-dnd'
 import { getIngredientsWithCount } from '../../services/ducks/constructor/selectors'
 import { Link, useLocation } from 'react-router-dom'
-import { IBurgerItem } from '../../types'
+import {Ingredient} from "../../services/ducks/constructor";
 
-export const BurgerItem = memo(({ card }: any) => {
+type TBurgerItem = {
+    card:Ingredient
+}
+
+
+export const BurgerItem = memo(({ card }: TBurgerItem) => {
   const ingredientsWithCount = useSelector(getIngredientsWithCount)
 
   const [, dragOrderCard] = useDrag({

@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import cn from 'classnames'
 import style from './OrderHistoryCard.module.scss'
-import { IBurger } from '../../types'
 
 type TOrderHistoryCardProps = {
   card: any
