@@ -1,5 +1,5 @@
 import { sliceName } from './slice'
-import {RootState} from "../../store/store";
+import { RootState } from '../../store/store'
 
 export const getOrders = (store: RootState) => store[sliceName].orders
 export const getTotal = (store: RootState) => store[sliceName].total
