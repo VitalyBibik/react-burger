@@ -1,11 +1,10 @@
 import ReactDOM from 'react-dom'
-import React, { FC, memo, useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import style from './Modal.module.scss'
 import { ModalOverlay } from '../ModalOverlay'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import { useHistory } from 'react-router-dom'
-import { IngredientDetails } from '../IngredientsDetails'
 
 type TModalProps = {
   children: React.ReactNode

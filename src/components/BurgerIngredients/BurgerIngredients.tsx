@@ -1,4 +1,4 @@
-import React, { FC, memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import style from './BurgerIngredients.module.scss'
@@ -6,7 +6,6 @@ import { BurgerItem } from '../BurgerItem'
 import { useSelector } from 'react-redux'
 import { getBreadArray, getFillingArray, getSauceArray } from '../../services/ducks/constructor/selectors'
 import { IBurger } from '../../types'
-import { BurgerConstructor } from '../BurgerConstructor'
 
 export const BurgerIngredients = memo(() => {
   const [current, setCurrent] = useState<string>('bun')

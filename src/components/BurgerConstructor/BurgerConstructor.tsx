@@ -1,4 +1,4 @@
-import React, { FC, memo, SyntheticEvent } from 'react'
+import React, { memo, SyntheticEvent } from 'react'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './BurgerConstructor.module.scss'
 import { OrderItem } from '../OrderItem'
@@ -18,22 +18,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 import { getOrderIsSending } from '../../services/ducks/order/selectors'
 import { Loader } from '../Loader'
-import { AppHeader } from '../AppHeader'
+import {IBurger} from "../../types";
 
-type TIngredient = {
-  _id: string
-  name: string
-  type: string
-  proteins: number
-  fat: number
-  carbohydrates: number
-  calories: number
-  price: number
-  image: string
-  image_mobile: string
-  image_large: string
-  __v?: number
-}
 
 export const BurgerConstructor = memo(() => {
   const dispatch = useDispatch()
@@ -68,7 +54,7 @@ export const BurgerConstructor = memo(() => {
   }
   const [{ backgroundColor }, dropTarget] = useDrop({
     accept: ItemTypes.CARD,
-    drop(card: TIngredient) {
+    drop(card: IBurger) {
       const newCard = {
         ...card,
         constructorId: uuid(),

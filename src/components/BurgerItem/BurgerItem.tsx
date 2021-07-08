@@ -1,4 +1,4 @@
-import { FC, memo } from 'react'
+import { memo } from 'react'
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import style from './BurgerItem.module.scss'
