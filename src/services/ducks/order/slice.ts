@@ -8,6 +8,10 @@ export type TModalData = {
   isSending: boolean
   sendError: null | SerializedError
 }
+type TOrder = {
+  order: { number: number }
+}
+
 const initialState: TModalData = {
   orderId: null,
   data: null,
@@ -31,11 +35,10 @@ const orderSlice = createSlice({
       state.sendError = null
     })
 
-    builder.addCase(sendOrder.fulfilled, (state: TModalData, action: PayloadAction<any>) => {
+    builder.addCase(sendOrder.fulfilled, (state: TModalData, action: PayloadAction<TOrder>) => {
       state.orderId = action.payload.order.number
       state.isSending = false
     })
-
     builder.addCase(sendOrder.rejected, (state: TModalData, action: any) => {
       state.isSending = false
       state.sendError = action.error

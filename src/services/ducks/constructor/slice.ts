@@ -77,11 +77,11 @@ const constructorSlice = createSlice({
       state.isLoading = true
       state.hasError = null
     })
-    builder.addCase(loadIngredients.fulfilled, (state: burgerState, action: any) => {
+    builder.addCase(loadIngredients.fulfilled, (state: burgerState, action) => {
       state.data = action.payload.data
       state.isLoading = false
     })
-    builder.addCase(loadIngredients.rejected, (state: burgerState, action: any) => {
+    builder.addCase(loadIngredients.rejected, (state: burgerState, action) => {
       state.isLoading = false
       state.hasError = action.error
     })

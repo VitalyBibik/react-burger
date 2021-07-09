@@ -3,6 +3,9 @@ import { BUN, MAIN, SAUCE } from '../../../utils/constants/constants'
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from '../../store/store'
 
+type TCounters = {
+  [key: string]: number
+}
 export const getIsLoading = (store: RootState) => store[sliceName].isLoading
 export const getCardsIsLoading = (store: RootState) => store[sliceName].data.length > 0
 
@@ -24,7 +27,7 @@ export const getPrice = createSelector(
 )
 
 export const getIngredientsWithCount = createSelector(getData, getOrderData, getBread, (data, constructor, bunItem) => {
-  const counters: any = {}
+  const counters: TCounters = {}
   data.forEach(ingredient => {
     counters[ingredient._id] = constructor.filter(item => item._id === ingredient._id).length
     if (bunItem && bunItem._id === ingredient._id) {

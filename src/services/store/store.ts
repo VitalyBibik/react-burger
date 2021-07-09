@@ -7,6 +7,7 @@ import { socketMiddleware } from '../ducks/orders/middleware'
 import { getSpecialUserOrders, socketAllOrders, wsActions, wsActionsAuth } from '../ducks/orders/slice'
 
 export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
 export const history = createBrowserHistory()
 

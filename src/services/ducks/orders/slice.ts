@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAction, createSlice } from '@reduxjs/toolkit'
+import { Ingredient } from '../constructor'
 
 export type Sockets = {
   wsConnected: boolean
@@ -21,43 +22,49 @@ const initialState: Sockets = {
 export const sliceName = 'ordersReducer'
 
 export const socketAllOrders = 'wss://norma.nomoreparties.space/orders/all'
-export const getSpecialUserOrders = `wss://norma.nomoreparties.space/orders` // Нужен accessToken
+export const getSpecialUserOrders = `wss://norma.nomoreparties.space/orders`
 
 export const wsInit = createAction('socket/wsInit')
 export const wsAuthInit = createAction('socket/wsAuthInit')
 export const wsSendMessage = createAction('orders/wsSendMessage', message => ({ payload: message }))
 export const wsSendAuthMessage = createAction('orders/wsSendAuthMessage', message => ({ payload: message }))
 
+type TMessage = {
+  total: number
+  totalToday: number
+  orders: Array<Ingredient>
+}
+
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    wsConnectedSuccess: (state: Sockets, action: PayloadAction<any>) => {
+    wsConnectedSuccess: (state: Sockets) => {
       state.wsConnected = true
     },
-    wsConnectedError: (state: Sockets, action: any) => {
+    wsConnectedError: (state: Sockets) => {
       state.wsConnected = false
     },
-    wsConnectedClosed: (state: Sockets, action: PayloadAction<any>) => {
+    wsConnectedClosed: (state: Sockets) => {
       state.wsConnected = false
     },
-    wsGetMessage: (state: Sockets, action: PayloadAction<any>) => {
+    wsGetMessage: (state: Sockets, action: PayloadAction<TMessage>) => {
       const { total, totalToday, orders } = action.payload
+      console.log(orders, 'orders')
       state.total = total
       state.totalToday = totalToday
       state.orders = orders
     },
-    wsConnectedSuccessAuth: (state: Sockets, action: PayloadAction<any>) => {
+    wsConnectedSuccessAuth: (state: Sockets) => {
       state.wsConnectedAuth = true
     },
-    wsConnectedErrorAuth: (state: Sockets, action: any) => {
+    wsConnectedErrorAuth: (state: Sockets) => {
       state.wsConnectedAuth = false
     },
-    wsConnectedClosedAuth: (state: Sockets, action: PayloadAction<any>) => {
+    wsConnectedClosedAuth: (state: Sockets) => {
       state.wsConnectedAuth = false
     },
-    wsGetMessageAuth: (state: Sockets, action: PayloadAction<any>) => {
-      console.log(action.payload)
+    wsGetMessageAuth: (state: Sockets, action: PayloadAction<TMessage>) => {
       const { orders } = action.payload
       state.ordersAuth = orders
     },
