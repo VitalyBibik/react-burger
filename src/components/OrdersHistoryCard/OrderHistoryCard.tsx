@@ -1,9 +1,10 @@
 import React, { memo } from 'react'
 import cn from 'classnames'
 import style from './OrderHistoryCard.module.scss'
+import { Ingredient } from '../../services/ducks/constructor'
 
 type TOrderHistoryCardProps = {
-  card: any
+  card: Ingredient
   last?: boolean
   length?: number
   index: number

@@ -4,11 +4,11 @@ import cn from 'classnames'
 import style from './OrderItem.module.scss'
 import { OrderCard } from '../OrderCard'
 import { useDispatch } from 'react-redux'
-import { ConstructorIng, sort } from '../../services/ducks/constructor'
+import { ConstructorIng, Ingredient, sort } from '../../services/ducks/constructor'
 
 type TOrderItemProps = {
-  bread?: ConstructorIng
-  productArray?: Array<ConstructorIng>
+  bread?: Ingredient | null
+  productArray?: Array<any>
   top?: boolean
 }
 

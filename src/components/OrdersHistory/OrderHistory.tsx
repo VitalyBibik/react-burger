@@ -10,6 +10,7 @@ import { getSum } from '../../utils/functions/getSum'
 import { getDateInCard } from '../../utils/functions/dates'
 import { useSelector } from 'react-redux'
 import { getData } from '../../services/ducks/constructor/selectors'
+import { Ingredient } from '../../services/ducks/constructor'
 
 type TorderItem = {
   status: string
@@ -42,7 +43,16 @@ export const OrderHistory: FC<TOrderHistoryProps> = ({ smallSize = false, order 
   const { url } = useRouteMatch()
   const productIngredients = useSelector(getData)
 
-  const orderIngredientsArray = order.ingredients.map(el => productIngredients.find(item => item._id === el))
+  const orderIngredientsArray = useMemo(() => {
+    const arr: Array<Ingredient> = []
+    order.ingredients.forEach(el => {
+      const item = productIngredients.find(item => item._id === el)
+      if (item) {
+        arr.push(item)
+      }
+    })
+    return arr
+  }, [order.ingredients, productIngredients])
 
   const ingredientsCardArray = orderIngredientsArray.slice(0, historyOrderLimit)
 
@@ -83,12 +93,12 @@ export const OrderHistory: FC<TOrderHistoryProps> = ({ smallSize = false, order 
           </div>
           <div className={cn(style.container_mini, 'mt-6 mr-6 ml-6 pb-6')}>
             <ul className={cn(style.burgerList)}>
-              {ingredientsCardArray.map((el, index: number) => {
+              {ingredientsCardArray.map((el, index) => {
                 return <OrderHistoryCard key={index} card={el} index={(zIndex -= 1)} />
               })}
               {isHover ? (
                 <OrderHistoryCard
-                  key={orderIngredientsArray[0]!._id}
+                  key={orderIngredientsArray[0]._id}
                   card={orderIngredientsArray[0]}
                   index={(zIndex -= 1)}
                   last={true}
