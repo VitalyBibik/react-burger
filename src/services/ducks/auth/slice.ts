@@ -28,7 +28,7 @@ export interface AuthState {
   forgotUserPasswordSending: boolean
   forgotUserPasswordError: SerializedError | null
   tokenUpdated: boolean
-  tokenUpdateDate: null | SerializedError | boolean
+  tokenUpdateDate: null | boolean
   tokenUpdating: boolean
   tokenUpdateError: null | SerializedError
   emailSent: boolean
