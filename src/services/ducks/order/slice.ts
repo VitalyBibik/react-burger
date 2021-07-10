@@ -1,6 +1,7 @@
 import type { PayloadAction, SerializedError } from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { fetchOrder } from '../../../utils/api/api'
+import { Ingredient } from '../constructor'
 
 export type TModalData = {
   orderId: number | null
@@ -21,7 +22,7 @@ const initialState: TModalData = {
 
 export const sliceName = 'orderReducer'
 
-export const sendOrder = createAsyncThunk<TOrder, void, {  }>('order/sendOrder', async data => {
+export const sendOrder = createAsyncThunk<TOrder, Array<Ingredient | null>, {}>('order/sendOrder', async data => {
   return await fetchOrder(data)
 })
 

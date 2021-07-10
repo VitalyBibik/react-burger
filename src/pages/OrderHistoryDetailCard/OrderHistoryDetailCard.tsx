@@ -11,24 +11,23 @@ import { getDateInCard } from '../../utils/functions/dates'
 import { getData } from '../../services/ducks/constructor/selectors'
 import { Loader } from '../../components/Loader'
 import { ROUTES } from '../../utils/routes/routes'
-import {Ingredient} from "../../services/ducks/constructor";
+import { Ingredient } from '../../services/ducks/constructor'
 
 type TcurrentCard = {
-    _id: string,
-    ingredients: Array<string>,
-    status: string,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-    number: number
+  _id: string
+  ingredients: Array<string>
+  status: string
+  name: string
+  createdAt: string
+  updatedAt: string
+  number: number
 }
 type TOrderIngredientsArrayAcc = {
-    [key: string]: { count: number, data:Ingredient}
+  [key: string]: { count: number; data: Ingredient }
 }
 type TIngredientsRender = {
-    data:Array<TOrderIngredientsArrayAcc>
+  data: Array<TOrderIngredientsArrayAcc>
 }
-
 
 export const OrderHistoryDetailCard = memo(() => {
   const { id } = useParams<any>() //TODO: ADD TYPES
@@ -51,16 +50,16 @@ export const OrderHistoryDetailCard = memo(() => {
   const productIngredients = useSelector(getData)
 
   if (orders.length && wsConnected) {
-    const currentCard = orders.filter((el:TcurrentCard) => el.number === +id)[0]
+    const currentCard = orders.filter((el: TcurrentCard) => el.number === +id)[0]
     const cardStatus =
       currentCard.status === 'done'
         ? { text: 'Выполнен', colors: colors.done }
         : currentCard.status === 'pending'
         ? { text: 'Готовится', colors: colors.pending }
         : { text: 'Создан', colors: colors.created }
-    const orderIngredientsArray = currentCard.ingredients.map((el:string) => productIngredients.find((item) => item._id === el))
+    const orderIngredientsArray = currentCard.ingredients.map((el: string) => productIngredients.find(item => item._id === el))
     const ingredients = Object.values(
-      orderIngredientsArray.reduce((acc:TOrderIngredientsArrayAcc, item: Ingredient) => {
+      orderIngredientsArray.reduce((acc: TOrderIngredientsArrayAcc, item: Ingredient) => {
         if (!acc[item._id]) {
           acc[item._id] = {
             count: 0,
@@ -88,8 +87,8 @@ export const OrderHistoryDetailCard = memo(() => {
             <h3 className={cn('text text_type_main-medium')}>Cостав:</h3>
           </div>
           <ul className={style.container}>
-            {ingredients.map((el:any) => {
-                console.log(ingredients,'s')
+            {ingredients.map((el: any) => {
+              console.log(ingredients, 's')
               return (
                 <li className={cn(style.card, 'mr-4')} key={el.data._id}>
                   <img src={el.data.image_mobile} alt="eda" className={cn(style.img, 'mr-4')} />

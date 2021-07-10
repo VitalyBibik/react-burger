@@ -128,7 +128,7 @@ export const signOut = createAsyncThunk<any, any, any>(`${sliceName}/signOut`, a
 })
 
 type TuserData = {
- user: {email: string, name: string}|null
+  user: { email: string; name: string } | null
 }
 
 const authSlice = createSlice({
