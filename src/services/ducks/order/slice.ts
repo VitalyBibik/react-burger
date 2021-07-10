@@ -21,7 +21,7 @@ const initialState: TModalData = {
 
 export const sliceName = 'orderReducer'
 
-export const sendOrder = createAsyncThunk<any, any, any>('order/sendOrder', async data => {
+export const sendOrder = createAsyncThunk<TOrder, void, {  }>('order/sendOrder', async data => {
   return await fetchOrder(data)
 })
 
@@ -39,7 +39,7 @@ const orderSlice = createSlice({
       state.orderId = action.payload.order.number
       state.isSending = false
     })
-    builder.addCase(sendOrder.rejected, (state: TModalData, action: any) => {
+    builder.addCase(sendOrder.rejected, (state: TModalData, action) => {
       state.isSending = false
       state.sendError = action.error
     })
