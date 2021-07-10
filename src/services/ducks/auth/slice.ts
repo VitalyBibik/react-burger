@@ -127,11 +127,15 @@ export const signOut = createAsyncThunk<any, any, any>(`${sliceName}/signOut`, a
   return res
 })
 
+type TuserData = {
+ user: {email: string, name: string}|null
+}
+
 const authSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setUserData(state: AuthState, action: PayloadAction<any>) {
+    setUserData(state: AuthState, action: PayloadAction<null>) {
       state.data = action.payload
     },
     resetError(state: AuthState) {
@@ -147,7 +151,7 @@ const authSlice = createSlice({
     builder.addCase(registerUser.pending, (state: AuthState) => {
       state.registerSending = true
     })
-    builder.addCase(registerUser.fulfilled, (state: AuthState, action: PayloadAction<any>) => {
+    builder.addCase(registerUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.registerSending = false
       state.registerError = null
       state.data = action.payload.user
@@ -161,7 +165,7 @@ const authSlice = createSlice({
     builder.addCase(loginUser.pending, (state: AuthState) => {
       state.loginSending = true
     })
-    builder.addCase(loginUser.fulfilled, (state: AuthState, action: PayloadAction<any>) => {
+    builder.addCase(loginUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.loginSending = false
       state.loginError = null
       state.data = action.payload.user
@@ -175,9 +179,10 @@ const authSlice = createSlice({
     builder.addCase(getUser.pending, (state: AuthState) => {
       state.getUserSending = true
     })
-    builder.addCase(getUser.fulfilled, (state: AuthState, action: PayloadAction<any>) => {
+    builder.addCase(getUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.getUserSending = false
       state.getUserError = null
+      console.log(action.payload.user)
       state.data = action.payload.user
     })
     builder.addCase(getUser.rejected, (state: AuthState, action: any) => {
@@ -224,7 +229,7 @@ const authSlice = createSlice({
       state.tokenUpdated = false
       state.tokenUpdating = true
     })
-    builder.addCase(refreshToken.fulfilled, (state: AuthState, action: PayloadAction<any>) => {
+    builder.addCase(refreshToken.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.tokenUpdated = true
       state.tokenUpdateDate = true
       state.tokenUpdating = false
@@ -239,7 +244,7 @@ const authSlice = createSlice({
     builder.addCase(patchUser.pending, (state: AuthState) => {
       state.patchUserSending = true
     })
-    builder.addCase(patchUser.fulfilled, (state: AuthState, action: PayloadAction<any>) => {
+    builder.addCase(patchUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.patchUserSending = false
       state.data = action.payload
     })

@@ -25,7 +25,7 @@ export const App: FC = () => {
   const emailWasSent = useSelector(getIsEmailSent)
 
   const history = useHistory()
-  const location = useLocation<any>()
+  const location = useLocation<any>() // TODO:ADD TYPES
 
   const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background
   const dispatch = useDispatch()

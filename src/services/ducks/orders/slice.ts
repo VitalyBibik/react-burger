@@ -50,7 +50,6 @@ const ordersSlice = createSlice({
     },
     wsGetMessage: (state: Sockets, action: PayloadAction<TMessage>) => {
       const { total, totalToday, orders } = action.payload
-      console.log(orders, 'orders')
       state.total = total
       state.totalToday = totalToday
       state.orders = orders
