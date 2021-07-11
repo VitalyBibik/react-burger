@@ -2,7 +2,7 @@ import style from './Feed.module.scss'
 import React, { memo, useEffect } from 'react'
 import { OrderHistory } from '../../components/OrdersHistory'
 import cn from 'classnames'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { wsActions, wsInit } from '../../services/ducks/orders/slice'
 import { Loader } from '../../components/Loader'
 import { getIsLoading, getOrders, getTotal, getTotalToday } from '../../services/ducks/orders/selectors'
@@ -10,12 +10,12 @@ import { loadIngredients } from '../../services/ducks/constructor'
 import { getData } from '../../services/ducks/constructor/selectors'
 
 export const Feed = memo(() => {
-  const dispatch = useDispatch()
-  const orders = useSelector(getOrders)
-  const total = useSelector(getTotal)
-  const totalToday = useSelector(getTotalToday)
-  const isLoading = useSelector(getIsLoading)
-  const data = useSelector(getData)
+  const dispatch = useAppDispatch()
+  const orders = useAppSelector(getOrders)
+  const total = useAppSelector(getTotal)
+  const totalToday = useAppSelector(getTotalToday)
+  const isLoading = useAppSelector(getIsLoading)
+  const data = useAppSelector(getData)
 
   useEffect(() => {
     dispatch(wsInit())

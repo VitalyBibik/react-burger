@@ -3,14 +3,14 @@ import style from './OrderDetails.module.scss'
 import React, { memo } from 'react'
 import cn from 'classnames'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { push } from 'connected-react-router'
 import { ROUTES } from '../../utils/routes/routes'
 import { getOrderId } from '../../services/ducks/userOrder/selectors'
 
 export const OrderDetails = memo(() => {
-  const dispatch = useDispatch()
-  const orderId = useSelector(getOrderId)
+  const dispatch = useAppDispatch()
+  const orderId = useAppSelector(getOrderId)
   const goToOrderList = () => {
     dispatch(push(`${ROUTES.FEED}`))
   }

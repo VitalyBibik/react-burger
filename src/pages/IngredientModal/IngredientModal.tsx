@@ -4,7 +4,7 @@ import { IngredientDetails } from '../../components/IngredientsDetails'
 import { useParams } from 'react-router-dom'
 import cn from 'classnames'
 import { Loader } from '../../components/Loader'
-import { useSelector } from '../../services/hooks/hooks'
+import { useAppSelector } from '../../services/hooks/hooks'
 import { getCardsIsLoading, getData } from '../../services/ducks/constructor/selectors'
 
 type TModalDataProps = {
@@ -13,8 +13,8 @@ type TModalDataProps = {
 
 export const IngredientModal = memo(({ fullScreen }: TModalDataProps) => {
   const { id }: { id: string } = useParams()
-  const cardsArray = useSelector(getData)
-  const isLoading = useSelector(getCardsIsLoading)
+  const cardsArray = useAppSelector(getData)
+  const isLoading = useAppSelector(getCardsIsLoading)
 
   const currentCard = cardsArray.find(el => el._id === id)
 

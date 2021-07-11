@@ -3,7 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import style from './BurgerIngredients.module.scss'
 import { BurgerItem } from '../BurgerItem'
-import { useSelector } from '../../services/hooks/hooks'
+import { useAppSelector } from '../../services/hooks/hooks'
 import { getBreadArray, getFillingArray, getSauceArray } from '../../services/ducks/constructor/selectors'
 
 export const BurgerIngredients = memo(() => {
@@ -31,9 +31,9 @@ export const BurgerIngredients = memo(() => {
     if (current === 'main') mainRef?.current?.scrollIntoView()
   }, [current])
 
-  const breadArray = useSelector(getBreadArray)
-  const fillingArray = useSelector(getFillingArray)
-  const sauceArray = useSelector(getSauceArray)
+  const breadArray = useAppSelector(getBreadArray)
+  const fillingArray = useAppSelector(getFillingArray)
+  const sauceArray = useAppSelector(getSauceArray)
   return (
     <div className={style.container}>
       <h1 className={cn('text text_type_main-large', style.container__title)}>Соберите Бургер</h1>

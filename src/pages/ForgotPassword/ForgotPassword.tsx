@@ -4,15 +4,15 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import cn from 'classnames'
 import { ROUTES } from '../../utils/routes/routes'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { forgotUserPassword, resetError } from '../../services/ducks/auth'
 import { getForgotPasswordError } from '../../services/ducks/auth/selectors'
 import { Error } from '../../components/Error'
 
 export const ForgotPassword = memo(() => {
   const [value, setValue] = useState('')
-  const dispatch = useDispatch()
-  const errorUser = useSelector(getForgotPasswordError)
+  const dispatch = useAppDispatch()
+  const errorUser = useAppSelector(getForgotPasswordError)
 
   useEffect(() => {
     dispatch(resetError())

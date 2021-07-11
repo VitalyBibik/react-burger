@@ -4,7 +4,7 @@ import style from './BurgerConstructor.module.scss'
 import { OrderItem } from '../OrderItem'
 import { PriceItem } from '../PriceItem'
 import { ItemTypes } from '../../utils/constants/constants'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { sendOrder } from '../../services/ducks/userOrder'
 import { add, Ingredient } from '../../services/ducks/constructor'
 import { useDrop } from 'react-dnd'
@@ -20,16 +20,16 @@ import { getOrderIsSending } from '../../services/ducks/userOrder/selectors'
 import { Loader } from '../Loader'
 
 export const BurgerConstructor = memo(() => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const hasToken = !!getRefreshToken()
 
-  const orderData = useSelector(getOrderData)
-  const bread = useSelector(getBread)
-  const productArray = useSelector(getProductArray)
-  const price = useSelector(getPrice)
+  const orderData = useAppSelector(getOrderData)
+  const bread = useAppSelector(getBread)
+  const productArray = useAppSelector(getProductArray)
+  const price = useAppSelector(getPrice)
 
-  const sendOrderArray = useSelector(getSendOrderArray)
-  const orderIsSending = useSelector(getOrderIsSending)
+  const sendOrderArray = useAppSelector(getSendOrderArray)
+  const orderIsSending = useAppSelector(getOrderIsSending)
   const history = useHistory()
   const location = useLocation()
 

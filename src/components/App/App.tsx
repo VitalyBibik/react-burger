@@ -12,7 +12,7 @@ import { Profile } from '../../pages/Profile'
 import { Feed } from '../../pages/Feed'
 import { OrderHistoryDetailCard } from '../../pages/OrderHistoryDetailCard'
 import { ProtectedRoute } from '../ProtectedRoute'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { getRefreshToken } from '../../utils/functions/tokens'
 import { getIsEmailSent } from '../../services/ducks/auth/selectors'
 import { IngredientModal } from '../../pages/IngredientModal'
@@ -38,12 +38,12 @@ type TLocation = {
 
 export const App: FC = () => {
   const hasToken = !!getRefreshToken()
-  const emailWasSent = useSelector(getIsEmailSent)
+  const emailWasSent = useAppSelector(getIsEmailSent)
   const history = useHistory()
   const location = useLocation<TLocation>()
 
   const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(loadIngredients())
   }, [dispatch])

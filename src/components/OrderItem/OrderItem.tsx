@@ -3,7 +3,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import cn from 'classnames'
 import style from './OrderItem.module.scss'
 import { OrderCard } from '../OrderCard'
-import { useDispatch } from '../../services/hooks/hooks'
+import { useAppDispatch } from '../../services/hooks/hooks'
 import { ConstructorIng, Ingredient, sort } from '../../services/ducks/constructor'
 
 type TOrderItemProps = {
@@ -13,7 +13,7 @@ type TOrderItemProps = {
 }
 
 export const OrderItem = memo(({ bread, productArray, top }: TOrderItemProps) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
       if (productArray) {

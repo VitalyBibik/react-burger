@@ -7,7 +7,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 import { OrderHistory } from '../../components/OrdersHistory'
 import { OrderHistoryDetailCard } from '../OrderHistoryDetailCard'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { getUser, patchUser, signOut } from '../../services/ducks/auth'
 import { Loader } from '../../components/Loader'
 import { getRefreshToken } from '../../utils/functions/tokens'
@@ -28,11 +28,11 @@ export const Profile = memo(() => {
     nameIsDisabled: true,
     passwordIsDisabled: true,
   })
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const isLoading = useSelector(getUserSending)
-  const profileData = useSelector(getProfileData)
-  const orders = useSelector(getUserOrders)
+  const isLoading = useAppSelector(getUserSending)
+  const profileData = useAppSelector(getProfileData)
+  const orders = useAppSelector(getUserOrders)
 
   const handleInputChange = (event: { target: HTMLInputElement }) => {
     const target = event.target

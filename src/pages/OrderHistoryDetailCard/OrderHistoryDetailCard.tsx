@@ -5,7 +5,7 @@ import { PriceItem } from '../../components/PriceItem'
 import { getSum } from '../../utils/functions/getSum'
 import { useParams, useRouteMatch } from 'react-router-dom'
 import { wsActions, wsActionsAuth, wsAuthInit, wsInit } from '../../services/ducks/orders/slice'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { getIsWsConnected, getIsWsConnectedAuth, getOrders, getUserOrders } from '../../services/ducks/orders/selectors'
 import { getDateInCard } from '../../utils/functions/dates'
 import { getData } from '../../services/ducks/constructor/selectors'
@@ -30,16 +30,16 @@ export const OrderHistoryDetailCard = memo(() => {
     pending: style.pending,
     done: style.done,
   }
-  const wsConnected = useSelector(isAuth ? getIsWsConnectedAuth : getIsWsConnected)
-  const dispatch = useDispatch()
+  const wsConnected = useAppSelector(isAuth ? getIsWsConnectedAuth : getIsWsConnected)
+  const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(isAuth ? wsAuthInit() : wsInit())
     return () => {
       dispatch(isAuth ? wsActionsAuth.onClose : wsActions.onClose)
     }
   }, [isAuth, dispatch])
-  const orders = useSelector(isAuth ? getUserOrders : getOrders)
-  const productIngredients = useSelector(getData)
+  const orders = useAppSelector(isAuth ? getUserOrders : getOrders)
+  const productIngredients = useAppSelector(getData)
 
   if (orders.length && wsConnected) {
     const currentCard = orders.filter(el => el.number === +id)[0]

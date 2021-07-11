@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { refreshToken } from '../../services/ducks/auth'
 import { getIsTokenUpdated, getIsTokenUpdating, getTokenUpdateDate } from '../../services/ducks/auth/selectors'
 import { Redirect, Route } from 'react-router-dom'
@@ -7,12 +6,13 @@ import { getRefreshToken } from '../../utils/functions/tokens'
 import { ROUTES } from '../../utils/routes/routes'
 import { Loader } from '../Loader'
 import { RouteProps } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
-  const dispatch = useDispatch()
-  const isTokenUpdated = useSelector(getIsTokenUpdated)
-  const tokenUpdateDate = useSelector(getTokenUpdateDate)
-  const tokenUpdating = useSelector(getIsTokenUpdating)
+  const dispatch = useAppDispatch()
+  const isTokenUpdated = useAppSelector(getIsTokenUpdated)
+  const tokenUpdateDate = useAppSelector(getTokenUpdateDate)
+  const tokenUpdating = useAppSelector(getIsTokenUpdating)
   const hasToken = !!getRefreshToken()
 
   useEffect(() => {

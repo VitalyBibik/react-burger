@@ -4,7 +4,7 @@ import cn from 'classnames'
 import style from './BurgerItem.module.scss'
 import { PriceItem } from '../PriceItem'
 import { ItemTypes } from '../../utils/constants/constants'
-import { useSelector } from '../../services/hooks/hooks'
+import { useAppSelector } from '../../services/hooks/hooks'
 import { useDrag } from 'react-dnd'
 import { getIngredientsWithCount } from '../../services/ducks/constructor/selectors'
 import { Link, useLocation } from 'react-router-dom'
@@ -15,7 +15,7 @@ type TBurgerItem = {
 }
 
 export const BurgerItem = memo(({ card }: TBurgerItem) => {
-  const ingredientsWithCount = useSelector(getIngredientsWithCount)
+  const ingredientsWithCount = useAppSelector(getIngredientsWithCount)
 
   const [, dragOrderCard] = useDrag({
     type: ItemTypes.CARD,

@@ -4,7 +4,7 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import cn from 'classnames'
 import { ROUTES } from '../../utils/routes/routes'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { registerUser, resetError } from '../../services/ducks/auth'
 import { getRegisterError } from '../../services/ducks/auth/selectors'
 import { Error } from '../../components/Error'
@@ -15,8 +15,8 @@ export const Register = memo(() => {
     email: '',
     password: '',
   })
-  const dispatch = useDispatch()
-  const errorUser = useSelector(getRegisterError)
+  const dispatch = useAppDispatch()
+  const errorUser = useAppSelector(getRegisterError)
   const handleInputChange = (event: { target: HTMLInputElement }) => {
     const target = event.target
     const value = target.value

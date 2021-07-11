@@ -8,7 +8,7 @@ import { historyOrderLimit } from '../../utils/constants/constants'
 import { useRouteMatch } from 'react-router-dom'
 import { getSum } from '../../utils/functions/getSum'
 import { getDateInCard } from '../../utils/functions/dates'
-import { useSelector } from '../../services/hooks/hooks'
+import { useAppSelector } from '../../services/hooks/hooks'
 import { getData } from '../../services/ducks/constructor/selectors'
 import { Ingredient } from '../../services/ducks/constructor'
 
@@ -41,7 +41,7 @@ export const OrderHistory: FC<TOrderHistoryProps> = ({ smallSize = false, order 
       : { text: 'Создан', colors: colors.created }
 
   const { url } = useRouteMatch()
-  const productIngredients = useSelector(getData)
+  const productIngredients = useAppSelector(getData)
 
   const orderIngredientsArray = useMemo(() => {
     const arr: Array<Ingredient> = []

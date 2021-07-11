@@ -1,7 +1,7 @@
 import React, { memo, useRef } from 'react'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './OrderCard.module.scss'
-import { useDispatch } from '../../services/hooks/hooks'
+import { useAppDispatch } from '../../services/hooks/hooks'
 import { ConstructorIng, remove } from '../../services/ducks/constructor'
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../../utils/constants/constants'
@@ -16,7 +16,7 @@ type TItemIndex = {
 }
 
 export const OrderCard = memo(({ card, moveCard, index }: TPropsOrderCard) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const ref = useRef<HTMLLIElement>(null)
   const handleClose = () => {
     dispatch(remove(card))

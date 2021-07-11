@@ -4,7 +4,7 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import cn from 'classnames'
 import { ROUTES } from '../../utils/routes/routes'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 import { resetError, setUserPassword } from '../../services/ducks/auth'
 import { getSetUserPasswordError } from '../../services/ducks/auth/selectors'
 import { Error } from '../../components/Error'
@@ -24,8 +24,8 @@ export const ResetPassword = memo(() => {
       [name]: value,
     })
   }
-  const errorUser = useSelector(getSetUserPasswordError)
-  const dispatch = useDispatch()
+  const errorUser = useAppSelector(getSetUserPasswordError)
+  const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(resetError())
   }, [dispatch])
