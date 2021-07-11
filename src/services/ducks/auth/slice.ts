@@ -122,7 +122,10 @@ export const loginUser = createAsyncThunk<
   return res
 })
 
-export const patchUser = createAsyncThunk<TUser, ISetFetchUserData, {}>(
+export const patchUser = createAsyncThunk<TUser, ISetFetchUserData,   {
+  dispatch: AppDispatch
+  state: AuthState
+}>(
   `${sliceName}/patchUser`,
   async (changeData, { dispatch, rejectWithValue }) => {
     try {
@@ -136,7 +139,10 @@ export const patchUser = createAsyncThunk<TUser, ISetFetchUserData, {}>(
   },
 )
 
-export const refreshToken = createAsyncThunk<TUser, any, {}>(`${sliceName}/refreshToken`, async (afterRefresh, { dispatch }) => {
+export const refreshToken = createAsyncThunk<TUser, any, {
+  dispatch: AppDispatch
+  state: AuthState
+}>(`${sliceName}/refreshToken`, async (afterRefresh, { dispatch }) => {
   const res = await getAccessToken() // Рефреш токен берется внутри запроса
   setTokens(res)
   if (afterRefresh !== null) {
