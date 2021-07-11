@@ -12,11 +12,13 @@ import {
 import { push } from 'connected-react-router'
 import { ROUTES } from '../../../utils/routes/routes'
 import { clearStorage, setTokens } from '../../../utils/functions/tokens'
+import { AppDispatch } from '../../store/store'
 
 export const sliceName = 'authReducer'
 
 export interface AuthState {
-  data: any | null
+  data: TuserData
+  tokens: TRefreshFetch | null
   registerSending: boolean
   registerError: SerializedError | null
   loginSending: boolean
@@ -38,7 +40,8 @@ export interface AuthState {
   signOutError: null | SerializedError
 }
 const initialState: AuthState = {
-  data: null,
+  data: { user: { email: 'user@mail.ru', name: 'user' } },
+  tokens: null,
   registerSending: false,
   registerError: null,
   loginSending: false,
@@ -59,33 +62,81 @@ const initialState: AuthState = {
   signOutSending: false,
   signOutError: null,
 }
+type TUser = {
+  accessToken: string
+  refreshToken: string
+  success: boolean
+  user: { email: string; name: string }
+}
+type TRefreshFetch = {
+  accessToken: string
+  refreshToken: string
+  success: boolean
+}
 
-export const registerUser = createAsyncThunk<any, any, any>(`${sliceName}/registerUser`, async (registerData, { dispatch }) => {
+type TuserData = {
+  user: { email: string; name: string }
+}
+
+type TForgotUserPassword = {
+  success: boolean
+  message: string
+}
+export interface ISignUpFetch {
+  email: string
+  password: string
+  name: string
+}
+export interface ISignInFetch {
+  login: string
+  password: string
+}
+export interface ISetFetchUserData {
+  name?: string
+  email?: string
+  password?: string
+  token?: string
+}
+
+export const registerUser = createAsyncThunk<TUser, ISignUpFetch,  {
+  dispatch: AppDispatch
+  state: AuthState
+}>(`${sliceName}/registerUser`, async (registerData, { dispatch }) => {
   const res = await signUpFetch(registerData)
   setTokens(res)
   dispatch(push(`${ROUTES.MAIN}`))
   return res
 })
 
-export const loginUser = createAsyncThunk<any, any, any>(`${sliceName}/loginUser`, async (loginData, { dispatch }) => {
+export const loginUser = createAsyncThunk<
+  TUser,
+  ISignInFetch,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/loginUser`, async (loginData, { dispatch }) => {
   const res = await signInFetch(loginData)
   setTokens(res)
   dispatch(push(`${ROUTES.MAIN}`))
   return res
 })
 
-export const patchUser = createAsyncThunk<any, any, any>(`${sliceName}/patchUser`, async (changeData, { dispatch, rejectWithValue }) => {
-  try {
-    return await setFetchUserData(changeData)
-  } catch (e) {
-    if (e.message === 'jwt expired') {
-      await dispatch(await refreshToken(setUserPassword(changeData)))
+export const patchUser = createAsyncThunk<TUser, ISetFetchUserData, {}>(
+  `${sliceName}/patchUser`,
+  async (changeData, { dispatch, rejectWithValue }) => {
+    try {
+      return await setFetchUserData(changeData)
+    } catch (e) {
+      if (e.message === 'jwt expired') {
+        dispatch(refreshToken(setUserPassword(changeData)))
+      }
+      return rejectWithValue(e)
     }
-    return rejectWithValue(e)
-  }
-})
+  },
+)
 
-export const refreshToken = createAsyncThunk<any, any, any>(`${sliceName}/refreshToken`, async (afterRefresh, { dispatch }) => {
+export const refreshToken = createAsyncThunk<TUser, any, {}>(`${sliceName}/refreshToken`, async (afterRefresh, { dispatch }) => {
   const res = await getAccessToken() // Рефреш токен берется внутри запроса
   setTokens(res)
   if (afterRefresh !== null) {
@@ -94,48 +145,58 @@ export const refreshToken = createAsyncThunk<any, any, any>(`${sliceName}/refres
   }
   return res
 })
-export const getUser = createAsyncThunk<any, any, any>(`${sliceName}/getUser`, async (_, { dispatch, rejectWithValue }) => {
+export const getUser = createAsyncThunk<TUser, void, {}>(`${sliceName}/getUser`, async (_, { dispatch, rejectWithValue }) => {
   try {
     return await getFetchUser()
   } catch (e) {
     rejectWithValue(e)
     if (e.message === 'jwt expired') {
-      dispatch(await refreshToken(getUser(null))) // Перенаправляю экшен в обновление токена, если истек токен
+      dispatch(refreshToken(getUser())) // Перенаправляю экшен в обновление токена, если истек токен
     } else {
       dispatch(push(`${ROUTES.LOGIN}`))
     }
   }
 })
 
-export const setUserPassword = createAsyncThunk<any, any, any>(`${sliceName}/resetUserPassword`, async (changeData, { dispatch }) => {
-  const res = await setFetchPassword(changeData)
-  dispatch(push(`${ROUTES.LOGIN}`))
-  return res
-})
+export const setUserPassword = createAsyncThunk<TForgotUserPassword, ISetFetchUserData, {
+  dispatch: AppDispatch
+  state: AuthState
+}>(
+  `${sliceName}/resetUserPassword`,
+  async (changeData, { dispatch }) => {
+    const res = await setFetchPassword(changeData)
+    dispatch(push(`${ROUTES.LOGIN}`))
+    return res
+  },
+)
 
-export const forgotUserPassword = createAsyncThunk<any, any, any>(`${sliceName}/forgotUserPassword`, async (changeData, { dispatch }) => {
-  const res = await forgotFetchPassword(changeData)
-  dispatch(push(`${ROUTES.RESET_PASSWORD}`))
-  return res
-})
+export const forgotUserPassword = createAsyncThunk<TForgotUserPassword, string, {
+  dispatch: AppDispatch
+  state: AuthState
+}>(
+  `${sliceName}/forgotUserPassword`,
+  async (changeData, { dispatch }) => {
+    const res = await forgotFetchPassword(changeData)
+    dispatch(push(`${ROUTES.RESET_PASSWORD}`))
+    return res
+  },
+)
 
-export const signOut = createAsyncThunk<any, any, any>(`${sliceName}/signOut`, async (refreshToken, { dispatch }) => {
+export const signOut = createAsyncThunk<Response, string, {
+  dispatch: AppDispatch
+  state: AuthState
+}>(`${sliceName}/signOut`, async (refreshToken, { dispatch }) => {
   const res = await logoutFetchRequest(refreshToken)
-  dispatch(push(`${ROUTES.MAIN}`))
-  dispatch(setUserData(null))
+  dispatch(setUserData({ user: { email: 'user@mail.ru', name: 'user' } }))
   clearStorage()
   return res
 })
-
-type TuserData = {
-  user: { email: string; name: string } | null
-}
 
 const authSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setUserData(state: AuthState, action: PayloadAction<null>) {
+    setUserData(state: AuthState, action: PayloadAction<TuserData>) {
       state.data = action.payload
     },
     resetError(state: AuthState) {
@@ -154,11 +215,11 @@ const authSlice = createSlice({
     builder.addCase(registerUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.registerSending = false
       state.registerError = null
-      state.data = action.payload.user
+      state.data = action.payload
       state.tokenUpdated = true
       state.tokenUpdateDate = true
     })
-    builder.addCase(registerUser.rejected, (state: AuthState, action: any) => {
+    builder.addCase(registerUser.rejected, (state: AuthState, action) => {
       state.registerSending = false
       state.registerError = action.error
     })
@@ -168,11 +229,11 @@ const authSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.loginSending = false
       state.loginError = null
-      state.data = action.payload.user
+      state.data = action.payload
       state.tokenUpdated = true
       state.tokenUpdateDate = true
     })
-    builder.addCase(loginUser.rejected, (state: AuthState, action: any) => {
+    builder.addCase(loginUser.rejected, (state: AuthState, action) => {
       state.loginSending = false
       state.loginError = action.error
     })
@@ -182,10 +243,9 @@ const authSlice = createSlice({
     builder.addCase(getUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
       state.getUserSending = false
       state.getUserError = null
-      console.log(action.payload.user)
-      state.data = action.payload.user
+      state.data = action.payload
     })
-    builder.addCase(getUser.rejected, (state: AuthState, action: any) => {
+    builder.addCase(getUser.rejected, (state: AuthState, action) => {
       state.getUserSending = false
       state.getUserError = action.error
     })
@@ -196,7 +256,7 @@ const authSlice = createSlice({
       state.setUserPasswordSending = false
       state.setUserPasswordError = null
     })
-    builder.addCase(setUserPassword.rejected, (state: AuthState, action: any) => {
+    builder.addCase(setUserPassword.rejected, (state: AuthState, action) => {
       state.setUserPasswordSending = false
       state.setUserPasswordError = action.error
     })
@@ -208,7 +268,7 @@ const authSlice = createSlice({
       state.forgotUserPasswordError = null
       state.emailSent = true
     })
-    builder.addCase(forgotUserPassword.rejected, (state: AuthState, action: any) => {
+    builder.addCase(forgotUserPassword.rejected, (state: AuthState, action) => {
       state.forgotUserPasswordSending = false
       state.forgotUserPasswordError = action.error
     })
@@ -221,7 +281,7 @@ const authSlice = createSlice({
       state.tokenUpdated = false
       state.tokenUpdateDate = null
     })
-    builder.addCase(signOut.rejected, (state: AuthState, action: any) => {
+    builder.addCase(signOut.rejected, (state: AuthState, action) => {
       state.signOutSending = false
       state.signOutError = action.error
     })
@@ -229,13 +289,13 @@ const authSlice = createSlice({
       state.tokenUpdated = false
       state.tokenUpdating = true
     })
-    builder.addCase(refreshToken.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
+    builder.addCase(refreshToken.fulfilled, (state: AuthState, action: PayloadAction<TRefreshFetch>) => {
       state.tokenUpdated = true
       state.tokenUpdateDate = true
       state.tokenUpdating = false
-      state.data = action.payload
+      state.tokens = action.payload
     })
-    builder.addCase(refreshToken.rejected, (state: AuthState, action: any) => {
+    builder.addCase(refreshToken.rejected, (state: AuthState, action) => {
       state.tokenUpdated = true
       state.tokenUpdateDate = false
       state.tokenUpdateError = action.error
@@ -248,7 +308,7 @@ const authSlice = createSlice({
       state.patchUserSending = false
       state.data = action.payload
     })
-    builder.addCase(patchUser.rejected, (state: AuthState, action: any) => {
+    builder.addCase(patchUser.rejected, (state: AuthState, action) => {
       state.patchUserSending = false
       state.patchUserError = action.error
     })

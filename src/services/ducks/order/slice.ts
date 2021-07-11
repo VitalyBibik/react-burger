@@ -5,7 +5,6 @@ import { Ingredient } from '../constructor'
 
 export type TModalData = {
   orderId: number | null
-  data: any
   isSending: boolean
   sendError: null | SerializedError
 }
@@ -15,7 +14,6 @@ type TOrder = {
 
 const initialState: TModalData = {
   orderId: null,
-  data: null,
   isSending: false,
   sendError: null,
 }

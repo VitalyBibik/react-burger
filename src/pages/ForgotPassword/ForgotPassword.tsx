@@ -41,7 +41,7 @@ export const ForgotPassword = memo(() => {
         </Button>
         {errorUser !== null ? <Error msg={errorUser} /> : null}
         <span className={cn('text text_type_main-default text_color_inactive', 'mt-20')}>
-          Вспомнили пароль?
+          Вспомнили пароль?{' '}
           <Link to={ROUTES.LOGIN} className={style.move}>
             Войти
           </Link>

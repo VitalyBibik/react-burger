@@ -11,6 +11,9 @@ type TPropsOrderCard = {
   moveCard: (dragIndex: number, hoverIndex: number) => void
   index: number
 }
+type TItemIndex = {
+  index: number
+}
 
 export const OrderCard = memo(({ card, moveCard, index }: TPropsOrderCard) => {
   const dispatch = useDispatch()
@@ -20,7 +23,8 @@ export const OrderCard = memo(({ card, moveCard, index }: TPropsOrderCard) => {
   }
   const [, drop] = useDrop({
     accept: ItemTypes.SORT,
-    hover(item: any, monitor) {
+    hover(item: TItemIndex, monitor) {
+      console.log(item, 'i')
       if (!ref.current) {
         return
       }

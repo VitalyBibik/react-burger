@@ -41,10 +41,13 @@ const initialState: burgerState = {
   constructor: [],
   bun: null,
 }
+type TLoadIngredients = {
+  data: Array<Ingredient>
+}
 
 export const sliceName = 'constructorReducer'
 
-export const loadIngredients = createAsyncThunk('constructor/loadIngredients', async () => {
+export const loadIngredients = createAsyncThunk<TLoadIngredients, void, {}>('constructor/loadIngredients', async () => {
   return await loadFetchIngredients()
 })
 
@@ -62,7 +65,7 @@ const constructorSlice = createSlice({
       }
     },
     remove: (state: burgerState, action: PayloadAction<ConstructorIng>) => {
-      const index = state.constructor.findIndex((el: { _id: string }) => el._id === action.payload._id)
+      const index = state.constructor.findIndex(el => el._id === action.payload._id)
       if (index !== -1) {
         state.constructor.splice(index, 1)
       }

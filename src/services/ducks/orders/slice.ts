@@ -2,11 +2,20 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAction, createSlice } from '@reduxjs/toolkit'
 import { Ingredient } from '../constructor'
 
+type TcurrentCard = {
+  _id: string
+  ingredients: Array<string>
+  status: string
+  name: string
+  createdAt: string
+  updatedAt: string
+  number: number
+}
 export type Sockets = {
   wsConnected: boolean
   wsConnectedAuth: boolean
-  orders: Array<any>
-  ordersAuth: Array<any>
+  orders: Array<TcurrentCard>
+  ordersAuth: Array<TcurrentCard>
   total: number | null
   totalToday: number | null
 }
@@ -32,7 +41,7 @@ export const wsSendAuthMessage = createAction('orders/wsSendAuthMessage', messag
 type TMessage = {
   total: number
   totalToday: number
-  orders: Array<Ingredient>
+  orders: Array<TcurrentCard>
 }
 
 const ordersSlice = createSlice({

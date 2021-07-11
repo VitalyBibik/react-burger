@@ -35,7 +35,7 @@ export const BurgerConstructor = memo(() => {
 
   const finalOrder = async () => {
     if (hasToken) {
-      await dispatch(sendOrder(sendOrderArray))
+      dispatch(sendOrder(sendOrderArray))
       history.push({
         pathname: `${ROUTES.ORDER}`,
         state: {

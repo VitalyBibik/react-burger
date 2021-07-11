@@ -8,7 +8,7 @@ import { ConstructorIng, Ingredient, sort } from '../../services/ducks/construct
 
 type TOrderItemProps = {
   bread?: Ingredient | null
-  productArray?: Array<any>
+  productArray?: Array<Ingredient>
   top?: boolean
 }
 

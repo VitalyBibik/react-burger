@@ -17,7 +17,7 @@ export const Register = memo(() => {
   })
   const dispatch = useDispatch()
   const errorUser = useSelector(getRegisterError)
-  const handleInputChange = (event: { target: any }) => {
+  const handleInputChange = (event: { target: HTMLInputElement }) => {
     const target = event.target
     const value = target.value
     const name = target.name

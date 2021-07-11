@@ -15,7 +15,7 @@ export const ResetPassword = memo(() => {
     token: '',
   })
 
-  const handleInputChange = (event: { target: any }) => {
+  const handleInputChange = (event: { target: HTMLInputElement }) => {
     const target = event.target
     const value = target.value
     const name = target.name

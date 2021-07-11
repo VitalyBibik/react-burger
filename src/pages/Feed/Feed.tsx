@@ -25,8 +25,8 @@ export const Feed = memo(() => {
     }
   }, [data.length, dispatch])
 
-  const done = orders.filter((el: any) => el.status === 'done')
-  const inProgress = orders.filter((el: any) => el.status !== 'done')
+  const done = orders.filter(el => el.status === 'done')
+  const inProgress = orders.filter(el => el.status !== 'done')
 
   const render = () => {
     return (
@@ -34,7 +34,7 @@ export const Feed = memo(() => {
         <h2 className={cn('text text_type_main-large', style.title)}>Лента заказов</h2>
         <div className={style.main}>
           <div className={style.left}>
-            {orders.map((el: any, index: number) => (
+            {orders.map((el, index) => (
               <OrderHistory smallSize={true} order={el} key={index} />
             ))}
           </div>
@@ -43,7 +43,7 @@ export const Feed = memo(() => {
               <div className={style.inner}>
                 <h2 className={cn('text text_type_main-medium', 'mb-6')}>Готовы:</h2>
                 <ul className={style.control}>
-                  {done.map((el: any, index: number) => (
+                  {done.map(el => (
                     <li className={cn(style.list, 'text text_type_digits-default', 'mb-2')} key={el._id}>
                       {el.number}
                     </li>
@@ -53,7 +53,7 @@ export const Feed = memo(() => {
               <div className={style.box_mini}>
                 <h2 className={cn('text text_type_main-medium', 'mb-6')}>В работе:</h2>
                 <ul className={style.control}>
-                  {inProgress.map((el: any, index: number) => (
+                  {inProgress.map(el => (
                     <li className={cn(style.list, style.list_white, 'text text_type_digits-default', 'mb-2')} key={el._id}>
                       {el.number}
                     </li>

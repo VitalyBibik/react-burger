@@ -16,7 +16,7 @@ export const Login = memo(() => {
   })
   const dispatch = useDispatch()
   const errorUser = useSelector(getLoginError)
-  const handleInputChange = (event: { target: any }) => {
+  const handleInputChange = (event: { target: HTMLInputElement }) => {
     const target = event.target
     const value = target.value
     const name = target.name
@@ -31,7 +31,7 @@ export const Login = memo(() => {
   }
   const submit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    await dispatch(loginUser(state))
+    dispatch(loginUser(state))
   }
   useEffect(() => {
     dispatch(resetError())
@@ -58,7 +58,7 @@ export const Login = memo(() => {
         </Button>
         {errorUser !== null ? <Error msg={errorUser} /> : null}
         <span className={cn('text text_type_main-default text_color_inactive', 'mt-20')}>
-          Вы — новый пользователь?
+          Вы — новый пользователь?{' '}
           <Link to={ROUTES.REGISTER} className={style.move}>
             Зарегистрироваться
           </Link>

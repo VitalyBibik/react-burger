@@ -13,20 +13,12 @@ import { Loader } from '../../components/Loader'
 import { ROUTES } from '../../utils/routes/routes'
 import { Ingredient } from '../../services/ducks/constructor'
 
-type TcurrentCard = {
-  _id: string
-  ingredients: Array<string>
-  status: string
-  name: string
-  createdAt: string
-  updatedAt: string
-  number: number
-}
-type TOrderIngredientsArrayAcc = {
-  [key: string]: { count: number; data: Ingredient }
-}
 type TIngredientsRender = {
-  data: Array<TOrderIngredientsArrayAcc>
+  count: number
+  data: Ingredient
+}
+type TaccIng = {
+  [key: string]: TIngredientsRender
 }
 
 export const OrderHistoryDetailCard = memo(() => {
@@ -50,16 +42,25 @@ export const OrderHistoryDetailCard = memo(() => {
   const productIngredients = useSelector(getData)
 
   if (orders.length && wsConnected) {
-    const currentCard = orders.filter((el: TcurrentCard) => el.number === +id)[0]
+    const currentCard = orders.filter(el => el.number === +id)[0]
     const cardStatus =
       currentCard.status === 'done'
         ? { text: 'Выполнен', colors: colors.done }
         : currentCard.status === 'pending'
         ? { text: 'Готовится', colors: colors.pending }
         : { text: 'Создан', colors: colors.created }
-    const orderIngredientsArray = currentCard.ingredients.map((el: string) => productIngredients.find(item => item._id === el))
-    const ingredients = Object.values(
-      orderIngredientsArray.reduce((acc: TOrderIngredientsArrayAcc, item: Ingredient) => {
+    const orderIngredientsArray = () => {
+      const arr: Array<Ingredient> = []
+      currentCard.ingredients.forEach(el => {
+        const item = productIngredients.find(item => item._id === el)
+        if (item) {
+          arr.push(item)
+        }
+      })
+      return arr
+    }
+    const ingredients: Array<TIngredientsRender> = Object.values(
+      orderIngredientsArray().reduce((acc: TaccIng, item) => {
         if (!acc[item._id]) {
           acc[item._id] = {
             count: 0,
@@ -70,7 +71,7 @@ export const OrderHistoryDetailCard = memo(() => {
         return acc
       }, {}),
     )
-    const sum = getSum(orderIngredientsArray)
+    const sum = getSum(orderIngredientsArray())
     const render = () => {
       return (
         <div className={style.box}>
@@ -87,8 +88,7 @@ export const OrderHistoryDetailCard = memo(() => {
             <h3 className={cn('text text_type_main-medium')}>Cостав:</h3>
           </div>
           <ul className={style.container}>
-            {ingredients.map((el: any) => {
-              console.log(ingredients, 's')
+            {ingredients.map(el => {
               return (
                 <li className={cn(style.card, 'mr-4')} key={el.data._id}>
                   <img src={el.data.image_mobile} alt="eda" className={cn(style.img, 'mr-4')} />

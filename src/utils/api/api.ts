@@ -1,6 +1,8 @@
 import { serverConfig } from '../constants/constants'
 import { getCookie } from '../functions/cookies'
 import { getRefreshToken } from '../functions/tokens'
+import { Ingredient } from '../../services/ducks/constructor'
+import { ISetFetchUserData, ISignUpFetch } from '../../services/ducks/auth'
 
 export const getProductsFetch = async () => {
   const res = await fetch(`${serverConfig.baseUrl}/ingredients`, {
@@ -10,7 +12,7 @@ export const getProductsFetch = async () => {
   return requestHandler(res)
 }
 
-export const addOrdersFetch = async (ingredients: any) => {
+export const addOrdersFetch1 = async (ingredients: Array<Ingredient>) => {
   const res = await fetch(`${serverConfig.baseUrl}/orders`, {
     method: 'POST',
     headers: serverConfig.headers,
@@ -19,7 +21,7 @@ export const addOrdersFetch = async (ingredients: any) => {
   return requestHandler(res)
 }
 
-export const signUpFetch = async ({ email, password, name }: any) => {
+export const signUpFetch = async ({ email, password, name }: ISignUpFetch) => {
   const res = await fetch(`${serverConfig.baseUrl}/auth/register`, {
     method: 'POST',
     headers: serverConfig.headers,
@@ -27,8 +29,12 @@ export const signUpFetch = async ({ email, password, name }: any) => {
   })
   return requestHandler(res)
 }
+type TsignInFetch = {
+  login: string
+  password: string
+}
 
-export const signInFetch = async ({ login, password }: any) => {
+export const signInFetch = async ({ login, password }: TsignInFetch) => {
   const res = await fetch(`${serverConfig.baseUrl}/auth/login`, {
     method: 'POST',
     headers: serverConfig.headers,
@@ -46,7 +52,7 @@ export const forgotFetchPassword = async (value: string) => {
   return requestHandler(res)
 }
 
-export const setFetchPassword = async ({ password, token }: any) => {
+export const setFetchPassword = async ({ password, token }: ISetFetchUserData) => {
   const res = await fetch(`${serverConfig.baseUrl}/password-reset/reset`, {
     method: 'POST',
     headers: serverConfig.headers,
@@ -70,8 +76,7 @@ export const getFetchUser = async () => {
   return requestHandler(res)
 }
 
-export const setFetchUserData = async ({ name, email }: any) => {
-  console.log('name,email', { name, email })
+export const setFetchUserData = async ({ name, email }: ISetFetchUserData) => {
   const res = await fetch(`${serverConfig.baseUrl}/auth/user`, {
     method: 'PATCH',
     mode: 'cors',
@@ -114,7 +119,7 @@ export const getAccessToken = async () => {
   return requestHandler(res)
 }
 
-export const fetchOrder = async (data: any) => {
+export const fetchOrder = async (data: Array<Ingredient | null>) => {
   const res = await fetch(`${serverConfig.baseUrl}/orders`, {
     method: 'POST',
     headers: {

@@ -34,7 +34,7 @@ export const Profile = memo(() => {
   const profileData = useSelector(getProfileData)
   const orders = useSelector(getUserOrders)
 
-  const handleInputChange = (event: { target: any }) => {
+  const handleInputChange = (event: { target: HTMLInputElement }) => {
     const target = event.target
     const value = target.value
     const name = target.name
@@ -54,10 +54,11 @@ export const Profile = memo(() => {
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault()
     let data = {}
-    data = state.name !== profileData.name ? { ...data, name: state.name } : data
-    data = state.email !== profileData.email ? { ...data, email: state.email } : data
+    data = state.name !== profileData.user.name ? { ...data, name: state.name } : data
+    data = state.email !== profileData.user.email ? { ...data, email: state.email } : data
     data = state.password.length !== 0 ? { ...data, password: state.password } : data
-    dispatch(patchUser({ ...data }))
+    dispatch(patchUser(data))
+    dispatch(getUser())
   }
 
   const onIconClickName = () => {
@@ -82,14 +83,14 @@ export const Profile = memo(() => {
     })
   }
   const logout = () => {
-    dispatch(signOut(getRefreshToken()))
+    dispatch(signOut(getRefreshToken() as string))
   }
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault()
     setState({
       ...state,
-      name: profileData.name,
-      email: profileData.email,
+      name: profileData.user.name,
+      email: profileData.user.email,
       password: '',
       nameIsDisabled: true,
       emailIsDisabled: true,
@@ -98,7 +99,7 @@ export const Profile = memo(() => {
   }
 
   useEffect(() => {
-    dispatch(getUser(null))
+    dispatch(getUser())
     setState(prevState => {
       return { ...prevState, email: prevState.email, name: prevState.name }
     })
@@ -108,8 +109,8 @@ export const Profile = memo(() => {
       setState(prevState => {
         return {
           ...prevState,
-          email: profileData.email,
-          name: profileData.name,
+          email: profileData.user.email,
+          name: profileData.user.name,
         }
       })
     }
@@ -221,7 +222,7 @@ export const Profile = memo(() => {
                   disabled={state.passwordIsDisabled}
                 />
                 {profileData ? (
-                  isLoading === false && !(state.email === profileData.email && state.name === profileData.name && state.password.length === 0) ? (
+                  !isLoading && !(state.email === profileData.user.email && state.name === profileData.user.name && state.password.length === 0) ? (
                     <div className={style.buttons}>
                       {
                         <Button
@@ -242,7 +243,7 @@ export const Profile = memo(() => {
               </form>
             </Route>
             <Route path={`${path}${ROUTES.ORDERS}`} exact>
-              {orders.map((el: any, index: number) => (
+              {orders.map((el, index) => (
                 <OrderHistory order={el} key={index} />
               ))}
             </Route>
