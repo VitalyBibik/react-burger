@@ -3,7 +3,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import style from './BurgerIngredients.module.scss'
 import { BurgerItem } from '../BurgerItem'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/hooks/hooks'
 import { getBreadArray, getFillingArray, getSauceArray } from '../../services/ducks/constructor/selectors'
 
 export const BurgerIngredients = memo(() => {

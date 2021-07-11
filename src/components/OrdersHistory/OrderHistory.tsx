@@ -8,7 +8,7 @@ import { historyOrderLimit } from '../../utils/constants/constants'
 import { useRouteMatch } from 'react-router-dom'
 import { getSum } from '../../utils/functions/getSum'
 import { getDateInCard } from '../../utils/functions/dates'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/hooks/hooks'
 import { getData } from '../../services/ducks/constructor/selectors'
 import { Ingredient } from '../../services/ducks/constructor'
 

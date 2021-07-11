@@ -1,7 +1,7 @@
 import React, { memo, useRef } from 'react'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './OrderCard.module.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/hooks/hooks'
 import { ConstructorIng, remove } from '../../services/ducks/constructor'
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../../utils/constants/constants'

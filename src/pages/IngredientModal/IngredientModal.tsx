@@ -4,7 +4,7 @@ import { IngredientDetails } from '../../components/IngredientsDetails'
 import { useParams } from 'react-router-dom'
 import cn from 'classnames'
 import { Loader } from '../../components/Loader'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/hooks/hooks'
 import { getCardsIsLoading, getData } from '../../services/ducks/constructor/selectors'
 
 type TModalDataProps = {
