@@ -10,7 +10,7 @@ const initialState: TModalData = {
 describe(`${sliceName} extraReducers`, () => {
   it('should handle sendOrder Request pending', () => {
     expect(
-        userOrderReducer(initialState, {
+      userOrderReducer(initialState, {
         type: sendOrder.pending,
       }),
     ).toEqual(
@@ -22,7 +22,7 @@ describe(`${sliceName} extraReducers`, () => {
   })
   it('should handle sendOrder Request fulfilled', () => {
     expect(
-        userOrderReducer(initialState, {
+      userOrderReducer(initialState, {
         type: sendOrder.fulfilled,
         payload: { order: { number: 123 } },
       }),
@@ -35,7 +35,7 @@ describe(`${sliceName} extraReducers`, () => {
   })
   it('should handle sendOrder Request rejected', () => {
     expect(
-        userOrderReducer(initialState, {
+      userOrderReducer(initialState, {
         type: sendOrder.rejected,
         error: 'Fetch request is failed',
       }),

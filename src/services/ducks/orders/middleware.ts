@@ -1,10 +1,12 @@
 import { getCookie } from '../../../utils/functions/cookies'
+import { ISocketActions } from './slice'
+import { AnyAction, MiddlewareAPI } from '@reduxjs/toolkit'
 
-export const socketMiddleware = (wsUrl: string, wsActions: any, auth: any) => {
-  return (store: { dispatch: any }) => {
+export const socketMiddleware = (wsUrl: string, wsActions: ISocketActions, auth: boolean) => {
+  return (store: MiddlewareAPI) => {
     let socket: WebSocket | null = null
 
-    return (next: (arg0: { type: any; payload: any }) => void) => (action: { type: any; payload: any }) => {
+    return (next: (i: AnyAction) => void) => (action: AnyAction) => {
       const { dispatch } = store
       const { type, payload } = action
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions
@@ -16,8 +18,8 @@ export const socketMiddleware = (wsUrl: string, wsActions: any, auth: any) => {
         socket.onopen = () => {
           dispatch(onOpen())
         }
-        socket.onerror = event => {
-          dispatch(onError(event))
+        socket.onerror = () => {
+          dispatch(onError('Error'))
         }
         socket.onmessage = event => {
           const { data } = event

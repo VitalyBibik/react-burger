@@ -137,8 +137,8 @@ export const loadFetchIngredients = async () => {
   return requestHandler(res)
 }
 
-const requestHandler = (res: any) => {
+const requestHandler = (res: Response) => {
   if (res.ok) return res.json()
-  if (res.json) return res.json().then((err: any) => Promise.reject(err))
+  if (res.json) return res.json().then((err: string) => Promise.reject(err))
   return Promise.reject(res)
 }

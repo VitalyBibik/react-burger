@@ -22,7 +22,7 @@ type TaccIng = {
 }
 
 export const OrderHistoryDetailCard = memo(() => {
-  const { id } = useParams<any>() //TODO: ADD TYPES
+  const { id }: { id: string } = useParams()
 
   const isAuth = !!useRouteMatch(`${ROUTES.PROFILE}`)
   const colors = {

@@ -2,8 +2,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice, SerializedError } from '@reduxjs/toolkit'
 import { BUN } from '../../../utils/constants/constants'
 import { loadFetchIngredients } from '../../../utils/api/api'
-import {AppDispatch} from "../../store/store";
-
+import { AppDispatch } from '../../store/store'
 
 export interface Ingredient {
   _id: string
@@ -49,10 +48,14 @@ type TLoadIngredients = {
 
 export const sliceName = 'constructorReducer'
 
-export const loadIngredients = createAsyncThunk<TLoadIngredients, void, {
-  dispatch: AppDispatch
-  state: burgerState
-}>('constructor/loadIngredients', async () => {
+export const loadIngredients = createAsyncThunk<
+  TLoadIngredients,
+  void,
+  {
+    dispatch: AppDispatch
+    state: burgerState
+  }
+>('constructor/loadIngredients', async () => {
   return await loadFetchIngredients()
 })
 

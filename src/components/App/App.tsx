@@ -20,12 +20,27 @@ import { Modal } from '../Modal'
 import { OrderDetails } from '../OrderDetails'
 import { loadIngredients } from '../../services/ducks/constructor'
 
+type TLocationItem = {
+  hash: string
+  key: string
+  pathname: string
+  search: string
+  state: null
+}
+type TLocation = {
+  hash: string
+  key: string
+  pathname: string
+  search: string
+  state: { background: TLocationItem } | null
+  background: TLocationItem
+}
+
 export const App: FC = () => {
   const hasToken = !!getRefreshToken()
   const emailWasSent = useSelector(getIsEmailSent)
-
   const history = useHistory()
-  const location = useLocation<any>() // TODO:ADD TYPES
+  const location = useLocation<TLocation>()
 
   const background = (history.action === 'PUSH' || history.action === 'REPLACE') && location.state && location.state.background
   const dispatch = useDispatch()

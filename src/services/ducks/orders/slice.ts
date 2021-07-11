@@ -1,6 +1,6 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { ActionCreatorWithoutPayload, ActionCreatorWithPayload, PayloadAction } from '@reduxjs/toolkit'
 import { createAction, createSlice } from '@reduxjs/toolkit'
-
+import { WS_AUTH_INIT, WS_INIT, WS_SEND_AUTH_MESSAGE, WS_SEND_MESSAGE } from './constants'
 
 type TcurrentCard = {
   _id: string
@@ -33,10 +33,10 @@ export const sliceName = 'ordersReducer'
 export const socketAllOrders = 'wss://norma.nomoreparties.space/orders/all'
 export const getSpecialUserOrders = `wss://norma.nomoreparties.space/orders`
 
-export const wsInit = createAction('socket/wsInit')
-export const wsAuthInit = createAction('socket/wsAuthInit')
-export const wsSendMessage = createAction('orders/wsSendMessage', message => ({ payload: message }))
-export const wsSendAuthMessage = createAction('orders/wsSendAuthMessage', message => ({ payload: message }))
+export const wsInit = createAction<void>(WS_INIT)
+export const wsAuthInit = createAction<void>(WS_AUTH_INIT)
+export const wsSendMessage = createAction<string>(WS_SEND_MESSAGE)
+export const wsSendAuthMessage = createAction<string>(WS_SEND_AUTH_MESSAGE)
 
 type TMessage = {
   total: number
@@ -91,7 +91,7 @@ const {
   wsGetMessageAuth,
 } = ordersSlice.actions
 
-export const wsActions = {
+export const wsActions: ISocketActions = {
   wsInit,
   wsSendMessage,
   onOpen: wsConnectedSuccess,
@@ -99,11 +99,19 @@ export const wsActions = {
   onError: wsConnectedError,
   onMessage: wsGetMessage,
 }
-export const wsActionsAuth = {
+export const wsActionsAuth: ISocketActions = {
   wsInit: wsAuthInit,
   wsSendMessage: wsSendAuthMessage,
   onOpen: wsConnectedSuccessAuth,
   onClose: wsConnectedClosedAuth,
   onError: wsConnectedErrorAuth,
   onMessage: wsGetMessageAuth,
+}
+export interface ISocketActions {
+  wsInit: ActionCreatorWithoutPayload<string>
+  wsSendMessage: ActionCreatorWithPayload<string, string>
+  onOpen: ActionCreatorWithoutPayload<string>
+  onClose: ActionCreatorWithoutPayload<string>
+  onError: ActionCreatorWithPayload<string, string> | ActionCreatorWithoutPayload<string>
+  onMessage: ActionCreatorWithPayload<any, string>
 }

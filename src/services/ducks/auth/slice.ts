@@ -98,10 +98,14 @@ export interface ISetFetchUserData {
   token?: string
 }
 
-export const registerUser = createAsyncThunk<TUser, ISignUpFetch,  {
-  dispatch: AppDispatch
-  state: AuthState
-}>(`${sliceName}/registerUser`, async (registerData, { dispatch }) => {
+export const registerUser = createAsyncThunk<
+  TUser,
+  ISignUpFetch,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/registerUser`, async (registerData, { dispatch }) => {
   const res = await signUpFetch(registerData)
   setTokens(res)
   dispatch(push(`${ROUTES.MAIN}`))
@@ -122,22 +126,23 @@ export const loginUser = createAsyncThunk<
   return res
 })
 
-export const patchUser = createAsyncThunk<TUser, ISetFetchUserData, {
-  dispatch: AppDispatch
-  state: AuthState
-}>(
-  `${sliceName}/patchUser`,
-  async (changeData, { dispatch, rejectWithValue }) => {
-    try {
-      return await setFetchUserData(changeData)
-    } catch (e) {
-      if (e.message === 'jwt expired') {
-        dispatch(refreshToken(setUserPassword(changeData)))
-      }
-      return rejectWithValue(e)
+export const patchUser = createAsyncThunk<
+  TUser,
+  ISetFetchUserData,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/patchUser`, async (changeData, { dispatch, rejectWithValue }) => {
+  try {
+    return await setFetchUserData(changeData)
+  } catch (e) {
+    if (e.message === 'jwt expired') {
+      dispatch(refreshToken(setUserPassword(changeData)))
     }
-  },
-)
+    return rejectWithValue(e)
+  }
+})
 
 export const refreshToken = createAsyncThunk<TUser, any, {}>(`${sliceName}/refreshToken`, async (afterRefresh, { dispatch }) => {
   const res = await getAccessToken() // Рефреш токен берется внутри запроса
@@ -148,10 +153,14 @@ export const refreshToken = createAsyncThunk<TUser, any, {}>(`${sliceName}/refre
   }
   return res
 })
-export const getUser = createAsyncThunk<TUser, void, {
-  dispatch: AppDispatch
-  state: AuthState
-}>(`${sliceName}/getUser`, async (_, { dispatch, rejectWithValue }) => {
+export const getUser = createAsyncThunk<
+  TUser,
+  void,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/getUser`, async (_, { dispatch, rejectWithValue }) => {
   try {
     return await getFetchUser()
   } catch (e) {
@@ -164,34 +173,40 @@ export const getUser = createAsyncThunk<TUser, void, {
   }
 })
 
-export const setUserPassword = createAsyncThunk<TForgotUserPassword, ISetFetchUserData, {
-  dispatch: AppDispatch
-  state: AuthState
-}>(
-  `${sliceName}/resetUserPassword`,
-  async (changeData, { dispatch }) => {
-    const res = await setFetchPassword(changeData)
-    dispatch(push(`${ROUTES.LOGIN}`))
-    return res
-  },
-)
+export const setUserPassword = createAsyncThunk<
+  TForgotUserPassword,
+  ISetFetchUserData,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/resetUserPassword`, async (changeData, { dispatch }) => {
+  const res = await setFetchPassword(changeData)
+  dispatch(push(`${ROUTES.LOGIN}`))
+  return res
+})
 
-export const forgotUserPassword = createAsyncThunk<TForgotUserPassword, string, {
-  dispatch: AppDispatch
-  state: AuthState
-}>(
-  `${sliceName}/forgotUserPassword`,
-  async (changeData, { dispatch }) => {
-    const res = await forgotFetchPassword(changeData)
-    dispatch(push(`${ROUTES.RESET_PASSWORD}`))
-    return res
-  },
-)
+export const forgotUserPassword = createAsyncThunk<
+  TForgotUserPassword,
+  string,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/forgotUserPassword`, async (changeData, { dispatch }) => {
+  const res = await forgotFetchPassword(changeData)
+  dispatch(push(`${ROUTES.RESET_PASSWORD}`))
+  return res
+})
 
-export const signOut = createAsyncThunk<Response, string, {
-  dispatch: AppDispatch
-  state: AuthState
-}>(`${sliceName}/signOut`, async (refreshToken, { dispatch }) => {
+export const signOut = createAsyncThunk<
+  Response,
+  string,
+  {
+    dispatch: AppDispatch
+    state: AuthState
+  }
+>(`${sliceName}/signOut`, async (refreshToken, { dispatch }) => {
   const res = await logoutFetchRequest(refreshToken)
   dispatch(setUserData({ user: { email: 'user@mail.ru', name: 'user' } }))
   clearStorage()

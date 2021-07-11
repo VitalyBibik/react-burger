@@ -1,8 +1,8 @@
-import thunk, {ThunkDispatch} from 'redux-thunk'
+import thunk, { ThunkDispatch } from 'redux-thunk'
 import { createBrowserHistory } from 'history'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import { rootReducer } from './rootReducer'
-import {AnyAction, configureStore, Dispatch} from '@reduxjs/toolkit'
+import { AnyAction, configureStore, Dispatch } from '@reduxjs/toolkit'
 import { socketMiddleware } from '../ducks/orders/middleware'
 import { getSpecialUserOrders, socketAllOrders, wsActions, wsActionsAuth } from '../ducks/orders/slice'
 

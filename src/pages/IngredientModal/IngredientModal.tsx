@@ -12,7 +12,7 @@ type TModalDataProps = {
 }
 
 export const IngredientModal = memo(({ fullScreen }: TModalDataProps) => {
-  const { id }: any = useParams()
+  const { id }: { id: string } = useParams()
   const cardsArray = useSelector(getData)
   const isLoading = useSelector(getCardsIsLoading)
 
