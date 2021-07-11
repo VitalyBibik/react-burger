@@ -18,13 +18,13 @@ const initialState: TModalData = {
   sendError: null,
 }
 
-export const sliceName = 'orderReducer'
+export const sliceName = 'userOrderReducer'
 
 export const sendOrder = createAsyncThunk<TOrder, Array<Ingredient | null>, {}>('order/sendOrder', async data => {
   return await fetchOrder(data)
 })
 
-const orderSlice = createSlice({
+const userOrderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {},
@@ -45,4 +45,4 @@ const orderSlice = createSlice({
   },
 })
 
-export const orderReducer = orderSlice.reducer
+export const userOrderReducer = userOrderSlice.reducer

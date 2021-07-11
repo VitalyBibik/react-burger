@@ -6,7 +6,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { ROUTES } from '../../utils/routes/routes'
-import { getOrderId } from '../../services/ducks/order/selectors'
+import { getOrderId } from '../../services/ducks/userOrder/selectors'
 
 export const OrderDetails = memo(() => {
   const dispatch = useDispatch()

@@ -1,6 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import { Ingredient } from '../constructor'
+
 
 type TcurrentCard = {
   _id: string

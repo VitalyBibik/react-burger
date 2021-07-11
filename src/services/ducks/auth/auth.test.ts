@@ -21,26 +21,27 @@ import {
 // const mockStore = configureMockStore(middlewares)
 
 const initialState: AuthState = {
-  data: null,
-  registerSending: false,
-  registerError: null,
-  loginSending: false,
-  loginError: null,
-  getUserSending: false,
-  getUserError: null,
-  setUserPasswordSending: false,
-  setUserPasswordError: null,
-  forgotUserPasswordSending: false,
-  forgotUserPasswordError: null,
-  tokenUpdated: false,
-  tokenUpdating: false,
-  tokenUpdateDate: null,
-  tokenUpdateError: null,
-  emailSent: false,
-  patchUserSending: false,
-  patchUserError: null,
-  signOutSending: false,
-  signOutError: null,
+    data: { user: { email: 'user@mail.ru', name: 'user' } },
+    tokens: null,
+    registerSending: false,
+    registerError: null,
+    loginSending: false,
+    loginError: null,
+    getUserSending: false,
+    getUserError: null,
+    setUserPasswordSending: false,
+    setUserPasswordError: null,
+    forgotUserPasswordSending: false,
+    forgotUserPasswordError: null,
+    tokenUpdated: false,
+    tokenUpdating: false,
+    tokenUpdateDate: null,
+    tokenUpdateError: null,
+    emailSent: false,
+    patchUserSending: false,
+    patchUserError: null,
+    signOutSending: false,
+    signOutError: null,
 }
 
 describe(`${sliceName} extraReducers`, () => {
@@ -59,7 +60,7 @@ describe(`${sliceName} extraReducers`, () => {
       }),
     ).toEqual(
       expect.objectContaining({
-        data: { email: 'test@mail.ru', name: 'vitalik' },
+        data: {user:{ email: 'test@mail.ru', name: 'vitalik' }},
         loginSending: false,
         loginError: null,
       }),
@@ -99,7 +100,7 @@ describe(`${sliceName} extraReducers`, () => {
       expect.objectContaining({
         registerSending: false,
         registerError: null,
-        data: { email: 'test@mail.ru', name: 'vitalik' },
+          data: {user:{ email: 'test@mail.ru', name: 'vitalik' }},
       }),
     )
   })
@@ -131,13 +132,13 @@ describe(`${sliceName} extraReducers`, () => {
     expect(
       authReducer(initialState, {
         type: getUser.fulfilled,
-        payload: { user: { email: 'test@mail.ru', name: 'vitalik' } },
+        payload:{ user: { email: 'test@mail.ru', name: 'vitalik' }},
       }),
     ).toEqual(
       expect.objectContaining({
         getUserSending: false,
         getUserError: null,
-        data: { email: 'test@mail.ru', name: 'vitalik' },
+        data: {user:{ email: 'test@mail.ru', name: 'vitalik' }},
       }),
     )
   })
@@ -288,7 +289,7 @@ describe(`${sliceName} extraReducers`, () => {
         tokenUpdated: true,
         tokenUpdating: false,
         tokenUpdateDate: true,
-        data: { token: '124125156125156156156156156156156' },
+        tokens: { token: '124125156125156156156156156156156' },
       }),
     )
   })

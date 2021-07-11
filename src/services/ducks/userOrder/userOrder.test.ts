@@ -1,10 +1,8 @@
 import { sliceName } from '../constructor'
-import { orderReducer, sendOrder, TModalData } from './slice'
-import { authReducer } from '../auth'
+import { userOrderReducer, sendOrder, TModalData } from './slice'
 
 const initialState: TModalData = {
   orderId: null,
-  data: null,
   isSending: false,
   sendError: null,
 }
@@ -12,7 +10,7 @@ const initialState: TModalData = {
 describe(`${sliceName} extraReducers`, () => {
   it('should handle sendOrder Request pending', () => {
     expect(
-      orderReducer(initialState, {
+        userOrderReducer(initialState, {
         type: sendOrder.pending,
       }),
     ).toEqual(
@@ -24,7 +22,7 @@ describe(`${sliceName} extraReducers`, () => {
   })
   it('should handle sendOrder Request fulfilled', () => {
     expect(
-      orderReducer(initialState, {
+        userOrderReducer(initialState, {
         type: sendOrder.fulfilled,
         payload: { order: { number: 123 } },
       }),
@@ -37,7 +35,7 @@ describe(`${sliceName} extraReducers`, () => {
   })
   it('should handle sendOrder Request rejected', () => {
     expect(
-      orderReducer(initialState, {
+        userOrderReducer(initialState, {
         type: sendOrder.rejected,
         error: 'Fetch request is failed',
       }),
@@ -51,6 +49,6 @@ describe(`${sliceName} extraReducers`, () => {
 })
 describe(`${sliceName} Reducers`, () => {
   it('should return the initial state', () => {
-    expect(orderReducer(undefined, { type: undefined })).toEqual(initialState)
+    expect(userOrderReducer(undefined, { type: undefined })).toEqual(initialState)
   })
 })

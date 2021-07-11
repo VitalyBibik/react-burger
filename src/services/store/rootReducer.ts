@@ -1,11 +1,11 @@
 import { constructorReducer } from '../ducks/constructor'
-import { orderReducer } from '../ducks/order'
+import { userOrderReducer } from '../ducks/userOrder'
 import { authReducer } from '../ducks/auth'
 import { ordersReducer } from '../ducks/orders/slice'
 
 export const rootReducer = {
   constructorReducer,
-  orderReducer,
+  userOrderReducer,
   authReducer,
   ordersReducer,
 }
