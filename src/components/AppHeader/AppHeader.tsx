@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import style from './AppHeader.module.scss'
-import { NavLink, Link,  useRouteMatch } from 'react-router-dom'
+import { NavLink, Link, useRouteMatch } from 'react-router-dom'
 import { ROUTES } from '../../utils/routes/routes'
 
 export const AppHeader = memo(() => {

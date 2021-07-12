@@ -16,8 +16,6 @@ import { getRefreshToken } from '../../utils/functions/tokens'
 import { getBread, getOrderData, getPrice, getProductArray, getSendOrderArray } from '../../services/ducks/constructor/selectors'
 import { useHistory, useLocation } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
-import { getOrderIsSending } from '../../services/ducks/userOrder/selectors'
-import { Loader } from '../Loader'
 
 export const BurgerConstructor = memo(() => {
   const dispatch = useAppDispatch()
@@ -29,7 +27,6 @@ export const BurgerConstructor = memo(() => {
   const price = useAppSelector(getPrice)
 
   const sendOrderArray = useAppSelector(getSendOrderArray)
-  const orderIsSending = useAppSelector(getOrderIsSending)
   const history = useHistory()
   const location = useLocation()
 
@@ -78,7 +75,6 @@ export const BurgerConstructor = memo(() => {
       >
         {marginTopAutoOn ? (
           <>
-            <div className={style.loader}>{orderIsSending ? <Loader /> : null}</div>
             <OrderItem bread={bread} top={true} />
             <ul className={style.container__item} data-productcontainer={'1'}>
               <OrderItem productArray={productArray} />
