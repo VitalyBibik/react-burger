@@ -2,7 +2,7 @@ import type { ActionCreatorWithoutPayload, ActionCreatorWithPayload, PayloadActi
 import { createAction, createSlice } from '@reduxjs/toolkit'
 import { WS_AUTH_INIT, WS_INIT, WS_SEND_AUTH_MESSAGE, WS_SEND_MESSAGE } from './constants'
 
-type TcurrentCard = {
+type TCurrentCard = {
   _id: string
   ingredients: Array<string>
   status: string
@@ -11,15 +11,15 @@ type TcurrentCard = {
   updatedAt: string
   number: number
 }
-export type Sockets = {
+export type TSockets = {
   wsConnected: boolean
   wsConnectedAuth: boolean
-  orders: Array<TcurrentCard>
-  ordersAuth: Array<TcurrentCard>
+  orders: Array<TCurrentCard>
+  ordersAuth: Array<TCurrentCard>
   total: number | null
   totalToday: number | null
 }
-const initialState: Sockets = {
+const initialState: TSockets = {
   wsConnected: false,
   orders: [],
   ordersAuth: [],
@@ -41,38 +41,38 @@ export const wsSendAuthMessage = createAction<string>(WS_SEND_AUTH_MESSAGE)
 type TMessage = {
   total: number
   totalToday: number
-  orders: Array<TcurrentCard>
+  orders: Array<TCurrentCard>
 }
 
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    wsConnectedSuccess: (state: Sockets) => {
+    wsConnectedSuccess: (state: TSockets) => {
       state.wsConnected = true
     },
-    wsConnectedError: (state: Sockets) => {
+    wsConnectedError: (state: TSockets) => {
       state.wsConnected = false
     },
-    wsConnectedClosed: (state: Sockets) => {
+    wsConnectedClosed: (state: TSockets) => {
       state.wsConnected = false
     },
-    wsGetMessage: (state: Sockets, action: PayloadAction<TMessage>) => {
+    wsGetMessage: (state: TSockets, action: PayloadAction<TMessage>) => {
       const { total, totalToday, orders } = action.payload
       state.total = total
       state.totalToday = totalToday
       state.orders = orders
     },
-    wsConnectedSuccessAuth: (state: Sockets) => {
+    wsConnectedSuccessAuth: (state: TSockets) => {
       state.wsConnectedAuth = true
     },
-    wsConnectedErrorAuth: (state: Sockets) => {
+    wsConnectedErrorAuth: (state: TSockets) => {
       state.wsConnectedAuth = false
     },
-    wsConnectedClosedAuth: (state: Sockets) => {
+    wsConnectedClosedAuth: (state: TSockets) => {
       state.wsConnectedAuth = false
     },
-    wsGetMessageAuth: (state: Sockets, action: PayloadAction<TMessage>) => {
+    wsGetMessageAuth: (state: TSockets, action: PayloadAction<TMessage>) => {
       const { orders } = action.payload
       state.ordersAuth = orders
     },

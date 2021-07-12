@@ -16,7 +16,7 @@ import { AppDispatch } from '../../store/store'
 
 export const sliceName = 'authReducer'
 
-export interface AuthState {
+export interface IAuthState {
   data: TuserData
   tokens: TRefreshFetch | null
   registerSending: boolean
@@ -39,7 +39,7 @@ export interface AuthState {
   signOutSending: boolean
   signOutError: null | SerializedError
 }
-const initialState: AuthState = {
+const initialState: IAuthState = {
   data: { user: { email: 'user@mail.ru', name: 'user' } },
   tokens: null,
   registerSending: false,
@@ -103,7 +103,7 @@ export const registerUser = createAsyncThunk<
   ISignUpFetch,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/registerUser`, async (registerData, { dispatch }) => {
   const res = await signUpFetch(registerData)
@@ -117,7 +117,7 @@ export const loginUser = createAsyncThunk<
   ISignInFetch,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/loginUser`, async (loginData, { dispatch }) => {
   const res = await signInFetch(loginData)
@@ -131,7 +131,7 @@ export const patchUser = createAsyncThunk<
   ISetFetchUserData,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/patchUser`, async (changeData, { dispatch, rejectWithValue }) => {
   try {
@@ -158,7 +158,7 @@ export const getUser = createAsyncThunk<
   void,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/getUser`, async (_, { dispatch, rejectWithValue }) => {
   try {
@@ -178,7 +178,7 @@ export const setUserPassword = createAsyncThunk<
   ISetFetchUserData,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/resetUserPassword`, async (changeData, { dispatch }) => {
   const res = await setFetchPassword(changeData)
@@ -191,7 +191,7 @@ export const forgotUserPassword = createAsyncThunk<
   string,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/forgotUserPassword`, async (changeData, { dispatch }) => {
   const res = await forgotFetchPassword(changeData)
@@ -204,7 +204,7 @@ export const signOut = createAsyncThunk<
   string,
   {
     dispatch: AppDispatch
-    state: AuthState
+    state: IAuthState
   }
 >(`${sliceName}/signOut`, async (refreshToken, { dispatch }) => {
   const res = await logoutFetchRequest(refreshToken)
@@ -217,10 +217,10 @@ const authSlice = createSlice({
   name: sliceName,
   initialState,
   reducers: {
-    setUserData(state: AuthState, action: PayloadAction<TuserData>) {
+    setUserData(state: IAuthState, action: PayloadAction<TuserData>) {
       state.data = action.payload
     },
-    resetError(state: AuthState) {
+    resetError(state: IAuthState) {
       state.registerError = null
       state.loginError = null
       state.getUserError = null
@@ -230,106 +230,106 @@ const authSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(registerUser.pending, (state: AuthState) => {
+    builder.addCase(registerUser.pending, (state: IAuthState) => {
       state.registerSending = true
     })
-    builder.addCase(registerUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
+    builder.addCase(registerUser.fulfilled, (state: IAuthState, action: PayloadAction<TuserData>) => {
       state.registerSending = false
       state.registerError = null
       state.data = action.payload
       state.tokenUpdated = true
       state.tokenUpdateDate = true
     })
-    builder.addCase(registerUser.rejected, (state: AuthState, action) => {
+    builder.addCase(registerUser.rejected, (state: IAuthState, action) => {
       state.registerSending = false
       state.registerError = action.error
     })
-    builder.addCase(loginUser.pending, (state: AuthState) => {
+    builder.addCase(loginUser.pending, (state: IAuthState) => {
       state.loginSending = true
     })
-    builder.addCase(loginUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
+    builder.addCase(loginUser.fulfilled, (state: IAuthState, action: PayloadAction<TuserData>) => {
       state.loginSending = false
       state.loginError = null
       state.data = action.payload
       state.tokenUpdated = true
       state.tokenUpdateDate = true
     })
-    builder.addCase(loginUser.rejected, (state: AuthState, action) => {
+    builder.addCase(loginUser.rejected, (state: IAuthState, action) => {
       state.loginSending = false
       state.loginError = action.error
     })
-    builder.addCase(getUser.pending, (state: AuthState) => {
+    builder.addCase(getUser.pending, (state: IAuthState) => {
       state.getUserSending = true
     })
-    builder.addCase(getUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
+    builder.addCase(getUser.fulfilled, (state: IAuthState, action: PayloadAction<TuserData>) => {
       state.getUserSending = false
       state.getUserError = null
       state.data = action.payload
     })
-    builder.addCase(getUser.rejected, (state: AuthState, action) => {
+    builder.addCase(getUser.rejected, (state: IAuthState, action) => {
       state.getUserSending = false
       state.getUserError = action.error
     })
-    builder.addCase(setUserPassword.pending, (state: AuthState) => {
+    builder.addCase(setUserPassword.pending, (state: IAuthState) => {
       state.setUserPasswordSending = true
     })
-    builder.addCase(setUserPassword.fulfilled, (state: AuthState) => {
+    builder.addCase(setUserPassword.fulfilled, (state: IAuthState) => {
       state.setUserPasswordSending = false
       state.setUserPasswordError = null
     })
-    builder.addCase(setUserPassword.rejected, (state: AuthState, action) => {
+    builder.addCase(setUserPassword.rejected, (state: IAuthState, action) => {
       state.setUserPasswordSending = false
       state.setUserPasswordError = action.error
     })
-    builder.addCase(forgotUserPassword.pending, (state: AuthState) => {
+    builder.addCase(forgotUserPassword.pending, (state: IAuthState) => {
       state.forgotUserPasswordSending = true
     })
-    builder.addCase(forgotUserPassword.fulfilled, (state: AuthState) => {
+    builder.addCase(forgotUserPassword.fulfilled, (state: IAuthState) => {
       state.forgotUserPasswordSending = false
       state.forgotUserPasswordError = null
       state.emailSent = true
     })
-    builder.addCase(forgotUserPassword.rejected, (state: AuthState, action) => {
+    builder.addCase(forgotUserPassword.rejected, (state: IAuthState, action) => {
       state.forgotUserPasswordSending = false
       state.forgotUserPasswordError = action.error
     })
-    builder.addCase(signOut.pending, (state: AuthState) => {
+    builder.addCase(signOut.pending, (state: IAuthState) => {
       state.signOutSending = true
     })
-    builder.addCase(signOut.fulfilled, (state: AuthState) => {
+    builder.addCase(signOut.fulfilled, (state: IAuthState) => {
       state.signOutSending = false
       state.signOutError = null
       state.tokenUpdated = false
       state.tokenUpdateDate = null
     })
-    builder.addCase(signOut.rejected, (state: AuthState, action) => {
+    builder.addCase(signOut.rejected, (state: IAuthState, action) => {
       state.signOutSending = false
       state.signOutError = action.error
     })
-    builder.addCase(refreshToken.pending, (state: AuthState) => {
+    builder.addCase(refreshToken.pending, (state: IAuthState) => {
       state.tokenUpdated = false
       state.tokenUpdating = true
     })
-    builder.addCase(refreshToken.fulfilled, (state: AuthState, action: PayloadAction<TRefreshFetch>) => {
+    builder.addCase(refreshToken.fulfilled, (state: IAuthState, action: PayloadAction<TRefreshFetch>) => {
       state.tokenUpdated = true
       state.tokenUpdateDate = true
       state.tokenUpdating = false
       state.tokens = action.payload
     })
-    builder.addCase(refreshToken.rejected, (state: AuthState, action) => {
+    builder.addCase(refreshToken.rejected, (state: IAuthState, action) => {
       state.tokenUpdated = true
       state.tokenUpdateDate = false
       state.tokenUpdateError = action.error
       clearStorage()
     })
-    builder.addCase(patchUser.pending, (state: AuthState) => {
+    builder.addCase(patchUser.pending, (state: IAuthState) => {
       state.patchUserSending = true
     })
-    builder.addCase(patchUser.fulfilled, (state: AuthState, action: PayloadAction<TuserData>) => {
+    builder.addCase(patchUser.fulfilled, (state: IAuthState, action: PayloadAction<TuserData>) => {
       state.patchUserSending = false
       state.data = action.payload
     })
-    builder.addCase(patchUser.rejected, (state: AuthState, action) => {
+    builder.addCase(patchUser.rejected, (state: IAuthState, action) => {
       state.patchUserSending = false
       state.patchUserError = action.error
     })

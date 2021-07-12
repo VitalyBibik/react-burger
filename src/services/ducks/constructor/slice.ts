@@ -23,19 +23,19 @@ export interface Ingredient {
 export interface ConstructorIng extends Ingredient {
   constructorId?: string
 }
-type sortType = {
+type TSortType = {
   dragIndex: number
   hoverIndex: number
 }
 
-export type burgerState = {
+export type TBurgerState = {
   isLoading: boolean
   hasError: SerializedError | null
   data: Array<Ingredient>
   constructor: Array<ConstructorIng>
   bun: Ingredient | null
 }
-const initialState: burgerState = {
+const initialState: TBurgerState = {
   isLoading: false,
   hasError: null,
   data: [],
@@ -53,7 +53,7 @@ export const loadIngredients = createAsyncThunk<
   void,
   {
     dispatch: AppDispatch
-    state: burgerState
+    state: TBurgerState
   }
 >('constructor/loadIngredients', async () => {
   return await loadFetchIngredients()
@@ -63,7 +63,7 @@ const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    add: (state: burgerState, action: PayloadAction<ConstructorIng>) => {
+    add: (state: TBurgerState, action: PayloadAction<ConstructorIng>) => {
       const card = action.payload
 
       if (card.type === BUN) {
@@ -72,27 +72,27 @@ const constructorSlice = createSlice({
         state.constructor.push(card)
       }
     },
-    remove: (state: burgerState, action: PayloadAction<ConstructorIng>) => {
+    remove: (state: TBurgerState, action: PayloadAction<ConstructorIng>) => {
       const index = state.constructor.findIndex(el => el._id === action.payload._id)
       if (index !== -1) {
         state.constructor.splice(index, 1)
       }
     },
-    sort: (state: burgerState, action: PayloadAction<sortType>) => {
+    sort: (state: TBurgerState, action: PayloadAction<TSortType>) => {
       const { dragIndex, hoverIndex } = action.payload
       state.constructor.splice(dragIndex, 0, state.constructor.splice(hoverIndex, 1)[0])
     },
   },
   extraReducers: builder => {
-    builder.addCase(loadIngredients.pending, (state: burgerState) => {
+    builder.addCase(loadIngredients.pending, (state: TBurgerState) => {
       state.isLoading = true
       state.hasError = null
     })
-    builder.addCase(loadIngredients.fulfilled, (state: burgerState, action) => {
+    builder.addCase(loadIngredients.fulfilled, (state: TBurgerState, action) => {
       state.data = action.payload.data
       state.isLoading = false
     })
-    builder.addCase(loadIngredients.rejected, (state: burgerState, action) => {
+    builder.addCase(loadIngredients.rejected, (state: TBurgerState, action) => {
       state.isLoading = false
       state.hasError = action.error
     })
