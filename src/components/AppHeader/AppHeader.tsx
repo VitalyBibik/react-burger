@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import cn from 'classnames'
 import style from './AppHeader.module.scss'
-import { NavLink, useRouteMatch } from 'react-router-dom'
+import { NavLink, Link,  useRouteMatch } from 'react-router-dom'
 import { ROUTES } from '../../utils/routes/routes'
 
 export const AppHeader = memo(() => {
@@ -25,9 +25,9 @@ export const AppHeader = memo(() => {
             <span className={cn('text text_type_main-default', style['header__text-position'])}>Лента Заказов</span>
           </NavLink>
         </div>
-        <div className={style.container__logo}>
+        <Link to={ROUTES.MAIN} className={style.container__logo}>
           <Logo />
-        </div>
+        </Link>
         <div className={style.container}>
           <NavLink to={ROUTES.PROFILE} activeClassName={style.activeLink} className={style.clearLink}>
             <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
