@@ -6,7 +6,7 @@ import { getRefreshToken } from '../../utils/functions/tokens'
 import { ROUTES } from '../../utils/routes/routes'
 import { Loader } from '../Loader'
 import { RouteProps } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
+import { useAppDispatch, useAppSelector } from '../../services/hooks'
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const dispatch = useAppDispatch()
@@ -16,7 +16,6 @@ export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const hasToken = !!getRefreshToken()
 
   useEffect(() => {
-    console.log(hasToken && !isTokenUpdated && !tokenUpdating, 'tokenProtect')
     if (hasToken && !isTokenUpdated && !tokenUpdating) {
       dispatch(refreshToken(null))
     }
