@@ -1,2 +1,3 @@
-export const getSum = (arr: any) =>
-  arr.reduce((acc: any, el: any) => acc + el.price, 0);
+import { Ingredient } from '../../services/ducks/constructor'
+
+export const getSum = (arr: Array<Ingredient>) => arr.reduce((acc, el) => acc + el!.price, 0)

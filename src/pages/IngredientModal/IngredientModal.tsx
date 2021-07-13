@@ -1,32 +1,23 @@
-import React, { memo } from 'react';
-import style from './IngredientModal.module.scss';
-import { IngredientDetails } from '../../components/IngredientsDetails';
-import { useParams } from 'react-router-dom';
-import cn from 'classnames';
-import { Loader } from '../../components/Loader';
-import { useSelector } from 'react-redux';
-import {
-  getCardsIsLoading,
-  getData,
-} from '../../services/ducks/constructor/selectors';
+import React, { memo } from 'react'
+import style from './IngredientModal.module.scss'
+import { IngredientDetails } from '../../components/IngredientsDetails'
+import { useParams } from 'react-router-dom'
+import cn from 'classnames'
+import { Loader } from '../../components/Loader'
+import { useAppSelector } from '../../services/hooks/hooks'
+import { getCardsIsLoading, getData } from '../../services/ducks/constructor/selectors'
 
-// TODO вынести в интерфейс
-// type TModalDataProps = {
-//   isShow: boolean;
-//   title: string;
-//   content: React.ReactNode | null;
-//   order?: null;
-//   isLoading: boolean;
-// };
+type TModalDataProps = {
+  fullScreen: boolean
+}
 
-export const IngredientModal = memo(({ fullScreen }: any) => {
-  const { id }: any = useParams();
-  const cardsArray = useSelector(getData);
-  const isLoading = useSelector(getCardsIsLoading);
+export const IngredientModal = memo(({ fullScreen }: TModalDataProps) => {
+  const { id }: { id: string } = useParams()
+  const cardsArray = useAppSelector(getData)
+  const isLoading = useAppSelector(getCardsIsLoading)
 
-  const currentCard = cardsArray.find((el: any) => el._id === id);
+  const currentCard = cardsArray.find(el => el._id === id)
 
-  console.log(cardsArray, 'cardsModal', isLoading);
   const render = () => {
     return (
       <div
@@ -35,24 +26,20 @@ export const IngredientModal = memo(({ fullScreen }: any) => {
         })}
       >
         <div className={style.box}>
-          <h2 className={cn(style.title, 'text text_type_main-large')}>
-            Детали ингридиента
-          </h2>
+          <h2 className={cn(style.title, 'text text_type_main-large')}>Детали ингридиента</h2>
           <IngredientDetails
-            imageLarge={currentCard.image_large}
-            name={currentCard.name}
-            desc={
-              'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'
-            }
-            calories={currentCard.calories}
-            proteins={currentCard.proteins}
-            fat={currentCard.fat}
-            carbohydrates={currentCard.carbohydrates}
+            imageLarge={currentCard!.image_large}
+            name={currentCard!.name}
+            desc={'Превосходные котлеты из марсианской Магнолии для фирменных космических бургеров, набирающих популярность по всей вселенной.'}
+            calories={currentCard!.calories}
+            proteins={currentCard!.proteins}
+            fat={currentCard!.fat}
+            carbohydrates={currentCard!.carbohydrates}
           />
         </div>
       </div>
-    );
-  };
-  if (!isLoading) return <Loader />;
-  return render();
-});
+    )
+  }
+  if (!isLoading) return <Loader />
+  return render()
+})

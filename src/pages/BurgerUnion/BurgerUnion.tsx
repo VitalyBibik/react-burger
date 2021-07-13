@@ -1,27 +1,15 @@
-import React, { memo } from 'react';
-import { BurgerIngredients } from '../../components/BurgerIngredients';
-import { BurgerConstructor } from '../../components/BurgerConstructor';
-import style from './BurgerUnion.module.scss';
-import { useSelector } from 'react-redux';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import { Loader } from '../../components/Loader';
-import { getIsLoading } from '../../services/ducks/constructor/selectors';
-
-// type CardProps = { TODO:Interface
-//   image_large: string;
-//   name: string;
-//   desc?: string;
-//   calories: number;
-//   proteins: number;
-//   fat: number;
-//   carbohydrates: number;
-//   price?: number;
-//   id?: number;
-// };
+import React, { memo } from 'react'
+import { BurgerIngredients } from '../../components/BurgerIngredients'
+import { BurgerConstructor } from '../../components/BurgerConstructor'
+import style from './BurgerUnion.module.scss'
+import { useAppSelector } from '../../services/hooks/hooks'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import { Loader } from '../../components/Loader'
+import { getIsLoading } from '../../services/ducks/constructor/selectors'
 
 export const BurgerUnion = memo(() => {
-  const isLoading = useSelector(getIsLoading);
+  const isLoading = useAppSelector(getIsLoading)
   const render = () => {
     return (
       <div className={style.container}>
@@ -32,9 +20,9 @@ export const BurgerUnion = memo(() => {
           </DndProvider>
         </>
       </div>
-    );
-  };
+    )
+  }
 
-  if (isLoading) return <Loader />;
-  return render();
-});
+  if (isLoading) return <Loader />
+  return render()
+})

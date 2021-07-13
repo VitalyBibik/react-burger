@@ -1,11 +1,10 @@
-import React from 'react';
-import style from './Error.module.scss';
-import cn from 'classnames';
+import React, { FC } from 'react'
+import style from './Error.module.scss'
+import cn from 'classnames'
+import type { SerializedError } from '@reduxjs/toolkit'
 
-type ErrorProps = {
-  msg: string;
-};
+type TErrorProps = {
+  msg: SerializedError
+}
 
-export const Error = ({ msg }: ErrorProps) => (
-  <span className={cn('text text_type_main-default', style.error)}>{msg}</span>
-);
+export const Error: FC<TErrorProps> = ({ msg }) => <span className={cn('text text_type_main-default', style.error)}>{msg.message}</span>

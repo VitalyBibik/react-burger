@@ -1,11 +1,11 @@
-import { sliceName } from './slice';
+import { sliceName } from './slice'
+import { RootState } from '../../store/store'
 
-export const getOrders = (store: any) => store[sliceName].orders;
-export const getTotal = (store: any) => store[sliceName].total;
-export const getTotalToday = (store: any) => store[sliceName].totalToday;
-export const getIsLoading = (store: any) => !!store[sliceName].orders;
+export const getOrders = (store: RootState) => store[sliceName].orders // 2
+export const getTotal = (store: RootState) => store[sliceName].total
+export const getTotalToday = (store: RootState) => store[sliceName].totalToday
+export const getIsLoading = (store: RootState) => !!store[sliceName].orders
 
-export const getUserOrders = (store: any) => store[sliceName].ordersAuth;
-export const getIsWsConnected = (store: any) => store[sliceName].wsConnected;
-export const getIsWsConnectedAuth = (store: any) =>
-  store[sliceName].wsConnectedAuth;
+export const getUserOrders = (store: RootState) => store[sliceName].ordersAuth // 1
+export const getIsWsConnected = (store: RootState) => store[sliceName].wsConnected
+export const getIsWsConnectedAuth = (store: RootState) => store[sliceName].wsConnectedAuth

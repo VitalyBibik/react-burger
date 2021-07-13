@@ -1,43 +1,39 @@
-import ReactDOM from 'react-dom';
-import React, { memo, useEffect } from 'react';
-import style from './Modal.module.scss';
-import { ModalOverlay } from '../ModalOverlay';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import cn from 'classnames';
-import { useHistory } from 'react-router-dom';
+import ReactDOM from 'react-dom'
+import React, { memo, useEffect } from 'react'
+import style from './Modal.module.scss'
+import { ModalOverlay } from '../ModalOverlay'
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import cn from 'classnames'
+import { useHistory } from 'react-router-dom'
 
-type ModalProps = {
-  children: React.ReactNode;
-  title?: string | null;
-};
+type TModalProps = {
+  children: React.ReactNode
+  title?: string | null
+}
 
-const modalRoot = document.getElementById('modal') as HTMLElement;
+const modalRoot = document.getElementById('modal') as HTMLElement
 
-export const Modal = memo(({ title, children }: ModalProps) => {
+export const Modal = memo(({ title, children }: TModalProps) => {
   const clear = (e: KeyboardEvent) => {
-    if (e.keyCode === 27) history.goBack();
-  };
-  const history = useHistory();
+    if (e.keyCode === 27) history.goBack()
+  }
+  const history = useHistory()
 
   const buttonClose = () => {
-    history.goBack();
-  };
+    history.goBack()
+  }
 
   useEffect(() => {
-    window.addEventListener('keydown', clear);
+    window.addEventListener('keydown', clear)
     return () => {
-      window.removeEventListener('keydown', clear);
-    };
-  });
+      window.removeEventListener('keydown', clear)
+    }
+  })
   return ReactDOM.createPortal(
     <>
       <div className={cn(style.modal, 'p-10')}>
         <div className={style.header}>
-          {title && (
-            <h3 className={cn('text text_type_main-medium', style.title)}>
-              {title}
-            </h3>
-          )}
+          {title && <h3 className={cn('text text_type_main-medium', style.title)}>{title}</h3>}
           <div className={style.iconClose} onClick={buttonClose}>
             <CloseIcon type={'primary'} />
           </div>
@@ -46,6 +42,7 @@ export const Modal = memo(({ title, children }: ModalProps) => {
       </div>
       <ModalOverlay close={buttonClose} />
     </>,
-    modalRoot
-  );
-});
+    modalRoot,
+  )
+})
+Modal.displayName = 'Modal'

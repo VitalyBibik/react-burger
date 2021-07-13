@@ -1,31 +1,29 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { refreshToken } from '../../services/ducks/auth';
-import {
-  getIsTokenUpdated,
-  getIsTokenUpdating,
-  getTokenUpdateDate,
-} from '../../services/ducks/auth/selectors';
-import { Redirect, Route } from 'react-router-dom';
-import { getRefreshToken } from '../../utils/functions/tokens';
-import { ROUTES } from '../../utils/routes/routes';
-import { Loader } from '../Loader';
+import { FC, useEffect } from 'react'
+import { refreshToken } from '../../services/ducks/auth'
+import { getIsTokenUpdated, getIsTokenUpdating, getTokenUpdateDate } from '../../services/ducks/auth/selectors'
+import { Redirect, Route } from 'react-router-dom'
+import { getRefreshToken } from '../../utils/functions/tokens'
+import { ROUTES } from '../../utils/routes/routes'
+import { Loader } from '../Loader'
+import { RouteProps } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks'
 
-export const ProtectedRoute = ({ children, ...rest }: any) => {
-  const dispatch = useDispatch();
-  const isTokenUpdated = useSelector(getIsTokenUpdated);
-  const tokenUpdateDate = useSelector(getTokenUpdateDate);
-  const tokenUpdating = useSelector(getIsTokenUpdating);
-  const hasToken = !!getRefreshToken();
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
+  const dispatch = useAppDispatch()
+  const isTokenUpdated = useAppSelector(getIsTokenUpdated)
+  const tokenUpdateDate = useAppSelector(getTokenUpdateDate)
+  const tokenUpdating = useAppSelector(getIsTokenUpdating)
+  const hasToken = !!getRefreshToken()
 
   useEffect(() => {
+    console.log(hasToken && !isTokenUpdated && !tokenUpdating, 'tokenProtect')
     if (hasToken && !isTokenUpdated && !tokenUpdating) {
-      dispatch(refreshToken(null));
+      dispatch(refreshToken(null))
     }
-  }, [dispatch, hasToken, isTokenUpdated, tokenUpdating]);
+  }, [dispatch, hasToken, isTokenUpdated, tokenUpdating])
 
   if (hasToken && !isTokenUpdated) {
-    return Loader();
+    return <Loader />
   }
   return (
     <Route
@@ -43,5 +41,5 @@ export const ProtectedRoute = ({ children, ...rest }: any) => {
         )
       }
     />
-  );
-};
+  )
+}
