@@ -16,7 +16,6 @@ export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const hasToken = !!getRefreshToken()
 
   useEffect(() => {
-    console.log(hasToken && !isTokenUpdated && !tokenUpdating, 'tokenProtect')
     if (hasToken && !isTokenUpdated && !tokenUpdating) {
       dispatch(refreshToken(null))
     }
