@@ -8,7 +8,7 @@ import { getSpecialUserOrders, socketAllOrders, wsActions, wsActionsAuth } from 
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = Dispatch<AnyAction> & ThunkDispatch<RootState, null, AnyAction>
-export type AppThunk<ReturnType = void | Promise<any>> = ActionCreator<ThunkAction<ReturnType, RootState, unknown, AnyAction>>
+export type AppThunk<ReturnType = void | Promise<Response>> = ActionCreator<ThunkAction<ReturnType, RootState, unknown, AnyAction>>
 export const history = createBrowserHistory()
 
 export const store = configureStore({
